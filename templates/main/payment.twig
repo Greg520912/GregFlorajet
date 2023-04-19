@@ -1,0 +1,51 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Paiement réservation | {{marque}}{% endblock %}
+
+{% block body %}
+    <!-- Page container -->
+    <div id="page-container">
+        <!--  -->
+        <section id="page" class="booking observable" data-js-id="booking-confirm" data-title="Règlement de la réservation | {{marque}}" data-lang-fr="fr/reservation-paiement" >
+            <!-- Head -->
+            <section class="booking-head page-head observable">
+                <div class="page-head-container" style="padding:20px;text-align:center;margin-top:50px;">
+                    <a href="{{ url_site }}" target="_blank" class=""><img src="{{ asset('assets/img/atalante/logo.png') }}" /></a>
+                    <div class="page-head-desc" style="margin-top:30px;">
+                        <h2 class="page-head-desc-title d-flex justify-content-center" style="margin-top:50px;margin-bottom:25px;">Veuillez patienter</h2>
+                        <FORM class="d-flex justify-content-center" METHOD="post" ACTION="{{ urlogone }}" id=form1 name=form1>
+                            <INPUT type="hidden" NAME="PSPID" value="{{ pspid }}">
+                            <INPUT type="hidden" NAME="ORDERID" value="{{id_paiement}}">
+                            <INPUT type="hidden" NAME="AMOUNT" value="{{montant}}">
+                            <INPUT type="hidden" NAME="CURRENCY" value={{ devise }}>
+                            <INPUT type="hidden" NAME="LANGUAGE" value="fr_FR">
+                            <INPUT type="hidden" NAME="SHASIGN" value="{{ sha }}">
+
+                            <!-- post-payment redirection -->
+                            <INPUT type="hidden" NAME="ACCEPTURL" VALUE="{{acceptURL}}">
+                            <INPUT type="hidden" NAME="DECLINEURL" VALUE="{{declineURL}}">
+                            <INPUT type="hidden" NAME="CANCELURL" VALUE="{{cancelURL}}">
+                            <INPUT type="hidden" NAME="COMPLUS" VALUE="{{complus}}">
+                            <INPUT type="hidden" NAME="PARAMPLUS" VALUE="{{paramplus}}">
+                            <INPUT type="hidden" NAME="ECOM_BILLTO_POSTAL_NAME_FIRST" value="{{prenomPas}}">
+                            <INPUT type="hidden" NAME="ECOM_BILLTO_POSTAL_NAME_LAST" value="{{nomPas}}">
+                            <INPUT type="hidden" name="EMAIL" value="{{email}}">
+                            <input type="hidden" name="TP" value="{{ template }}">
+
+                            <p class="page-head-desc-txt">
+                                Vous allez être redirigé sur la page de paiement.<br/>
+                                Si la redirection ne fonctionne pas <br/>
+                                <input type="submit" value="Cliquez ici" id=submit2 name=submit2 class="btn-primary" style="border:0px;padding:5px 10px;font-size: 1em;margin-top:50px;">.
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+       <script>
+          window.onload = function () {
+              document.form1.submit2.click();
+          }
+      </script>
+{% endblock %}

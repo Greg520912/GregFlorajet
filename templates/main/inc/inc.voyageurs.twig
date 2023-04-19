@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="form-group col-lg-3 col-xs-6 padding">
+        <label for="{{ booking.nbAdults.vars.id }}" class="form-label">Nombre d'adultes</label>
+        {{ form_widget(booking.nbAdults,{'attr':{'id':'booking_nbAdults'}}) }}
+    </div>
+    <div class="form-group col-lg-3 col-xs-6 padding">
+        <label for="{{ booking.nbChildren.vars.id }}" class="form-label">Nombre d'enfants</label>
+        {{ form_widget(booking.nbChildren, {'attr':{'id':'booking_nbChildren'}}) }}
+    </div>
+    {{ form_widget(booking.advance, {'id': 'advance', 'type': 'hidden' }) }}
+    {{ form_widget(booking.full_price, {'id': 'full_price', 'type' : 'hidden' }) }}
+</div>

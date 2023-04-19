@@ -1,0 +1,30 @@
+<div id="voir_adresse">
+    <div class="row">
+        <div class="form-group col-lg-8 col-xs-12 padding">
+            <label for="{{ booking.leaderPas.adresse1.vars.id }}" class="form-label">Adresse*</label>
+            {{ form_widget(booking.leaderPas.adresse1, {'attr': {'onchange': 'updatesession(this.id);checkAdresse();'} }) }}
+        </div>
+        <div class="form-group col-lg-4 col-xs-12 padding">
+            <label for="{{ booking.leaderPas.adresse2.vars.id }}" class="form-label">Complément d'adresse</label>
+            {{ form_widget(booking.leaderPas.adresse2, {'attr': {'onchange': 'updatesession(this.id);'} }) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-3 col-xs-12 padding">
+            <label for="{{ booking.leaderPas.codePostal.vars.id }}" class="form-label">Code postal*</label>
+            {{ form_widget(booking.leaderPas.codePostal, {'attr': {'onchange': 'updatesession(this.id);checkAdresse();'} }) }}
+        </div>
+        <div class="form-group col-lg-3 col-xs-12 padding">
+            <label for="{{ booking.leaderPas.villeFr.vars.id }}" class="form-label">Ville*</label>
+            {{ form_widget(booking.leaderPas.villeFr, {'attr': {'onchange': 'updatesession(this.id);checkAdresse();'} }) }}
+        </div>
+        <div class="form-group col-lg-3 col-xs-12 padding">
+            <label for="{{ booking.leaderPas.county.vars.id }}" class="form-label">Lieu-dit</label>
+            {{ form_widget(booking.leaderPas.county, {'attr': {'onchange': 'updatesession(this.id);checkAdresse();'} }) }}
+        </div>
+        <div class="form-group col-lg-3 col-xs-12 padding">
+            <label for="{{ booking.leaderPas.codPays.vars.id }}" class="form-label">Pays*</label>
+            {{ form_widget(booking.leaderPas.codPays, {'attr': {'onchange': 'updatesession(this.id);checkAdresse();'} }) }}
+        </div>
+    </div>
+</div>

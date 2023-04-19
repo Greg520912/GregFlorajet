@@ -1,0 +1,32 @@
+{% if (booking.leaderPas.nomPas is defined)
+    and (booking.leaderPas.numPas is defined)
+    and (booking.leaderPas.prenomPas is defined)
+    and (booking.leaderPas.dtNaissPas is defined)
+%}
+    <div class="row" style="font-size: 1em;" id="fin">
+        {% if validation == 'checked' %}
+            <div class="col-lg-12 text_center mb-5">
+                <hr/>
+                <form class="form-group text_center mt-3" name="formModePaiement" id="formModePaiement" method="post" action="{{ path('app_gopayment') }}">
+                  {% if validation == 'checked' %}
+                        <input type="hidden" name="marque" value="{{ marque }}" />
+                        <input type="hidden" name="agence" value="{{ agence }}" />
+{#                        <input type="hidden" name="gsdsn" value="CLUBAV" />#}
+                    {% endif %}
+                    <div class="text-center mb-2 vers_paiement_acompte">
+                        Acompte à régler <span style="font-size: 1.3rem" id=""><strong>{{ app.session.get('advance')|number_format(0, ',', ' ') }} € TTC</strong></span><br/>
+                        <a href="#transaction-secure" class="align-middle pl-3 ata-text-link">
+                            <img src="{{ asset('assets/img/atalante/pictos/padlockblack.png') }}" height="20" class="align-middle pr-2" />
+                            <span class="ata-footer-small-text text-uppercase">Transaction sécurisée</span>
+                        </a>
+                    </div>
+                    <div class="text-center mb-3" style="text-align: center">
+                        <button type="submit" class="btn btn-primary pl-5 pr-5">Je règle mon acompte</button>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+

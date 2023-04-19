@@ -1,0 +1,150 @@
+{% set detail_devis = app.session.get('detail_devis') %}
+{% set booking = app.session.get('booking') %}
+{% set validation = app.session.get('validation') %}
+
+{% if booking.passengers is defined and booking.passengers is not empty %}
+    {% for passager in booking.passengers %}
+        {% if passager.numPas %}
+            <div class="form-group mt-3 mb-3 col-lg-12 ata-ass-{{ (passager.isChild) ? 'child' : 'adult' }}">
+            <h4>{{ passager.numPas }} {{ passager.qualite }} {{ passager.prenomPas }} {{ passager.nomPas }}</h4>
+            {% set num_pas = loop.index %}
+            <table class="table table-hover table-assurances">
+                <tbody>
+                <tr class="hidden {% if passager.assurance == 'rapatriement' %} active {% endif %}">
+                    <td>
+                        <div class="custom-control custom-radio">
+                            <input
+                                    type="radio"
+                                    name="booking[passengers][{{ passager.numPas }}][assurance]"
+                                    pax="{{ passager.numPas }}"
+                                    id="booking_passengers_{{ loop.index }}_assurance_1"
+                                    value="rapatriement"
+                                    class="custom-control-input"
+                                    onclick="setAssurances();"
+                                    {% if passager.assurance == 'rapatriement' %} checked="checked" {% endif %}
+                            />
+                            <label class="custom-control-label" for="booking_passengers_{{ loop.index }}_assurance_1"> </label>
+                        </div>
+                    </td>
+                    <td>
+                        <strong>Assurance Assistance Rapatriement</strong><br>
+                        <a href="#" target="_blank" class="ata-text-link">En savoir plus</a>
+                    </td>
+                    <td>2,5% du montant total</td>
+                </tr>
+                <tr class=" {% if passager.assurance == 'multirisque' %} active {% endif %}">
+                    <td>
+                        <div class="custom-control custom-radio">
+                            <input
+                                    type="radio"
+                                    name="booking[passengers][{{ passager.numPas }}][assurance]"
+                                    pax="{{ passager.numPas }}"
+                                    id="booking_passengers_{{ loop.index }}_assurance_2"
+                                    value="multirisque"
+                                    class="custom-control-input"
+                                    onclick="setAssurances();"
+                                    {% if passager.assurance == 'multirisque' %} checked="checked" {% endif %}
+                            />
+                            <label class="custom-control-label" for="booking_passengers_{{ loop.index }}_assurance_2"> </label>
+                        </div>
+                    </td>
+                    <td>
+                        <strong>Assurance Multirisque</strong><br>
+                        <a href="{{ url_ass_multi }}" target="_blank" class="ata-text-link">En savoir plus</a>
+                    </td>
+                    <td>4,1% du montant total</td>
+                </tr>
+                <tr class=" {% if passager.assurance == 'multirisque_epidemie' %} active {% endif %}">
+                    <td>
+                        <div class="custom-control custom-radio">
+                            <input
+                                    type="radio"
+                                    name="booking[passengers][{{ passager.numPas }}][assurance]"
+                                    pax="{{ passager.numPas }}"
+                                    id="booking_passengers_{{ loop.index }}_assurance_4"
+                                    value="multirisque_epidemie"
+                                    class="custom-control-input"
+                                    onclick="setAssurances();"
+                                    {% if passager.assurance == 'multirisque_epidemie' %} checked="checked" {% endif %}
+                            />
+                            <label class="custom-control-label" for="booking_passengers_{{ loop.index }}_assurance_4"> </label>
+                        </div>
+                    </td>
+                    <td>
+                        <strong>Assurance Multirisques avec extension épidémie</strong><br>
+                        <a href="{{ url_ass_multi_epi }}" target="_blank" class="ata-text-link">En savoir plus</a>
+                    </td>
+                    <td>5,1% du montant total</td>
+                </tr>
+                <tr class=" {% if passager.assurance == 'premium' %} active {% endif %}">
+                    <td>
+                        <div class="custom-control custom-radio">
+                            <input
+                                    type="radio"
+                                    name="booking[passengers][{{ passager.numPas }}][assurance]"
+                                    pax="{{ passager.numPas }}"
+                                    id="booking_passengers_{{ loop.index }}_assurance_3"
+                                    value="premium"
+                                    class="custom-control-input"
+                                    onclick="setAssurances();"
+                                    {% if passager.assurance == 'premium' %} checked="checked" {% endif %}
+                            />
+                            <label class="custom-control-label" for="booking_passengers_{{ loop.index }}_assurance_3"> </label>
+                        </div>
+                    </td>
+                    <td>
+                        <strong>Assurance Multirisques Premium (pour tout voyage dépassant 8000€)   </strong><br>
+                        <a href="{{ url_ass_prem }}" data-toggle="modal" data-target="#modal-premium" class="ata-text-link">En savoir plus</a>
+                    </td>
+                    <td>5% du montant total</td>
+                </tr>
+                <tr class=" {% if passager.assurance == 'premium_epidemie' %} active {% endif %}">
+                    <td>
+                        <div class="custom-control custom-radio">
+                            <input
+                                    type="radio"
+                                    name="booking[passengers][{{ passager.numPas }}][assurance]"
+                                    pax="{{ passager.numPas }}"
+                                    id="booking_passengers_{{ loop.index }}_assurance_5"
+                                    value="premium_epidemie"
+                                    class="custom-control-input"
+                                    onclick="setAssurances();"
+                                    {% if passager.assurance == 'premium_epidemie' %} checked="checked" {% endif %}
+                            />
+                            <label class="custom-control-label" for="booking_passengers_{{ loop.index }}_assurance_5"> </label>
+                        </div>
+                    </td>
+                    <td>
+                        <strong>Assurance Multirisques Premium avec extension épidémie (pour tout voyage dépassant 8000€)  </strong><br>
+                        <a href="{{ url_ass_prem_epi }}" target="_blank" class="ata-text-link">En savoir plus</a>
+                    </td>
+                    <td>6,1% du montant total</td>
+                </tr>
+                <tr class=" {% if passager.assurance == 'aucune' %} active {% endif %}{% if passager.assurance == '' %} active {% endif %}">
+                    <td>
+                        <div class="custom-control custom-radio">
+                            <input
+                                    type="radio"
+                                    name="booking[passengers][{{ passager.numPas }}][assurance]"
+                                    pax="{{ passager.numPas }}"
+                                    id="booking_passengers_{{ loop.index }}_assurance_6"
+                                    value="aucune"
+                                    class="custom-control-input"
+                                    onclick="setAssurances();"
+                                    {% if passager.assurance == 'aucune' %} checked="checked" {% endif %}
+                            />
+                            <label class="custom-control-label" for="booking_passengers_{{ loop.index }}_assurance_6"> </label>
+                        </div>
+                    </td>
+                    <td>
+                        <strong>Je suis déjà assuré ailleurs*</strong><br/>
+                        &nbsp;
+                    </td>
+                    <td>0 €</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    {% endfor %}
+{%  endif %}

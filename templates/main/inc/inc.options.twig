@@ -1,0 +1,17 @@
+<div class="" id="voir_option">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                {{ form_label(booking.villeDepart, 'Ville de départ autre que Paris :') }}
+                {{ form_widget(booking.villeDepart) }}
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group mt-3">
+                {{ form_label(booking.commentaire, 'Prestations supplémentaires :') }}
+                <small id="departHelpBlock" class="form-text text-muted">Vous souhaitez une chambre individuelle ou tout autre prestation spécifique, veuillez renseigner le champ suivant.<br/>Nous étudierons votre demande.</small>
+                {{ form_widget(booking.commentaire) }}
+            </div>
+        </div>
+    </div>
+</div>

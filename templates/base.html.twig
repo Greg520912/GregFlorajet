@@ -1,19 +1,558 @@
+{% set marque = app.session.get('marque') %}
 <!DOCTYPE html>
+<html lang="fr">
 <html>
     <head>
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-KJ7SMTS');</script>
+        <!-- End Google Tag Manager -->
+
+        <!-- Required meta tags -->
+        <meta name="robots" content="noindex" />
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- End meta tags -->
+
+        <title>{% block title %}Réservation avec {{ marque }}{% endblock %}</title>
+
+        <link rel="icon" href="assets/img/atalante/favicon.ico">
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
-        {% endblock %}
 
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css?family=Poppins:wght@100;900&display=swap" rel="stylesheet">
+
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+            <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/styles.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/atalante.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/override.css') }}">
+
+        {% endblock %}
+        <link rel="shortcut icon" type="image/png" href="{{ 'assets/favicon.png' }}" />
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            <script src="https://kit.fontawesome.com/41cb4378fd.js" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="//static.criteo.net/js/ld/ld.js" async="true"></script>
+
+            <!-- Tag Criteo -->
+            <script type="text/javascript" src="//static.criteo.net/js/ld/ld.js" async="true"></script>
+
         {% endblock %}
     </head>
     <body>
+        <div class="page_loader"><div class="loader">&nbsp;</div></div>
+        <div id="chargement" class="" style="z-index: 900"></div>
+
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBF5FT9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+
+        <div id="ata-header">
+            {% block nav %}
+                {{ include("main/header.html.twig") }}
+            {% endblock %}
+        </div>
+
         {% block body %}{% endblock %}
+
+        {% include("main/footer.html.twig") %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <script src="https://www.dwin1.com/29489.js" type="text/javascript" defer="defer"></script>
+        <script src="{{ asset("assets/js/script.js") }}"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('.page_loader').show();
+                window.onscroll = function(){
+                    stickyInfos()
+                };
+                var $selectorAdult = $('#booking_nbAdults');
+                var $selectorChildren = $('#booking_nbChildren');
+                var $selectorPax = $('#booking_nbAdults, #booking_nbChildren');
+                var $nbAdults = $('#booking_nbAdults').val();
+                var $nbChildren = $('#booking_nbChildren').val();
+                if( $('#fin').length ){
+                    var elem = $('#fin');
+                    if(elem) {
+                        $(window).scrollTop(elem.offset().top).scrollLeft(elem.offset().left);
+                    }
+                }
+                $(document).on('submit', function(){
+                    $('.page_loader').show();
+                });
+                setsession('booking_nbAdults',$nbAdults);
+                setsession('booking_nbChildren',$nbChildren);
+                refreshBlocInfo($selectorAdult.val(), $selectorChildren.val());
+                setAssurances();
+                $selectorAdult.val($nbAdults);
+                $selectorChildren.val($nbChildren);
+                if($('.ata-pass-adult').length == 0){
+                    manageForms($selectorAdult, 'adult');
+                }
+                $selectorPax.on('change', function(){
+                    $nbAdults = $('#booking_nbAdults').val();
+                    $nbChildren = $('#booking_nbChildren').val();
+                    setsession('booking_nbAdults',$nbAdults);
+                    setsession('booking_nbChildren',$nbChildren);
+                    manageForms($selectorAdult, 'adult');
+                    manageForms($selectorChildren, 'child');
+                    checkPassagers()
+                    stepAssurances();
+                    // setAssurances();
+                    refreshBlocInfo($selectorAdult.val(), $selectorChildren.val());
+                    if($('#validDEVIS').length > 0){
+                        $('#validDEVIS').prop('checked', false).removeAttr('checked');
+                    }
+                    $('#topayment').html('');
+                    // setsession('validation','ko');
+                });
+                checkSteps();
+                function stickyInfos() {
+                    var element = document.getElementById('ata-header');
+                    if (document.documentElement.scrollTop > element.clientHeight + 20) {
+                        $('.ata-sidebar').css('position', 'sticky');
+                    } else {
+                        $('.ata-sidebar').css('position', 'sticky');
+                    }
+                }
+                function refreshBlocInfo(nbAdults, nbChildren){
+                    $.ajax({
+                        type: 'POST',
+                        async: false, // Mode synchrone
+                        url: '{{ path('app_pax') }}',
+                        data: {
+                            category: '',
+                            categories: {'adult': nbAdults, 'child': nbChildren},
+                            nb: 0
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            // console.log('refreshBlocInfo');
+                            $('#booking_nbAdults').val(nbAdults);
+                            $('#booking_nbChildren').val(nbChildren);
+                            $('.ata-price-total span').text(response.full_price);
+                            $('.ata-price-partial span').text(response.advance);
+                            $('span.ata-pax-adult').text(response.nbAdults);
+                            $('span.ata-pax-children').text(response.nbChildren);
+                            $('span.ata-nb-pax').text(Number(response.nbAdults) + Number(response.nbChildren));
+                            $('.ata-booking-pax-number span').text(response.nbAdults);
+                            // $('.ata-booking-price span').text(response.totalFraisDossier);
+                        },
+                        complete: function(data)
+                        {
+                            $(".page_loader").fadeOut("fast").animate();
+                        }
+                    });
+                    displayInfos();
+                    // displayAssurances();
+                }
+                function manageForms($selector, $typePass) {
+                    if ($selector.val() !== $('.ata-pass-'+$typePass).length) {
+                        if ($selector.val() < $('.ata-pass-'+$typePass).length) {
+                            var $diff = $('.ata-pass-'+$typePass).length - $selector.val();
+                            for(var $i = 0 ; $i <  $diff; $i++){
+                                $('.ata-pass-'+$typePass+':last').remove();
+                                $('.ata-ass-'+$typePass+':last').remove();
+                            }
+                            if( $diff > 0){
+                                delSessionPassenger($typePass);
+                            }
+                        } else {
+                            $diff = $selector.val() - $('.ata-pass-'+$typePass).length;
+                            for(var $i = 0 ; $i < $diff; $i++){
+                                addPassenger($typePass);
+                            }
+                        }
+                    }
+                    stepAssurances();
+                }
+                function delSessionPassenger($type){
+                    $.ajax({
+                        type: 'POST',
+                        async: false, // Mode synchrone
+                        url: '{{ path('app_updatesession') }}',
+                        data: {
+                            category: '',
+                            categories: {'id': 'del', 'valeur': $type }
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            // console.log('del => ', response);
+                        },
+                    });
+                    setsession('validDEVIS','');
+                    if($("#validDEVIS").length){
+                        $("#validDEVIS").prop('checked', false);
+                        $('#topayment').html('');
+                    }
+                }
+                function addPassenger($typePass) {
+                    $index = $('.ata-pass-'+$typePass).length +1 ;
+                    $indexPass = $('.ata-passenger-bloc').length + 1;
+                    $isLeader = ($indexPass == 1) ? 1 : 0;
+                    $isChild = ($typePass === 'child') ? 1 : 0;
+                    $civility = ($typePass === 'child')
+                        ? { options: '<option value="Enfant Garçon">Enfant Garçon</option><option value="Enfant Fille">Enfant Fille</option>', title: 'Enfant'}
+                        : { options: '<option value="M.">M.</option><option value="Mme">Mme</option>', title: 'Adulte'};
+                    $template = '<div class="mt-3 mb-3 mr-lg-3 ata-passenger-bloc d-flex align-items-stretch ata-pass-'+$typePass+' ata-pass-'+$typePass+'-'+$indexPass+'">' +
+                        '            <div class="ata-passenger-type p-3 text-center">'+$civility.title+'<br>n°'+$index+'</div>\n' +
+                        '            <div class="ata-passenger-info p-3">\n' +
+                        '                <input type="hidden" id="booking_passengers_'+$indexPass+'_isChild" name="booking[passengers]['+$indexPass+'][isChild]" value="' + $isChild + '">'+
+                        '                <input type="hidden" id="booking_passengers_'+$indexPass+'_leaderPax" name="booking[passengers]['+$indexPass+'][leaderPax]" value="' + $isLeader + '">'+
+                        '                <input type="hidden" id="booking_passengers_'+$indexPass+'_numPas" name="booking[passengers]['+$indexPass+'][numPas]" value="'+$indexPass+'">'+
+                        '                <div class="row">\n' +
+                        '                    <div class="form-group col-lg-3 col-sm-6">\n' +
+                        '                        <label class="control-label required " for="booking_passengers_'+$indexPass+'_qualite">Civilité*</label>\n' +
+                        '                        <select onchange="updatesession(this.id);checkPassagers();" id="booking_passengers_'+$indexPass+'_qualite" name="booking[passengers]['+$indexPass+'][qualite]" required="required" class="form-control">' +
+                        '                           <option value="" selected="selected">Civilité *</option>'+
+                        '                           '+$civility.options+
+                        '                        </select>\n' +
+                        '                    </div>\n' +
+                        '                    <div class="form-group col-lg-3 col-sm-6">\n' +
+                        '                        <label class="control-label required " for="booking_passengers_'+$indexPass+'_nomPas">Nom*</label>\n' +
+                        '                        <input onchange="updatesession(this.id);checkPassagers();" type="text" id="booking_passengers_'+$indexPass+'_nomPas" name="booking[passengers]['+$indexPass+'][nomPas]" required="required" class="form-control" value="">\n' +
+                        '                    </div>\n' +
+                        '                    <div class="form-group col-lg-3 col-sm-6">\n' +
+                        '                        <label class="control-label required " for="booking_passengers_'+$indexPass+'_prenomPas">Prénom*</label>\n' +
+                        '                        <input onchange="updatesession(this.id);checkPassagers();" type="text" id="booking_passengers_'+$indexPass+'_prenomPas" name="booking[passengers]['+$indexPass+'][prenomPas]" required="required" class="form-control" value="">\n' +
+                        '                    </div>\n' +
+                        '                    <div class="form-group col-lg-3 col-sm-6">\n' +
+                        '                        <label class="control-label required " for="booking_passengers_'+$indexPass+'_dtNaissPas">Date de naissance*</label>\n' +
+                        '                        <input onkeyup="checkNaissance(this.id);" onchange="updatesession(this.id);checkPassagers();" type="text" id="booking_passengers_'+$indexPass+'_dtNaissPas" name="booking[passengers]['+$indexPass+'][dtNaissPas]" required="required" placeholder="jj/mm/aaaa" class="form-control" value="">\n' +
+                        '                    </div>\n' +
+                        '                </div>\n' +
+                        '            </div>\n' +
+                        '        </div>';
+                    setsession('booking_passengers_'+$indexPass+'_isChild',$isChild);
+                    setsession('booking_passengers_'+$indexPass+'_leaderPax',$isLeader);
+                    setsession('booking_passengers_'+$indexPass+'_numPas',$indexPass);
+                    $('.ata-passengers-container').append($template);
+                }
+                $(".page_loader").hide();
+            });
+
+            function showLoader(){
+                $('#chargement').addClass('loader');
+            }
+            function hideLoader(){
+                $('#chargement').removeClass('loader');
+            }
+
+            function updatesession(id) {
+                var obj = document.getElementById(id);
+                var valeur = $('#' + id).val();
+                if (valeur == '' || valeur == null) {
+                    valeur = '0';
+                }
+                $.ajax({
+                    type: 'POST',
+                    async: false, // Mode synchrone
+                    url: '{{ path('app_updatesession') }}',
+                    data: {
+                        category: '',
+                        categories: {'id': id, 'valeur': valeur}
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        // console.log('update => '+id+' = ', response);
+                    }
+                });
+            }
+            function setsession(id,valeur) {
+                if (valeur == '' || valeur == null) {
+                    valeur = '0';
+                }
+                $.ajax({
+                    type: 'POST',
+                    async: false, // Mode synchrone
+                    url: '{{ path('app_updatesession') }}',
+                    data: {
+                        category: '',
+                        categories: {'id': id, 'valeur': valeur}
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        // console.log('set => '+id+' = ', response);
+                    }
+                });
+            }
+            function updateLeader(champ){
+                var $valeur = $('#booking_leaderPas_' + champ).val();
+                $('#booking_passengers_1_' + champ).val($valeur);
+                setsession('booking_passengers_1_' + champ,$valeur);
+            }
+            function displayAssurances(){
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('app_infos_assurances') }}",
+                    dataType: "html",
+                    success: function(response) {
+                        $('.ata-sidebar-assurance-container').html(response);
+                    },
+                });
+            }
+
+            function stepAssurances(){
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('app_step_assurances') }}",
+                    dataType: "html",
+                    success: function(response){
+                        if(response != false){
+                            $('#step_assurance').removeClass('hidden');
+                            $('#step_assurance').html(response);
+                            console.log('stepAssurances = true');
+                            setAssurances();
+                        }
+                    },
+                });
+            }
+            function setAssurances(){
+                $(function() {
+                    var Pax = {
+                        numpas: "",
+                        assurance: "",
+                        toString: function () {
+                            return this.numpas + " :: " + this.assurance;
+                        }
+                    };
+                    // console.log('setAssurance = true');
+                    calculateAssurances();
+                    $('.table-assurances input[type="radio"]').on('change', function() {
+                        $(this).parents('table').find('tr').each(function() {
+                            $(this).removeClass('active');
+                        });
+                        $(this).parents('tr').addClass('active');
+                        calculateAssurances();
+                    });
+                    function getAssurances() {
+                        var assurances = [];
+                        $('.table-assurances input[type="radio"]:checked').each(function() {
+                            var pax = Object.create(Pax);
+                            pax.numpas = $(this).attr('pax');
+                            pax.assurance = $(this).val();
+                            assurances.push(pax);
+                            console.log('getAssurances = true');
+                            console.log('pax => ',assurances);
+                        });
+                        setsession('assurances',assurances);
+                        return assurances;
+                    }
+                    function calculateAssurances(){
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ path('app_assurances') }}",
+                            data: {assurances: getAssurances()},
+                            dataType: "json",
+                            success: function(response) {
+                                console.log('calculateAssurances = true');
+
+                                $('.ata-price-total span').text(response.detailDevis.montant_total_devis);
+                                $('.ata-price-partial span').text(response.detailDevis.montant_acompte_devis);
+
+                                $('#full_price').val(response.detailDevis.montant_total_devis);
+                                $('#acompte').val(response.detailDevis.montant_acompte_devis);
+
+                                $('.validation_montant strong').text(response.detailDevis.montant_total_devis + ' € TTC');
+                                $('.validation_acompte strong').text(response.detailDevis.montant_acompte_devis + ' €');
+                                $('.vers_paiement_acompte strong').text(response.detailDevis.montant_acompte_devis + ' € TTC');
+
+                                displayAssurances();
+                                stepValidation();
+                            },
+                        });
+                    }
+                });
+            }
+            function stepValidation(){
+                $('#step_validation').removeClass('hidden');
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('app_step_validation') }}",
+                    dataType: "html",
+                    success: function(response){
+                        $('#step_validation').html(response);
+                    },
+                });
+            }
+
+            function checkCoordonnees(){
+                var isValid = true;
+                var $civilite = $('#booking_leaderPas_qualite').val();
+                var $nom = $('#booking_leaderPas_nomPas').val();
+                var $prenom = $('#booking_leaderPas_prenomPas').val();
+                var $naissance = $('#booking_leaderPas_dtNaissPas').val();
+                var $email = $('#booking_leaderPas_emailDom').val();
+                var $tel = $('#booking_leaderPas_telMobile').val();
+                if($civilite == ''){isValid = false;}
+                if($nom == ''){isValid = false;}
+                if($prenom == ''){isValid = false;}
+                if($naissance == ''){isValid = false;}
+                if($email == ''){isValid = false;}
+                if($tel == ''){isValid = false;}
+                if(isValid == true){
+                    $('#booking_passengers_1_leaderPax').val('1');
+                    setsession('booking_passengers_1_leaderPax','1');
+                    $('#booking_passengers_1_isChild').val('0');
+                    setsession('booking_passengers_1_isChild','0');
+                    setsession("voir_adresse","oui" );
+                    $('#voir_adresse').removeClass('hidden');
+
+                }else{
+                    checkSteps();
+                }
+            }
+            function checkAdresse(){
+                var isValid = true;
+                var $adresse = $('#booking_leaderPas_adresse1').val();
+                var $codePostal = $('#booking_leaderPas_codePostal').val();
+                var $villeFr = $('#booking_leaderPas_villeFr').val();
+                var $pays = $('#booking_leaderPas_codPays').val();
+
+                if($adresse == ''){isValid = false;}
+                if($codePostal == ''){isValid = false;}
+                if($villeFr == ''){isValid = false;}
+                if($pays == ''){isValid = false;}
+
+                if(isValid == true){
+                    setsession('voir_passenger','oui');
+                    stepAssurances();
+                    $('#voir_passenger').removeClass('hidden')
+                    $('#voir_option').removeClass('hidden')
+                    $('#step_assurance').removeClass('hidden')
+                    $('#step_validation').removeClass('hidden')
+
+                }
+            }
+            function checkPassagers(){
+                var $adulte = parseInt($('#booking_nbAdults').val(), 10);
+                var $enfant = parseInt($('#booking_nbChildren').val(), 10);
+                var $pax = $adulte + $enfant;
+                var $complet = true;
+                for(var $i = 0 ; $i < $pax; $i++) {
+                    if ($('#booking_passengers_' + $i + '_numPas').val() == '') { $complet = false;}
+                    if ($('#booking_passengers_' + $i + '_isChild').val() == '') { $complet = false;}
+                    if ($('#booking_passengers_' + $i + '_leaderPax').val() == '') { $complet = false;}
+                    if ($('#booking_passengers_' + $i + '_qualite').val() == '') { $complet = false;}
+                    if ($('#booking_passengers_' + $i + '_nomPas').val() == '') { $complet = false;}
+                    if ($('#booking_passengers_' + $i + '_prenomPas').val() == '') { $complet = false;}
+                    if ($('#booking_passengers_' + $i + '_dtNaissPas').val() == '') { $complet = false;}
+                }
+
+                if($complet == true){
+                    displayInfos();
+                    stepAssurances();
+                    setAssurances();
+                    versPaiement();
+                }
+
+            }
+            function checkValidation(){
+                $('.page_loader').show();
+                if( $('#validDEVIS').prop('checked')
+                    && $('#validCDV').prop('checked')
+                    && $('#validPAYS').prop('checked')
+                    && $('#validREGLEMENT').prop('checked')
+                ){
+                    var isValid = document.forms['booking'].reportValidity();
+                    console.log('validation' + isValid);
+                    if(isValid){
+                        $('#chargement').addClass('loader');
+                        setsession('validation','oui');
+                                $('#booking').submit();
+                    }else{
+                        $('#validREGLEMENT').prop('checked', false).removeAttr('checked');
+                    }
+                }else{
+                    $('#validREGLEMENT').prop('checked', false).removeAttr('checked');
+                }
+                $('.page_loader').hide();
+            }
+
+            function checkSteps(){
+                var $adresse = '{{  app.session.get('voir_adresse') }}';
+                var $passenger = '{{ app.session.get('voir_passenger') }}';
+                var $option = '{{ app.session.get('voir_option') }}';
+                var $assurance = '{{  app.session.get('voir_assurance') }}';
+                var $validation = '{{  app.session.get('validation') }}';
+                if($validation == 'checked'){
+                    $('#voir_adresse').removeClass('hidden');
+                    $('#voir_passenger').removeClass('hidden');
+                    $('#voir_option').removeClass('hidden');
+                    $('#step_assurance').removeClass('hidden');
+                    $('#step_validation').removeClass('hidden');
+                }else{
+                    if($adresse !='oui'){ $('#voir_adresse').addClass('hidden');}
+                    if($passenger !='oui'){  $('#voir_passenger').addClass('hidden');}
+                    if($option !='oui'){ $('#voir_option').addClass('hidden');}
+                    if($assurance !='oui'){
+                        $('#step_assurance').addClass('hidden');
+                        $('#step_validation').addClass('hidden');
+                    }
+                }
+            }
+            function versPaiement(){
+                $(".page_loader").show();
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('app_topayment') }}",
+                    dataType: "html",
+                    success: function(response){
+                        $('#topayment').html(response);
+                    },
+                    complete: function(data)
+                    {
+                        $(".page_loader").hide();
+                    }
+                });
+            }
+            function displayInfos(){
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('app_infos') }}",
+                    dataType: "html",
+                    success: function(response) {
+                        $('.ata-sidebar').html(response);
+                    },
+                });
+            }
+            function voir(id){
+                $('#'+id).removeClass('hidden');
+            }
+        </script>
+        <script type="text/javascript">
+            $('#booking_leaderPas_dtNaissPas').removeClass('datetimepicker');
+            $('#booking_leaderPas_dtNaissPas').removeClass('hasDatepicker');
+            $('#booking_passengers_1_dtNaissPas').removeClass('datetimepicker');
+            $('#booking_passengers_1_dtNaissPas').removeClass('hasDatepicker');
+            $('#booking_leaderPas_dtNaissPas').keyup(function(){
+                var nb_car = $(this).val().length;
+                if(nb_car == 2 || nb_car == 5) {
+                    $(this).val($(this).val()+'/');
+                }
+            });
+            function checkNaissance(id){
+                var nb_car = $('#'+id).val().length;
+                if(nb_car == 2 || nb_car == 5) {
+                    $('#'+id).val($('#'+id).val()+'/');
+                }
+            }
+        </script>
     </body>
 </html>

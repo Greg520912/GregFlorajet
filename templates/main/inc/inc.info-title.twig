@@ -1,0 +1,156 @@
+<h5 class="pt-4">{{ infos.libPack }}</h5>
+<h6 class="pb-3">{{ infos.paysPack }} - Votre date de départ : {{ infos.dtDeb|date('d/m/Y') }}</h6>
+
+<div class="mb-3 ata-sidebar d-block d-lg-none">
+    <div style="background:var(--blanc);border-radius:25px;overflow-x:hidden;">
+        <div id="ata-img-sidebar-header mb-5" style="padding:0;margin:0;">
+            <div style="background-color:var(--vert);height:200px;overflow:hidden;">
+                <div style="display:inline;float:left;">
+                    <img src="{{ infos.thumb }}" style="height:200px;" />
+                </div>
+                <div style="display:inline;height:100%;vertical-align:middle;">
+                    <p style="margin-top:30px;">&nbsp;</p>
+                    <span class="tjaune bold uppercase" style="margin-left:50px;">{{ infos.paysPack }}</span><br/>
+                    <span class="tblanc bold " style="margin-left:50px;"><i>{{ infos.libPack }}</i></span><br/>
+                    <span class="tgris" style="margin-left:50px;font-size: 0.7rem">Code voyage : {{ infos.codPack }}</span>
+                </div>
+
+            </div>
+        </div>
+        <div class="ata-sidebar-bloc p-3">
+            <div class="ata-sidebar-title">Infos voyage</div>
+
+            <div class="d-flex justify-content-between ata-sidebar-line">
+                <span class="ata-info-trip-label uppercase tgris">Durée</span><span class="ata-info-trip-value">{{ infos.nbJours }} jours</span>
+            </div>
+            <div class="d-flex justify-content-between ata-sidebar-line">
+                <span class="ata-info-trip-label uppercase tgris">Type</span><span class="ata-info-trip-value">{{ infos.type }}</span>
+            </div>
+            <div class="d-flex justify-content-between ata-sidebar-line">
+                <span class="ata-info-trip-label uppercase tgris">Niveau</span>
+                <span class="ata-info-trip-value"><img src="{{ asset('assets/img/atalante/pictos/') }}niveau-{{ infos.niveau }}.png" height="16px" title="{{ infos.niveau }}" alt="{{ infos.niveau }}"></span>
+            </div>
+            <div class="d-flex justify-content-between ata-sidebar-line">
+                <span class="ata-info-trip-label uppercase tgris">Activité</span><span class="ata-info-trip-value">{{ infos.activite }}</span>
+            </div>
+            <div class="d-flex justify-content-between ata-sidebar-line">
+                <span class="ata-info-trip-label uppercase tgris">Code</span><span class="ata-info-trip-value">{{ infos.codPack }}</span>
+            </div>
+            <div class="d-flex justify-content-between ata-sidebar-line">
+                <span class="ata-info-trip-label uppercase tgris">Date de départ</span><span class="ata-info-trip-value">{{ infos.dtDeb|date('d/m/Y') }}</span>
+            </div>
+            <div class="d-flex justify-content-between ata-sidebar-line">
+                <span class="ata-info-trip-label uppercase tgris">Date de retour</span><span class="ata-info-trip-value">{{ infos.dtFin|date('d/m/Y') }}</span>
+            </div>
+            <div class="d-flex justify-content-between ata-sidebar-line">
+                <span class="ata-info-trip-label uppercase tgris">Prix / PERS * 1 </span><span class="ata-info-trip-value">{{ infos.prixTTC|number_format(0, ',', ' ')  }}€ TTC</span>
+            </div>
+            <div class="d-flex justify-content-between ata-sidebar-line">
+                <span class="ata-info-trip-label uppercase tgris">Adulte(s)</span><span class="ata-info-trip-value ata-pax-adult" id="ata-pax-adult">{{ infos.nbAdults }}</span>
+            </div>
+            <div class="d-flex justify-content-between ata-sidebar-line">
+                <span class="ata-info-trip-label uppercase tgris">Enfant(s)</span><span class="ata-info-trip-value ata-pax-children" id="ata-pax-children">{{ infos.nbChildren }}</span>
+            </div>
+        </div>
+        <div class="ata-sidebar-assurance-container"></div>
+
+        {% if infos.prestations %}
+            <div class="ata-sidebar-bloc p-3">
+                <div class="ata-sidebar-title">Obligatoire</div>
+                {% for prestation in infos.prestations %}
+                    <div class="d-flex justify-content-between ata-sidebar-line">
+                        <span class="ata-info-trip-label ata-booking-pax-number">{{ prestation.libelle }} {{ prestation.prix_unit }}€ x <span>{{ prestation.nb }}</span> </span>
+                        <span class="text-right ata-info-trip-value ata-booking-price"><span>{{ prestation.prix_total|number_format(0, ',', ' ')  }}</span>€ TTC</span>
+                    </div>
+                {% endfor %}
+                {% if infos.reductions %}
+                    {% for reduction in infos.reductions %}
+                        <div class="d-flex justify-content-between ata-sidebar-line">
+                            <span class="ata-info-trip-label ata-booking-pax-number">{{ reduction.libelle }} {{ reduction.prix_unit }}€ x <span>{{ reduction.nb }}</span> </span>
+                            <span class="text-right ata-info-trip-value ata-booking-price"><span>{{ reduction.prix_total|number_format(0, ',', ' ')  }}</span>€ TTC</span>
+                        </div>
+                    {% endfor %}
+                {%  endif %}
+            </div>
+        {%  endif %}
+
+        {#        {% if infos.context_paiement == 'quickbooking' and infos.context_paiement_quick_booking != 'quickbooking_paiement'  %}#}
+        {#            <div class="ata-sidebar-bloc p-3">#}
+        {#                <div class="ata-sidebar-title">Assurances</div>#}
+        {#                <div class="d-flex justify-content-between ata-sidebar-line">#}
+        {#                    <span class="ata-info-trip-label quick-booking-assurances-text">Je suis déjà assuré ailleurs*</span>#}
+        {#                    <span class="text-right ata-info-trip-value quick-booking-assurances-prices"></span>#}
+        {#                </div>#}
+        {#                #}{# endif #}
+        {#            </div>#}
+        {#        {%  endif %}#}
+        {#        {% if infos.context_paiement_quick_booking == 'quickbooking_paiement' %}#}
+        {#            <div class="ata-sidebar-bloc p-3">#}
+        {#                #}{#  if infos.detailDevis != null #}
+        {#                #}{# infos.totalAssurance #}
+        {#                {{ app.session.get('assurance') }}#}
+        {#                <div class="ata-sidebar-title">Assurances</div>#}
+        {#                <div class="d-flex justify-content-between ata-sidebar-line">#}
+        {#                    <span class="ata-info-trip-label quick-booking-assurances-text">{% if app.session.get('assurance') != null %}Assurance {{ app.session.get('assurance')|capitalize }} x {{ infos.nbAdults + infos.nbChildren }}{% else %}Je suis déjà assuré ailleurs*{% endif %}</span>#}
+        {#                    <span class="text-right ata-info-trip-value quick-booking-assurances-prices">{% if infos.totalAssurance != 0 %}{{ infos.totalAssurance }}€ TTC{% endif %}</span>#}
+        {#                </div>#}
+        {#                #}{# endif #}
+        {#            </div>#}
+        {#        {%  endif %}#}
+        {# pour test greg a supprimer #}
+        {# dump(infos) #}
+        {#        {% if infos.context_paiement == 'paiement' %}#}
+        {#        <div class="ata-sidebar-bloc p-3">#}
+        {#            {%  if infos.detail_devis != null %}#}
+        {#                <div class="ata-sidebar-title">Assurances</div>#}
+        {#                {%   for numPas, pax in infos %}#}
+        {#                    {% if numPas == 'detail_devis' %}#}
+        {#                        {%   for refPax, valDevis in pax %}#}
+        {#                            {%   for val, val2 in valDevis %}#}
+        {#                                {% set montantAssurance = 'montant_assurance_' ~ val2.choix_assurance %}#}
+        {#                                <div class="d-flex justify-content-between ata-sidebar-line">#}
+        {#                                    {% if val2.choix_assurance == 'aucune' %}#}
+        {#                                        <span class="ata-info-trip-label">{{ val2.cn }}<br/><span class="ata-text-info">Je suis déjà assurée ailleurs*</span> </span>#}
+        {#                                        <span class="text-right ata-info-trip-value">0€ TTC</span>#}
+        {#                                    {% else %}#}
+        {#                                        <span class="ata-info-trip-label">{{ val2.cn }}<br/><span class="ata-text-info">Assurance {{ val2.choix_assurance|capitalize }}</span> </span>#}
+        {#                                        <span class="text-right ata-info-trip-value">{{ val2[montantAssurance] }}€ TTC</span>#}
+        {#                                    {% endif %}#}
+        {#                                </div>#}
+        {#                            {% endfor %}#}
+        {#                        {% endfor %}#}
+        {#                    {% endif %}#}
+        {#                {% endfor %}#}
+        {#            {% endif %}#}
+        {#        </div>#}
+        {#        {% endif %}#}
+        {# if infos.context == 'paiement' %}
+        <div class="ata-sidebar-bloc p-3">
+            <div class="ata-sidebar-title">Obligatoire</div>
+            <div class="d-flex justify-content-between ata-sidebar-line">
+                <span class="ata-info-trip-label ata-booking-pax-number">Frais d'inscription {{ infos.fraisDossier }}€ x <span>{% if app.session.get('frais_dossier_child') != 0 %}{{infos.nbAdults + app.session.get('frais_dossier_child')}}{% else %}{{infos.nbAdults}}{% endif %}</span> </span>
+                <span class="text-right ata-info-trip-value ata-booking-price"><span>{{ infos.totalFraisDossier }}</span>€ TTC</span>
+            </div>
+        </div>
+    {% endif #}
+        {#        {% if infos.context != 'options' and infos.context != 'paiement' %}#}
+        {#            <div class="ata-sidebar-bloc p-3">#}
+        {#                <div class="ata-sidebar-title mt-2 mb-2">Obligatoire</div>#}
+        {#                <div class="d-flex justify-content-between ata-sidebar-line">#}
+        {#                    <span class="ata-info-trip-label ata-booking-pax-number">Frais d'inscription {{ infos.fraisDossier }}€ x <span>{% if app.session.get('frais_dossier_child') != 0 %}{{infos.nbAdults + app.session.get('frais_dossier_child')}}{% else %}{{infos.nbAdults}}{% endif %}</span> </span>#}
+        {#                    <span class="text-right ata-info-trip-value ata-booking-price"><span>{{ infos.totalFraisDossier }}</span>€ TTC</span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        {% endif %}#}
+{#         <div class="ata-sidebar-title mb-2 ml-3 mt-3">Total</div> #}
+        {#        <div class="d-flex justify-content-between mt-3 p-3">#}
+        {#            <span class="ata-info-trip-label">Prix par personne <span class="ata-nb-pax">{{ infos.nbAdults + infos.nbChildren }}</span></span><span class="text-right ata-info-trip-value">{{ infos.prixTTC|number_format(0, ',', ' ')  }}€ TTC</span>#}
+        {#        </div>#}
+        <div class="d-flex justify-content-between p-3 ata-sidebar-total" style="background:var(--hover);">
+            <span class="ata-info-trip-label font-weight-bold uppercase tgris">Total</span><span class="ata-info-trip-value ata-price-total bold"><span>{{  infos.full_price|number_format(0, ',', ' ') }}</span>€ TTC</span>
+        </div>
+        <div class="d-flex justify-content-between p-3">
+            <span class="ata-info-trip-label">Acompte (30%)</span><span class="ata-info-trip-value ata-price-partial"><span>{{ infos.advance|number_format(0, ',', ' ') }}</span>€ TTC</span>
+        </div>
+    </div>
+</div>

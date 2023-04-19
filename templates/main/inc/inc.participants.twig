@@ -1,0 +1,56 @@
+{% set sesbooking = app.session.get('booking') %}
+<div id="voir_passenger">
+    <div class="row">
+        {% set sesbooking = app.session.get('booking') %}
+        <p class="">Renseignez vos noms et prénoms tels qu’ils sont orthographiés sur vos pièces d’identité avec lesquelles vous allez voyager.</p>
+        {% set a = 1 %}
+        {% set e = 1 %}
+        <div class="ata-passengers-container" id="ata-passengers-container">
+            {% for passager in booking.passengers %}
+                <div class="mt-3 mb-3 mr-lg-3 ata-passenger-bloc d-flex align-items-stretch ata-pass-{{ (sesbooking['passengers'][loop.index]['isChild'] ) ? 'child' : 'adult' }}" data-type-pas="{{ (sesbooking['passengers'][loop.index]['isChild'] ==1) ? 'child' : 'adult' }}">
+                    <div class="ata-passenger-type text-center">{{ (sesbooking['passengers'][loop.index]['isChild']  == 1) ? 'Enfant' : 'Adulte' }}<br/>n°{{ (sesbooking['passengers'][loop.index]['isChild']  == 1) ? e : a }}</div>
+                    <div class="ata-passenger-info ">
+                        {{ form_widget(passager.numPas, {'attr': {'class': 'numpas', 'value': loop.index }}) }}
+                        {{ form_widget(passager.isChild, {'attr': {'value': sesbooking['passengers'][loop.index]['isChild'] }}) }}
+                        {{ form_widget(passager.leaderPax, {'attr': {'value': sesbooking['passengers'][loop.index]['leaderPax'] }}) }}
+                        <div class="row">
+                            <div class="form-group col-lg-3 col-sm-6">
+                                {{ form_label(passager.qualite, 'Civilité') }}
+                                {{ form_widget(passager.qualite, {'attr': {'onchange': 'updatesession(this.id);checkPassagers()'} }) }}
+                                {% if form_errors(passager.qualite) %}
+                                    <div class="alert alert-danger"><strong>{{ form_errors(passager.qualite) }}</strong></div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group col-lg-3 col-sm-6 {% if form_errors(passager.nomPas) %}has-error{% endif %}">
+                                {{ form_label(passager.nomPas, 'Nom') }}
+                                {{ form_widget(passager.nomPas) }}
+                                {% if form_errors(passager.nomPas, {'attr': {'onchange': 'updatesession(this.id);checkPassagers()'} }) %}
+                                    <div class="alert alert-danger"><strong>{{ form_errors(passager.nomPas) }}</strong></div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group col-lg-3 col-sm-6 {% if form_errors(passager.prenomPas) %}has-error{% endif %}">
+                                {{ form_label(passager.prenomPas, 'Prénom') }}
+                                {{ form_widget(passager.prenomPas, {'attr': {'onchange': 'updatesession(this.id);checkPassagers()'} }) }}
+                                {% if form_errors(passager.prenomPas) %}
+                                    <div class="alert alert-danger"><strong>{{ form_errors(passager.prenomPas) }}</strong></div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group col-lg-3 col-sm-6 {% if form_errors(passager.dtNaissPas) %}has-error{% endif %}">
+                                {{ form_label(passager.dtNaissPas, 'Date de naissance') }}
+                                {{ form_widget(passager.dtNaissPas, {'attr': {'onkeyup':'checkNaissance(this.id);', 'onchange': 'updatesession(this.id);checkPassagers()','placeholder':'jj/mm/aaaa', 'maxlength':'10'} }) }}
+                                {% if form_errors(passager.dtNaissPas) %}
+                                    <div class="alert alert-danger"><strong>{{ form_errors(passager.dtNaissPas) }}</strong></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if sesbooking['passengers'][loop.index]['isChild']  == 1 %}
+                    {% set e = e + 1 %}
+                {% else %}
+                    {% set a = a + 1 %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -4,6 +4,71 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    project_directory: '/home/deviterphp74/www/daniel/BiSymfony/'
+
+    production          : 19
+    marque              : 'ATALANTE'
+    agence              : 'ATA'
+
+    coef_acompte        : 0.3
+
+    url_site            : 'https://www.atalante.fr'
+    url_saga            : 'https://www.atalante.fr'
+    url_nebula          : 'https://nebula.tourism-it.com'
+
+    saga_user           : 'biAtalante'
+    saga_Key            : '9c802a0382c8ed02ca65234efc8b4e95'
+    saga_sha            : 'sha256'
+
+    url_cgv             : 'https://www.atalante.fr/info/conditions-de-vente-2.html'
+    url_conseil         : 'http://www.diplomatie.gouv.fr/'
+
+    url_ass_multi       : 'https://www.atalante.fr/media/assurances/atalante-multirisque-7053.pdf'
+    url_ass_prem        : 'https://www.atalante.fr/media/assurances/atalante-multirisque-prem-7054.pdf'
+    url_ass_multi_epi   : 'https://www.atalante.fr/media/assurances/atalante-multirisque-extension-epidemie-7056.pdf'
+    url_ass_prem_epi    : 'https://www.atalante.fr/media/assurances/atalante-multirisque-prem-extension-epidemie-7057.pdf'
+
+#Prod -----------------------------------------------------------
+    #    url_zoho            : 'https://www.zohoapis.eu'
+    #    url_ogone           : 'https://secure.ogone.com/ncol/prod/orderstandard.asp'
+    #    zoho_zapikey        : '1003.540059245b5e7ae0eb44abbb0673121e.2635772b1ab9e2399085c2301f6ed472'
+    #    ogone_pspid         : 'HUWANS'
+    #    ogone_sha_in        : '<3gYH3<Gtq!d;AzPm5)52Mu6_Z3^6u'
+    #    ogone_sha           : 'sha1'
+    #    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
+
+#Dev -----------------------------------------------------------
+    url_zoho            : 'https://sandbox.zohoapis.eu'
+    zoho_zapikey        : '1003.81ad61d66d71fea6aaeb6284986ded89.3a012044d6c553e74b90b2afaff7e7de'
+    url_ogone           : 'https://secure.ogone.com/ncol/Test/orderstandard.asp'
+    ogone_pspid         : 'ALTAITRAVEL'
+    ogone_psw           : 'Altai2023!!'
+    ogone_passphrase    : 'f563e91c-3409-49b7-8193-2091af017d21'
+    ogone_sha_in        : 'f563e91c-3409-49b7-8193-2091af017d21'
+    ogone_sha_out       : 'AzErTyUiOP1§MlKj'
+    ogone_sha           : 'sha256'
+    ogone_template      : 'https://logos.tourism-it.com/media/ogone/huwans/2022/tpl_paiement.html'
+
+# Huwans
+#    database_host: ZEUS8
+#    database_port: 1433
+#    database_name: CLUBAV
+#    database_user: intranet
+#    database_password: intranet
+
+# Atalante
+#    database_host: ANTARES8
+#    database_port: null
+#    database_name: ATALANTE
+#    database_user: intranet
+#    database_password: intranet
+
+# Mailer
+#    mailer_transport: smtp
+#    mailer_host: hermes.tourisport.fr
+#    mailer_user: null
+#    mailer_password: null
+#    secret: ThisTokenIsNotSoSecretChangeIt
 
 services:
     # default configuration for services in *this* file
@@ -11,8 +76,22 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    Symfony\Component\Dotenv\Command\:
+        resource: '../vendor/symfony/dotenv/Command'
+        tags: ['console.command']
+
+    Symfony\Component\Dotenv\Command\DebugCommand:
+        arguments:
+            $projectDirectory: '%project_directory%'
+            $kernelEnvironment: '%kernel.environment%'
+
+    Symfony\Component\Dotenv\Command\DotenvDumpCommand:
+        arguments:
+            $projectDir: '%project_directory%'
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
+
     App\:
         resource: '../src/'
         exclude:
@@ -22,3 +101,36 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    #    doctrine.dbal.connection_factory:
+    #        class: Doctrine\DBAL\Connection
+    #        arguments:
+    #            - { driver: 'pdo_mysql', url: '%env(resolve:DATABASE_URL)%' }
+    #        arguments:
+    #            - { driver: 'pdo_mysql', dbname: '%database_name%', user: '%database_user%', password: '%database_password%', host: '%database_host%', port: '%database_port%' }
+
+    App\Service\Curl:
+        class: App\Service\Curl
+    App\Service\Nebula:
+        class: App\Service\Nebula
+    App\Service\Zoho:
+        class: App\Service\Zoho
+    App\Service\Ogone:
+        class: App\Service\Ogone
+    App\Service\Sql:
+        class: App\Service\Sql
+    App\Service\ShaCompsoer:
+        class: App\Service\ShaComposer
+
+#    zoho.crm:
+#        class: App\Service\Zoho
+#        arguments:
+#            $container: '@service_container'
+#    curl.query:
+#        class: App\Service\Curl
+#    ogone.tpe:
+#        class: App\Service\Ogone
+#    sha.composer:
+#        class : App\Service\ShaComposer
+#    huwansbi.api.requester:
+#        class: App\Service\ApiRequester

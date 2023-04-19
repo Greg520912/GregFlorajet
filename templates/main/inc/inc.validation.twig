@@ -1,0 +1,52 @@
+{% set validation = app.session.get('validation') %}
+{% set booking = app.session.get('booking') %}
+{% set detail = app.session.get('detail_devis') %}
+
+<div class="form-group mt-3 mb-3 col-lg-12 pl-3">
+    <p class="mt-3 mb-3 validation_montant" id="">Le montant de votre voyage est de <strong>{{ detail.montant_total_devis|number_format(0, ',', ' ') }} € TTC</strong>.</p>
+    <p class="mt-3 mb-3validation_acompte" id="">Afin de valider votre réservation, nous vous proposons de régler un acompte de <strong>{{ detail.montant_acompte_devis|number_format(0, ',', ' ') }} €</strong> correspondant à 30% du montant total de votre voyage.</p>
+
+    <p class="mt-3 mb-3 juste">
+        Suite à votre paiement, vous recevrez un mail automatique de notre part récapitulant votre inscription.<br/>
+        Un conseiller {{ marque }}  vous confirmera dans les plus brefs délais votre inscription définitive (disponibilité, prix du voyage).<br/>
+        Information : selon la destination choisie, une éco compensation carbone (comprise entre 5 et 10 €) vous sera comptabilisée.
+    </p>
+    <p class="mt-3 mb-3">Le solde du voyage sera à régler après la confirmation de celui-ci au plus tard <strong>30 jours</strong> avant le départ.</p>
+
+    <div class="cdv mt-3 mb-3">
+        <div class="custom-control custom-checkbox">
+            <input onclick="checkValidation()" {{ validation }} type="checkbox" name="booking[validDEVIS]" id="validDEVIS" class="custom-control-input cgv-control-input" required="required" >
+            <label class="custom-control-label cgv-control-label juste required" for="validDEVIS">
+                Je soussigné(e), <strong>{{ booking.leaderPas.qualite }} {{ booking.leaderPas.prenomPas }} {{ booking.leaderPas.nomPas }}</strong>, agissant autant pour moi-même que pour le compte des autres personnes inscrites, certifie avoir pris connaissance du devis à partir duquel je me suis inscrit(e) à ce voyage, ainsi que des formalités administratives et sanitaires, des informations liées à la sécurité du pays et des informations liées aux assurances.
+            </label>
+        </div>
+    </div>
+
+    <div class="cdv mt-3 mb-3">
+        <div class="custom-control custom-checkbox">
+            <input onclick="checkValidation()" {{ validation }} type="checkbox" name="booking[validCDV]" id="validCDV" class="custom-control-input cgv-control-input" required="required" >
+            <label class="custom-control-label cgv-control-label juste required" for="validCDV">
+                J'ai lu les <a href="{{ url_cgv }}" title="conditions de vente" onclick="window.open(this.href); return false;">conditions de vente {{ marque }}</a> concernant le voyage et les accepte dans leur totalité. Je suis pleinement conscient(e) que durant ce voyage, je peux courir certains risques inhérents notamment à l'isolement, loin des centres médicaux, et je les assume en toute connaissance  de cause.
+            </label>
+        </div>
+    </div>
+
+    <div class="cdv mt-3 mb-3">
+        <div class="custom-control custom-checkbox">
+            <input onclick="checkValidation()" {{ validation }} type="checkbox" name="booking[validPAYS]" id="validPAYS" class="custom-control-input cgv-control-input" required="required" >
+            <label class="custom-control-label cgv-control-label juste required" for="validPAYS">
+                De plus, j'ai pris connaissance des informations concernant le pays choisi sur le site internet du Ministère des Affaires Etrangères (<a href="{{ url_conseil }}" title="Conseils aux voyageurs" onclick="window.open(this.href); return false;">www.diplomatie.fr</a>) dans la rubrique "Conseils aux voyageurs". Je vérifierai ces informations quelques jours avant mon départ. Le signataire engage l'ensemble des participants composant le groupe.
+            </label>
+        </div>
+    </div>
+
+    <div class="cdv mt-3 mb-3">
+        <div class="custom-control custom-checkbox">
+            <input onclick="checkValidation()" {{ validation }} type="checkbox" name="booking[validREGLEMENT]" id="validREGLEMENT" class="custom-control-input cgv-control-input" required="required" >
+            <label class="custom-control-label cgv-control-label juste required" for="validREGLEMENT">
+                Mon règlement entraine la validation du contrat de voyage que j'accepte et ce paiement vaut pour acceptation des termes et conditions de ce contrat.
+            </label>
+        </div>
+    </div>
+
+</div>

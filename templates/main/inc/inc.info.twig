@@ -1,0 +1,71 @@
+<div class="ata-sidebar-container mt-2 sticky-top">
+    <div id="ata-img-sidebar-header" style="background-image: url('{{ infos.thumb }}');">
+        <p class="tjaune bold uppercase">{{ infos.paysPack }}</p>
+        <p class="tblanc bold "><i>{{ infos.libPack }}</i></p>
+        <p class="tgris" style="font-size: 0.7rem">Code voyage : {{ infos.codPack }}</p>
+    </div>
+
+    <div class="ata-sidebar-bloc p-3">
+        <div class="d-flex justify-content-between ata-sidebar-line">
+            <span class="ata-info-trip-label uppercase tgris">Durée</span><span class="text-right ata-info-trip-value">{{ infos.nbJours }} jours</span>
+        </div>
+        <div class="d-flex justify-content-between ata-sidebar-line">
+            <span class="ata-info-trip-label uppercase tgris">Type</span><span class="text-right ata-info-trip-value">{{ infos.type }}</span>
+        </div>
+        <div class="d-flex justify-content-between ata-sidebar-line">
+            <span class="ata-info-trip-label uppercase tgris">Niveau</span>
+            <span class="text-right ata-info-trip-value"><img src="{{ asset('assets/img/atalante/pictos/') }}niveau-{{ infos.niveau }}.png" height="16px" title="{{ infos.niveau }}" alt="{{ infos.niveau }}"></span>
+        </div>
+        <div class="d-flex justify-content-between ata-sidebar-line">
+            <span class="ata-info-trip-label uppercase tgris">Activité</span><span class="text-right ata-info-trip-value">{{ infos.activite }}</span>
+        </div>
+        <div class="d-flex justify-content-between ata-sidebar-line">
+            <span class="ata-info-trip-label uppercase tgris">Code</span><span class="text-right ata-info-trip-value">{{ infos.codPack }}</span>
+        </div>
+        <div class="d-flex justify-content-between ata-sidebar-line">
+            <span class="ata-info-trip-label uppercase tgris">Date de départ</span><span class="text-right ata-info-trip-value">{{ infos.dtDeb|date('d/m/Y') }}</span>
+        </div>
+        <div class="d-flex justify-content-between ata-sidebar-line">
+            <span class="ata-info-trip-label uppercase tgris">Date de retour</span><span class="text-right ata-info-trip-value">{{ infos.dtFin|date('d/m/Y') }}</span>
+        </div>
+        <div class="d-flex justify-content-between ata-sidebar-line">
+            <span class="ata-info-trip-label uppercase tgris">Prix / pers x 1 </span><span class="text-right ata-info-trip-value">{{ infos.prixTTC|number_format(0, ',', ' ')  }}€ TTC</span>
+        </div>
+        <div class="d-flex justify-content-between ata-sidebar-line">
+            <span class="ata-info-trip-label uppercase tgris">Adulte(s)</span><span class="text-right ata-info-trip-value ata-pax-adult" id="ata-pax-adult">{{ infos.nbAdults }}</span>
+        </div>
+        <div class="d-flex justify-content-between ata-sidebar-line">
+            <span class="ata-info-trip-label uppercase tgris">Enfant(s)</span><span class="text-right ata-info-trip-value ata-pax-children" id="ata-pax-children">{{ infos.nbChildren }}</span>
+        </div>
+    </div>
+
+    <div class="ata-sidebar-assurance-container"></div>
+    {% if infos.prestations %}
+        <div class="ata-sidebar-bloc p-3">
+            {% for prestation in infos.prestations %}
+            <div class="d-flex justify-content-between ata-sidebar-line">
+                <span class="ata-info-trip-label ata-booking-pax-number">{{ prestation.libelle }} {{ prestation.prix_unit }}€ x <span>{{ prestation.nb }}</span> </span>
+                <span class="text-right ata-info-trip-value ata-booking-price"><span>{{ prestation.prix_total|number_format(0, ',', ' ')  }}</span>€ TTC</span>
+            </div>
+            {% endfor %}
+
+            {% if infos.reductions %}
+                {% for reduction in infos.reductions %}
+                    <div class="d-flex justify-content-between ata-sidebar-line">
+                        <span class="ata-info-trip-label ata-booking-pax-number">{{ reduction.libelle }} {{ reduction.prix_unit }}€ x <span>{{ reduction.nb }}</span> </span>
+                        <span class="text-right ata-info-trip-value ata-booking-price"><span>{{ reduction.prix_total|number_format(0, ',', ' ')  }}</span>€ TTC</span>
+                    </div>
+                {% endfor %}
+            {%  endif %}
+
+        </div>
+    {%  endif %}
+
+    <div class="d-flex justify-content-between p-3 ata-sidebar-total" style="background:var(--hover)">
+        <span class="ata-info-trip-label font-weight-bold uppercase tgris">Total</span><span class="text-right ata-info-trip-value ata-price-total"><span>{{  infos.full_price|number_format(0, ',', ' ') }}</span>€ TTC</span>
+    </div>
+    <div class="d-flex justify-content-between p-3">
+        <span class="ata-info-trip-label uppercase tgris">Acompte (30%)</span><span class="text-right ata-info-trip-value ata-price-partial"><span>{{ infos.advance|number_format(0, ',', ' ') }}</span>€ TTC</span>
+    </div>
+
+</div>

@@ -1,20 +1,90 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello MainController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="fluid-container ata-main-container">
+    <div class="col-lg-12 mt-4">
+        <p class="center tjaune bold" style="text-transform: uppercase;">Bulletin d'inscription</p>
+        <p class="center mt-2">Demande d'inscription en ligne<br/>Dès réception de votre demande d'inscription, que nous traiterons en priorité, nous vous contacterons pour vous confirmer la disponibilité de votre voyage.</p>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <div class="row">
+            {% block photo %}{% endblock %}
+            <div class="col-lg-9 ata-step-container" id="ata-spied-container">
+                {{ render(controller("App\\Controller\\MainController::infoTitleAction")) }}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/deviterphp74/www/daniel/BiSymfony/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/deviterphp74/www/daniel/BiSymfony/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
+                {{ form_start(booking, {'attr': {'id': 'booking','action': path('app_home') }}) }}
+                    <div class="ata-step-title-container mt-3 padding">
+                        <div>{% block step_voyageurs %}Nombre de voyageurs{% endblock %}</div>
+                    </div>
+                    <div class="content-container">
+                        {% block content_voyageurs %}{% include 'main/inc/inc.voyageurs.twig' %}{% endblock %}
+                    </div>
+
+                    <div class="ata-step-title-container mt-3 padding">
+                        <div>{% block step_coordonnees %}Vos coordonnées{% endblock %}</div>
+                    </div>
+                    <div class="content-container">
+                        {% block content_coordonnees %}{% include 'main/inc/inc.coordonnees.twig' %}{% endblock %}
+                    </div>
+
+                    <div class="ata-step-title-container mt-3 padding">
+                        <div>{% block step_adresse %}Adresse postale{% endblock %}</div>
+                    </div>
+                    <div class="content-container">
+                        {% block content_adresse %}{% include 'main/inc/inc.adresse-postale.twig' %}{% endblock %}
+                    </div>
+
+                    <div class="ata-step-title-container mt-3 padding">
+                        <div>{% block step_participants %}Participants{% endblock %}</div>
+                    </div>
+                    <div class="content-container">
+                        {% block content_participants %}{% include 'main/inc/inc.participants.twig' %}{% endblock %}
+                    </div>
+
+                    <div class="ata-step-title-container mt-3 padding">
+                        <div>{% block step_options %}Options{% endblock %}</div>
+                    </div>
+                    <div class="content-container">
+                        {% block content_options %}{% include 'main/inc/inc.options.twig' %}{% endblock %}
+                    </div>
+
+                    <div class="ata-step-title-container mt-3 padding">
+                        <div>{% block step_assurance %}Choisissez votre formule d'assurance{% endblock %}</div>
+                    </div>
+                    <div class="content-container">
+                        <div class="row" id="step_assurance">
+                            {% block content_assurance %}
+                                {{ render(controller("App\\Controller\\MainController::stepAssurancesAction")) }}
+                            {% endblock %}
+                        </div>
+                    </div>
+
+                     <div class="ata-step-title-container mt-3 padding">
+                        <div>{% block step_validation %}Validation et acceptation de votre contrat de voyage{% endblock %}</div>
+                    </div>
+                    <div class="content-container">
+                        <div class="row" style="font-size: 1em;" id="step_validation">
+                            {% block content_validation %}
+                                {{ render(controller("App\\Controller\\MainController::stepValidationAction")) }}
+                            {% endblock %}
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary pl-5 pr-5 hidden">Valider</button>
+                {{ form_end(booking, {'render_rest': false}) }}
+
+                <div class="content-container" id="topayment">
+                    {% block content_topayment %}
+                        <div id="topayment">
+                            {{ render(controller("App\\Controller\\MainController::toPaymentAction")) }}
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="col-lg-3 pr-lg-0 mb-3 ata-sidebar d-none d-lg-block">
+                {{ render(controller("App\\Controller\\MainController::infoAction")) }}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
+
+

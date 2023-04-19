@@ -1,0 +1,21 @@
+{% set detail_devis = app.session.get('detail_devis') %}
+
+{% if (detail_devis.pax is defined) %}
+    <div class="ata-sidebar-bloc p-3">
+        <div class="ata-sidebar-title">Assurances</div>
+        {% for numPas, pax in detail_devis.pax %}
+            {% if (pax.cn is defined) %}
+                {% set montantAssurance = 'montant_assurance_' ~ pax.choix_assurance %}
+                <div class="d-flex justify-content-between ata-sidebar-line">
+                    {% if pax.choix_assurance == 'aucune' %}
+                        <span class="ata-info-trip-label">{{ pax.cn }}<br/><span class="ata-text-info">Je suis déjà assuré(e) ailleurs*</span> </span>
+                        <span class="text-right ata-info-trip-value">0€ TTC</span>
+                    {% else %}
+                        <span class="ata-info-trip-label">{{ pax.cn }}<br/><span class="ata-text-info">{{ pax.choix_assurance|capitalize }}</span> </span>
+                        <span class="text-right ata-info-trip-value">{{ pax[montantAssurance] }}€ TTC</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
