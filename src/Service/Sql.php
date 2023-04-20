@@ -108,7 +108,7 @@ class Sql extends AbstractMySQLDriver implements ExceptionConverterDriver
     /**
      * {@inheritdoc}
      */
-    public function getExceptionConverter()
+    public function getExceptionConverter(): \Doctrine\DBAL\Driver\API\ExceptionConverter
     {
         // Return an instance of a class that implements the ExceptionConverter interface.
         // For example:

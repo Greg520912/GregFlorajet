@@ -20,10 +20,6 @@ use App\Service\Saga;
 
 use DateTime;
 
-// Daniel Url de test :
-// https://dev.iterphp74.tourism-it.com/daniel/BiSymfony/public/?agence=atalante&id_date_prix=204033&devise=EUR
-// Fin
-
 class MainController extends AbstractController
 {
     protected $formFactory, $nebula, $zoho, $saga, $params;
@@ -117,19 +113,21 @@ class MainController extends AbstractController
             $session->set('devise',$devise);
             $session->set('id_date_prix',$id_date_prix);
             $session->set('marque',$marque);
-            $session->set('id_production',$this->getParameter('production'));
+            $session->set('id_production',$this->params->get('production'));
             $session->set('booking',[]);
             $session->set('detail_devis',[]);
             $session->set('assurances',[]);
-            $session->set('production',$this->getParameter('production'));
-            $session->set('coef_acompte',$this->getParameter('coef_acompte'));
+            $session->set('production',$this->params->get('production'));
+            $session->set('coef_acompte',$this->params->get('coef_acompte'));
 
             if(empty($session->get('prestations_obligatoires')))
                 $this->nebula->getPrestationsObligatoires($session->get('id_date_prix'),$session->get('id_production'),$request);
             if(empty($session->get('liste_assurances')))
                 $this->nebula->getAssurances($request);
             if(empty($session->get('dataCodeDate'))) {
-                $this->nebula->getProduit($session->get('id_date_prix'), $session->get('devise'), $request);
+                $produit = $this->nebula->getProduit($session->get('id_date_prix'), $session->get('devise'), $request);
+                $dataCodeDate = $this->setDataCodeDate($produit,$session->get('devise'),$request);
+                $session->set('dataCodeDate', $dataCodeDate);
                 $this->setSessionDatas($request);
             }
 
@@ -147,18 +145,90 @@ class MainController extends AbstractController
                 <div class="text-center">
 		            <h4>
 		            Votre session a expirée ou l\'adresse demandée n\'est pas valide
-		            <br/>Vous allez être redirigé vers le site <a href="'.$this->getParameter('url_site').'">'.$this->getParameter('marque').'</a>
+		            <br/>Vous allez être redirigé vers le site <a href="'.$this->params->get('url_site').'">'.$this->params->get('marque').'</a>
 		            </h4>
 	            </div>
             ';
             $response = new Response();
             $response->setStatusCode(200);
-            $response->headers->set('Refresh', '7; url='.$this->getParameter('url_site'));
+            $response->headers->set('Refresh', '7; url='.$this->params->get('url_site'));
             $response->send();
             die;
         }
         if(empty($session->get('dataCodeDate'))) { $this->setSessionDatas($request); }
         return false;
+    }
+
+    /**
+     * @param $tableau
+     * @param Request $request
+     * @return void
+     * @throws \Exception
+     */
+    private function setDataCodeDate($produit,$devise,Request $request){
+        $session = $request->getSession();
+        $tableau_trip_data = [];
+
+        // Pour chaque tableau d'info de produit
+        foreach ($produit as $date_prix_devise){
+            // Recup le bon tableau des infos du voyage en fonction de la devise précisée dans les param de l'URL
+            if (!empty($date_prix_devise["code_devise"]) && $date_prix_devise["code_devise"] == $devise){
+                $tableau_trip_data = $date_prix_devise;
+            };
+            // Si Devise inconnue, alors pas défaut EUR
+            if (empty($date_prix_devise["code_devise"])){
+                $date_prix_devise["code_devise"] = "EUR";
+                $tableau_trip_data = $date_prix_devise;
+            }
+        }
+        if (empty($tableau_trip_data['montant_acompte_manuel'])) $acompte = 0;
+        else $acompte = $tableau_trip_data['montant_acompte_manuel'];
+
+        // Recup du symbole £ ou $ de la devise
+        $deviseSymbole = $this->getDeviseSymbole($devise);
+
+        // Recup les infos de Saga
+        $result = $this->saga->get($tableau_trip_data["code_pack"],$tableau_trip_data["date_depart"]);
+        $tripData = json_decode($result, true);
+
+        $date = new DateTime($tableau_trip_data["date_depart"]);
+        $dateDepart = $date->format('d/m/Y');
+        $date2 = new Datetime($tableau_trip_data['date_arrivee']);
+        $dateArrivee = $date2->format('d/m/Y');
+
+        if(empty($tripData['tour']['destination'])) $destination = $produit[0]['geographie'];
+        else $destination = $tripData['tour']['destination'];
+
+        if (empty($tableau_trip_data["prixsuppsansdevise"])) $sup = 0;
+        else $sup = $tableau_trip_data["prixsuppsansdevise"];
+        $realPrice = $tableau_trip_data["prix_vente_adulte"]+$sup;
+
+        $datas = [
+            'tour' => [
+                'code' => $tableau_trip_data['code_pack'],
+                'destination' => $destination,
+                'devise' => $tableau_trip_data['code_devise'],
+                'deviseSymbole' => $deviseSymbole,
+                'themes' => $tripData['tour']['themes'],
+                'name' => $tripData['tour']['name'],
+                'level' => $tripData['tour']['level'],
+                'duration' => $tableau_trip_data['duree_com'],
+                'nmin' => $tableau_trip_data['min_pax'],
+                'nmax' => $tableau_trip_data['max_pax'],
+                'thumb' => $tripData['tour']['thumb'],
+                'idDatePrix' => $session->get('id_date_prix')
+            ],
+            'date' => [
+                'date1' => $tableau_trip_data['date_depart'],
+                'date2' => $tableau_trip_data['date_arrivee'],
+                'price' => $realPrice,
+                'acompte' => $acompte,
+                'guaranteed' => $tableau_trip_data['confirmee'],
+                'full' => $realPrice,
+            ],
+        ];
+
+        return $datas;
     }
 
     /**
@@ -222,13 +292,13 @@ class MainController extends AbstractController
                 <div class="text-center">
                     <h3>
                     Votre demande n\'est pas valide
-                    <br/>Vous allez être redirigé vers le site <a href="'.$this->getParameter('url_site').'">Atalante</a>
+                    <br/>Vous allez être redirigé vers le site <a href="'.$this->params->get('url_site').'">Atalante</a>
                     </h3>
                 </div>
             ';
         $response = new Response();
         $response->setStatusCode(200);
-        $response->headers->set('Refresh', '7; url='.$this->getParameter('url_site'));
+        $response->headers->set('Refresh', '7; url='.$this->params->get('url_site'));
         $response->send();
         die;
     }
@@ -554,7 +624,32 @@ class MainController extends AbstractController
         if ($saleUpdate == 'oui') return true;
         else return false;
     }
-    // Actions -----------------------------------------------------------------------------------------
+
+    /**
+     * @param $devise
+     * @return string
+     */
+    private function getDeviseSymbole($devise){
+        if(!empty($devise)){
+            switch ($devise){
+                case 'USD':
+                    $deviseSymbole = "$";
+                    break;
+                case 'GBP':
+                    $deviseSymbole = "£";
+                    break;
+                case 'EUR':
+                    $deviseSymbole = "€";
+                    break;
+                default:
+                    $deviseSymbole = "€";
+                    break;
+            }
+        }
+        return $deviseSymbole?:'€';
+    }
+
+    // Actions Ajax -----------------------------------------------------------------------------------
 
     /**
      * @Route("/info-title", name="info_title")
@@ -764,8 +859,9 @@ class MainController extends AbstractController
                     'detailDevis' => $detail_devis
                 )
             );
+        }else {
+            return new Response(false, 200);
         }
-        return new Response(false,200);
     }
 
     /**
@@ -893,4 +989,5 @@ class MainController extends AbstractController
         ));
     }
 
+    // Fin Actions Ajax -------------------------------------------------------------------------------
 }

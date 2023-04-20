@@ -1,166 +1,226 @@
-{% extends "base.html.twig" %}
+{% set marque = app.session.get('marque') %}
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-KJ7SMTS');</script>
+        <!-- End Google Tag Manager -->
+        <!-- Required meta tags -->
+        <meta name="robots" content="noindex" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- End meta tags -->
+        <title>{% block title %}Paiement | {{ marque }}{% endblock %}</title>
+        <link rel="icon" href="assets/img/atalante/favicon.ico">
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css?family=Poppins:wght@100;900&display=swap" rel="stylesheet">
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            <!-- End Bootstrap CSS -->
+            <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/styles.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/override.css') }}">
+        {% endblock %}
+        <link rel="shortcut icon" type="image/png" href="{{ 'assets/img/atalante/favicon.ico' }}" />
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+            <script src="https://kit.fontawesome.com/41cb4378fd.js" crossorigin="anonymous"></script>
+            <!-- Tag Criteo -->
+            <script type="text/javascript" src="//static.criteo.net/js/ld/ld.js" async="true"></script>
+            <!-- End Tag Criteo -->
+        {% endblock %}
+    </head>
 
-{% block title %}Paiement | {{ marque }} {% endblock %}
+    <body style="padding-bottom:0px;" id="payment">
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBF5FT9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
 
-{% block content %}
-	<div style="margin: 0px 50px;text-align: center">
-		{% if params.return == 'OK' %}
-    		<h2>Votre réservation a bien été effectuée</h2>
-            <p class="mt-3 mb-3" style="font-size: 0.9em;">Vous venez de réaliser une réservation sur notre site {{ marque }} et nous vous en remercions. <br/>Vous allez bientôt recevoir un mail de confirmation. <br/>Un conseiller voyage va traiter votre dossier et reviendra vers vous si vous nous avez fait part d'une demande particulière.</p>
-    		<h3>Rappel des informations liées à votre réservation :</h3>
-            <p>
-                Numéro de dossier : {{ params.numdos }}<br>
-                Référence de votre transaction : {{ params.pay_id }}<br>
-                Montant de votre acompte : {{ params.paye }}€<br>
-            </p>
-            <!-- Récuperation numéro de dossier pour stats de tracking relance de panier VEInteractive -->
-			<input type="hidden" id="veordernumber" value="{$tag_num_dos}">
-        {%  else %}
-        	<h2>Votre réservation n'a pu aboutir suite à un problème de paiement</h2>
-			<h3>Rappel des informations liées à votre réservation :</h3>
-            <p>
-                Numéro de dossier : {{ params.numdos }}<br>
-                Référence de votre transaction : {{ params.idTransfertMerc }}<br>
-            </p>
+        <div id="ata-header">
+            {% block nav %}{{ include("main/header.html.twig") }}{% endblock %}
+            <div id="ata-img-header">Votre paiement</div>
+        </div>
+
+        <div style="margin: 50px 50px;text-align: center">
+            {% if params.return == 'OK' %}
+                <h5>Votre réservation a bien été effectuée</h5>
+                <p class="mt-5 mb-5">Vous venez de réaliser une réservation sur notre site {{ marque }} et nous vous en remercions. <br/>Vous allez bientôt recevoir un mail de confirmation. <br/>Un conseiller voyage va traiter votre dossier et reviendra vers vous si vous nous avez fait part d'une demande particulière.</p>
+                <h5 class="mt-5">Rappel des informations liées à votre réservation :</h5>
+                <p class="mt-5">
+                    Numéro de dossier : {{ params.numdos }}<br>
+                    Référence de votre transaction : {{ params.pay_id }}<br>
+                    Montant de votre acompte : {{ params.paye }} €<br>
+                    <br>
+                    {{ params.paysPack }} - {{ params.nbJours }} Jours - {{ params.typePack }} <br/>
+                    Du {{ params.dtDeb|date('d/m/Y') }} au {{ params.dtFin|date('d/m/Y') }}<br/>
+
+                </p>
+                <!-- Récuperation numéro de dossier pour stats de tracking relance de panier VEInteractive -->
+                <input type="hidden" id="veordernumber" value="{{ params.numdos }}">
+            {%  else %}
+                <h5>Votre réservation n'a pu aboutir suite à un problème de paiement</h5>
+                <h5>Rappel des informations liées à votre réservation :</h5>
+                <p>
+                    Numéro de dossier : {{ params.numdos }}<br>
+                    Référence de votre transaction : {{ params.idTransfertMerc }}<br>
+                </p>
+            {%  endif %}
+        </div>
+
+        <div style="text-align: center;" class="mt-5">
+            <a href="{{ url_site }}" title="{{ nom_site }}">
+                <button type="button" class="btn btn-primary">Continuer</button>
+            </a>
+        </div>
+
+        {% include("main/footer.html.twig") %}
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <script src="{{ asset("assets/js/script.js") }}"></script>
+
+        {% if params.return == 'OK' %}
+            <!-- Tag Google -->
+            <!-- Datalayer GTM -->
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                dataLayer.push({
+                    'is_transaction': true,
+                    'event': 'datalayer_ready',
+                    'products' : [{
+                        'name' : '{{ params.libPack }}',
+                        'id' : '{{ params.codPack }}',
+                        'price' : '{{ params.prixTTC }}',
+                        'quantity' : '{{ params.nbPax }}',
+                        'travel_time' : '{{ params.nbJours }}',
+                        'travel_type' : '{{ params.typePack }}',
+                        'travel_destination' : '{{ params.paysPack }}',
+                        'niveau' : '{{ params.niveau }}'
+                    }],
+                    'transaction_id' : '{{ params.numdos }}',
+                    'transaction_revenue' : '{{ params.prixTotal }}',
+                    'transaction_tax' : '19.6'
+                });
+            </script>
+            <script type="text/javascript">
+                var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+            <script type="text/javascript">
+                try {
+                    var pageTracker = _gat._getTracker("UA-21186870-1");
+                    pageTracker._setDomainName("none");
+                    pageTracker._setAllowHash(false);
+                    pageTracker._setAllowLinker(true);
+                    pageTracker._trackPageview();
+                    pageTracker._addTrans(
+                        "{{ params.numdos }}",           // Mettre le numéro de dossier
+                        "atalante.fr",  // affiliation or store name
+                        "{{ params.prixTotal }}",          // Montant total
+                        "",           // somme total des presta sup obligatoire = taxe
+                        "",              // frais de port : ne rien mettre
+                        "{{ params.villeClient }}",       // ville du payeur
+                        "{{ params.codePostalClient }}",     // code postal
+                        "{{ params.paysClient }}"             // pays
+                    );
+                    // add item might be called for every item in the shopping cart
+                    // where your ecommerce engine loops through each item in the cart and
+                    // prints out _addItem for each
+                    pageTracker._addItem(
+                        "{{ params.numdos }}",           // Mettre le numéro de dossier
+                        "{{ params.codPack }}",           // Code du voyage
+                        "{{ params.libPack }}",        // Nom du voyage
+                        "{{ params.paysPack }}",   // pays de destination
+                        "{{ params.prixTTC }}",          // Prix unitaire du package
+                        "{{ params.nbPax }}"               // Nombre de passager
+                    );
+                    pageTracker._trackTrans(); //submits transaction to the Analytics servers
+                } catch(err) {}
+            </script>
+            <!-- Google Code for Conversions Adwords Conversion Page -->
+            <script type="text/javascript">
+                /* <![CDATA[ */
+                var google_conversion_id = 1067504847;
+                var google_conversion_language = "en";
+                var google_conversion_format = "3";
+                var google_conversion_color = "ffffff";
+                var google_conversion_label = "G-n9CL_7w3EQz6mD_QM";
+                var google_conversion_value = "{{ params.prixTotal }}";
+                var google_conversion_currency = "EUR";
+                var google_remarketing_only = false;
+                /* ]]> */
+            </script>
+            <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+            </script>
+            <noscript>
+                <div style="display:inline;">
+                    <img height="1" width="1" style="border-style:none;" alt="" src="https://www.googleadservices.com/pagead/conversion/ 1067504847/?value=1.00&amp;currency_code=EUR&amp;label=G-n9CL_7w3EQz6mD_QM&amp;guid=ON&amp;script=0"/>
+                </div>
+            </noscript>
+            {# Pixel tracker pour conversions flux moteur destination trek mag #}
+            <img src="http://track.effiliation.com/servlet/effi.revenue?id=660016890&montant={{ params.prixTTC }}&monnaie=eu&ref={{ params.numdos }}&payment=" alt="" width="1" height="1" />
+            <!-- Tag CRITEO -->
+            <script type="text/javascript">
+                window.criteo_q = window.criteo_q || [];
+                window.criteo_q.push(
+                    { event: "setAccount", account: 28695 }, // Numéro de compte Criteo
+                    { event: "setCustomerId", id: "{{ params.numPas }}" },
+                    { event: "setEmail", email: "{{ params.id }}" },
+                    { event: "setSiteType", type: /iPad/.test(navigator.userAgent) ? "t" : /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Silk/.test(navigator.userAgent) ? "m" : "d" },
+                    { event: "trackTransaction" , id: "{{ params.numdos }}", item: [
+                            { id: "{{ params.codPack }}", price: {{ params.prixTotal }}, quantity: {{ params.nbPax }} } //Code voyage + prix total de la commande + nb de personnes dans le dossier
+                            /* #add a line for each item in the user's cart# */
+                        ]});
+            </script>
+            <!-- Facebook Conversion Code for Paiements - Atalante 1 -->
+            <script>
+                (function() {
+                    var _fbq = window._fbq || (window._fbq = []);
+                    if (!_fbq.loaded) {
+                        var fbds = document.createElement('script');
+                        fbds.async = true;
+                        fbds.src = '//connect.facebook.net/en_US/fbds.js';
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(fbds, s);
+                        _fbq.loaded = true;
+                    }
+                })();
+                window._fbq = window._fbq || [];
+                window._fbq.push(['track', '6026339351765', {'value':'{{ params.prixTotal }}','currency':'EUR'}]);
+            </script>
+            <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6026339351765&amp;cd[value]=0.00&amp;cd[currency]=EUR&amp;noscript=1" /></noscript>
+            <!-- Bing Ads Conversion Tracker -->
+            <script type="text/javascript">
+                window.uetq = window.uetq || [];
+                window.uetq.push({ 'gv': {{ params.prixTotal }} });
+            </script>
+        {% else %}
+            <!-- Tag CRITEO -->
+            <script type="text/javascript">
+                window.criteo_q = window.criteo_q || [];
+                window.criteo_q.push(
+                    { event: "setAccount", account: 28695 }, // Numéro de compte Criteo
+                    { event: "setCustomerId", id: "{{ params.numPas }}" }, // Num Pass du client
+                    { event: "setEmail", email: "{{ params.id }}" },
+                    { event: "setSiteType", type: /iPad/.test(navigator.userAgent) ? "t" : /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Silk/.test(navigator.userAgent) ? "m" : "d" },
+                    { event: "trackTransaction" , id: "{{ params.numdos }}", item: [
+                            { id: "{{ params.codPack }}", price: {{ params.prixTotal }}, quantity: 1 } //Code voyage + prix total de la commande + nb de personnes dans le dossier
+
+                        ]});
+            </script>
         {%  endif %}
-	</div>
-    <div style="text-align: center;margin-top:20px">
-        <a href="{{ url_site }}" title="{{ nom_site }}">
-            <button type="button" class="btn btn-primary">Continuer</button>
-        </a>
-    </div>
-{% endblock %}
-
-{% block javascripts %}
-	{{ parent() }}
-    {% if params.return == 'OK' %}
-        <!-- Tag Google -->
-        <!-- Datalayer GTM -->
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            dataLayer.push({
-                'is_transaction': true,
-                'event': 'datalayer_ready',
-                'products' : [{
-                    'name' : '{{ params.libPack }}',
-                    'id' : '{{ params.codPack }}',
-                    'price' : '{{ params.prixTTC }}',
-                    'quantity' : '{{ params.nbPax }}',
-                    'travel_time' : '{{ params.nbJours }}',
-                    'travel_type' : '{{ params.typePack }}',
-                    'travel_destination' : '{{ params.paysPack }}',
-                    'niveau' : '{{ params.niveau }}'
-                }],
-                'transaction_id' : '{{ params.numdos }}',
-                'transaction_revenue' : '{{ params.prixTotal }}',
-                'transaction_tax' : '19.6'
-            });
-        </script>
-        <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-        </script>
-        <script type="text/javascript">
-            try {
-                var pageTracker = _gat._getTracker("UA-21186870-1");
-                pageTracker._setDomainName("none");
-                pageTracker._setAllowHash(false);
-                pageTracker._setAllowLinker(true);
-                pageTracker._trackPageview();
-                pageTracker._addTrans(
-                    "{{ params.numdos }}",           // Mettre le numéro de dossier
-                    "atalante.fr",  // affiliation or store name
-                    "{{ params.prixTotal }}",          // Montant total
-                    "",           // somme total des presta sup obligatoire = taxe
-                    "",              // frais de port : ne rien mettre
-                    "{{ params.villeClient }}",       // ville du payeur
-                    "{{ params.codePostalClient }}",     // code postal
-                    "{{ params.paysClient }}"             // pays
-                );
-                // add item might be called for every item in the shopping cart
-                // where your ecommerce engine loops through each item in the cart and
-                // prints out _addItem for each
-                pageTracker._addItem(
-                    "{{ params.numdos }}",           // Mettre le numéro de dossier
-                    "{{ params.codPack }}",           // Code du voyage
-                    "{{ params.libPack }}",        // Nom du voyage
-                    "{{ params.paysPack }}",   // pays de destination
-                    "{{ params.prixTTC }}",          // Prix unitaire du package
-                    "{{ params.nbPax }}"               // Nombre de passager
-                );
-                pageTracker._trackTrans(); //submits transaction to the Analytics servers
-            } catch(err) {}
-        </script>
-        <!-- Google Code for Conversions Adwords Conversion Page -->
-        <script type="text/javascript">
-            /* <![CDATA[ */
-            var google_conversion_id = 1067504847;
-            var google_conversion_language = "en";
-            var google_conversion_format = "3";
-            var google_conversion_color = "ffffff";
-            var google_conversion_label = "G-n9CL_7w3EQz6mD_QM";
-            var google_conversion_value = "{{ params.prixTotal }}";
-            var google_conversion_currency = "EUR";
-            var google_remarketing_only = false;
-            /* ]]> */
-        </script>
-        <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-        </script>
-        <noscript>
-            <div style="display:inline;">
-                <img height="1" width="1" style="border-style:none;" alt="" src="https://www.googleadservices.com/pagead/conversion/ 1067504847/?value=1.00&amp;currency_code=EUR&amp;label=G-n9CL_7w3EQz6mD_QM&amp;guid=ON&amp;script=0"/>
-            </div>
-        </noscript>
-        {# Pixel tracker pour conversions flux moteur destination trek mag #}
-        <img src="http://track.effiliation.com/servlet/effi.revenue?id=660016890&montant={{ params.prixTTC }}&monnaie=eu&ref={{ params.numdos }}&payment=" alt="" width="1" height="1" />
-        <!-- Tag CRITEO -->
-        <script type="text/javascript">
-            window.criteo_q = window.criteo_q || [];
-            window.criteo_q.push(
-                { event: "setAccount", account: 28695 }, // Numéro de compte Criteo
-                { event: "setCustomerId", id: "{{ params.numPas }}" },
-                { event: "setEmail", email: "{{ params.id }}" },
-                { event: "setSiteType", type: /iPad/.test(navigator.userAgent) ? "t" : /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Silk/.test(navigator.userAgent) ? "m" : "d" },
-                { event: "trackTransaction" , id: "{{ params.numdos }}", item: [
-                        { id: "{{ params.codPack }}", price: {{ params.prixTotal }}, quantity: {{ params.nbPax }} } //Code voyage + prix total de la commande + nb de personnes dans le dossier
-                        /* #add a line for each item in the user's cart# */
-                    ]});
-        </script>
-        <!-- Facebook Conversion Code for Paiements - Atalante 1 -->
-        <script>
-            (function() {
-                var _fbq = window._fbq || (window._fbq = []);
-                if (!_fbq.loaded) {
-                    var fbds = document.createElement('script');
-                    fbds.async = true;
-                    fbds.src = '//connect.facebook.net/en_US/fbds.js';
-                    var s = document.getElementsByTagName('script')[0];
-                    s.parentNode.insertBefore(fbds, s);
-                    _fbq.loaded = true;
-                }
-            })();
-            window._fbq = window._fbq || [];
-            window._fbq.push(['track', '6026339351765', {'value':'{{ params.prixTotal }}','currency':'EUR'}]);
-        </script>
-        <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=6026339351765&amp;cd[value]=0.00&amp;cd[currency]=EUR&amp;noscript=1" /></noscript>
-        <!-- Bing Ads Conversion Tracker -->
-        <script type="text/javascript">
-            window.uetq = window.uetq || [];
-            window.uetq.push({ 'gv': {{ params.prixTotal }} });
-        </script>
-    {% else %}
-        <!-- Tag CRITEO -->
-        <script type="text/javascript">
-            window.criteo_q = window.criteo_q || [];
-            window.criteo_q.push(
-                { event: "setAccount", account: 28695 }, // Numéro de compte Criteo
-                { event: "setCustomerId", id: "{{ params.numPas }}" }, // Num Pass du client
-                { event: "setEmail", email: "{{ params.id }}" },
-                { event: "setSiteType", type: /iPad/.test(navigator.userAgent) ? "t" : /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Silk/.test(navigator.userAgent) ? "m" : "d" },
-                { event: "trackTransaction" , id: "{{ params.numdos }}", item: [
-                        { id: "{{ params.codPack }}", price: {{ params.prixTotal }}, quantity: 1 } //Code voyage + prix total de la commande + nb de personnes dans le dossier
-
-                    ]});
-        </script>
-    {%  endif %}
-{% endblock %}
+    </body>
+</html>

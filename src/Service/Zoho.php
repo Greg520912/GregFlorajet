@@ -194,9 +194,7 @@ class Zoho
         $note12 = urlEncode($note12).$n;
         $note13 = 'Passengers : ';
         $note13 = urlencode($note13).$n;
-
         $note = $note1 . $note2 . $note2b .$note3 . $note5 . $note6 . $note7 . $note8 . $note9 . $note10 . $note11 . $note12 . $note13;
-
         if(is_array($passagers)){
             foreach ($passagers as $k => $r){
                 if(empty($r['emailDom'])) $r['emailDom'] = '';
@@ -215,7 +213,6 @@ class Zoho
         $url .= "&title_note=Recap_voyage&module=Deals";
         $url .= "&id=".$dossier;
 
-        //$response = $this->getCurl($url);
         $response = $this->curl->asyncGet($url);
 
         return $response;
@@ -387,7 +384,6 @@ class Zoho
         $reponse = $this->curl->get($url);
         return $reponse;
     }
-
 
     /**
      * @param $date

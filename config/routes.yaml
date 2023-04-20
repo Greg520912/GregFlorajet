@@ -10,6 +10,10 @@ app_infos:
     path: /app_infos
     controller: App\Controller\MainController::infoAction
 
+app_pax:
+    path: /app_pax
+    controller: App\Controller\MainController::paxAction
+
 app_updatesession:
     path: /app_updatesession
     controller: App\Controller\MainController::updateSessionAction

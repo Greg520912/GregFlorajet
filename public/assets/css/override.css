@@ -1,85 +1,346 @@
-:root {
-    --rouge: rgb(166,34,58);
-    --noir: #000000;
-    --blanc: #ffffff;
+.ata-aide .fa-info{
+    transform: rotate(0deg);
+    margin-right: 10px;
+    margin-left: 10px;
+}
 
-    --jaune: #D6931E;
-    --vert: #13413C;
-    --gris: #A39486;
-    --beige: #EDE8E6;
-    --hover: #F7AC2D;
+.ata-aide {
+    color: var(--gris);
+    font-size: 1.1rem;
+    font-weight: 400;
+    text-decoration: none;
+    padding-right:10px;
+}
+
+.ata-aide:hover, .ata-phone:hover{
+    color: var(--hover);
+    text-decoration: none;
+}
+
+.ata-btn {
+    font-weight: 600;
+}
+
+#ata-header .ata-steps, .ata-step-content {
+    text-transform: uppercase;
+    color: #32271B;
+    font-size: .9rem;
+}
+
+#ata-header .ata-steps .btn {
+    background-color: var(--jaune);
+    color: #fff;
+    font-weight: 500;
+    font-size: 1.25rem;
+}
+
+.ata-footer {
+    background-color: var(--vert);
+    color: #fff;
+    width: 100vw;
+    height:300px;
+    overflow :hidden;
+    position:relative;
+    top: 300px;
+}
+
+#payment .ata-footer{
+    top: 50px;
+}
+
+.ata-footer-sidebar {
+    background-color: var(--vert);
+    border-radius: 1rem;
+}
+
+.ata-footer-sidebar-title {
+}
+
+.ata-footer-small-text {
+    font-size: 0.5rem;
+}
+
+.ata-footer-small-title{
+    color: var(--hover);
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+.ata-footer-text {
+    font-size: 0.9rem;
+}
+
+.ata-info-trip-value {
+    font-weight: 700;
+    min-width:30%;
+}
+
+.ata-main-container{
+    padding-left: 20px;
+}
+
+.ata-nav .navbar-nav .ata-phone{
+    float: right;
+}
+
+.ata-paiement-subtitle {
+    text-transform: uppercase;
+    font-size: 1.1rem;
+}
+
+.ata-paiement-title {
+    font-size: 3.75rem;
+}
+.ata-paiement-title-container {
+    width: 100%;
+    color: #ffffff;
+    padding: 8rem 0;
+    /*background: url('http://placehold.it/1500x500') 100%;*/
+}
+.ata-passenger-bloc {
+    background-color: var(--blanc);
+    border: 1px solid var(--jaune);
+    border-radius: 25px;
+}
+
+.ata-passenger-info .row .form-group {
+    padding: 2px 10px;
+}
+
+.ata-passenger-info {
+    margin:0px;
+    padding: 10px;
+}
+
+.ata-passenger-type {
+    background-color: var(--jaune);
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    color: #ffffff;
+    font-weight: bold;
+    padding:10px;
+}
+
+.ata-passengers-container * select, .ata-passengers-container * input, .ata-passengers-container * textarea {
+    border-radius:15px;
+    border: 1px solid var(--jaune);
+    font-size: 0.8rem;
+}
+.ata-passengers-container * select:hover, .ata-passengers-container * input:hover {
+    border-radius:15px;
+}
+
+.ata-phone .fa-phone{
+    transform: rotate(90deg);
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.ata-phone {
+    color: var(--jaune);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.ata-sidebar-container {
+    background-color: var(--blanc);
+    border: .1rem solid var(--gris);
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    height:auto;
+    overflow: hidden;
+}
+.ata-sidebar-container.sticky-top {
+    top: 1.5rem;
+    right: 0.5rem;
+}
+#ata-img-sidebar-header{
+    background-image: url("../img/atalante/header.png");
+    background-position: center center;
+    background-size: cover;
+    height: 200px;
+    color: var(--blanc);
+    /*display: -webkit-flex;*/
+    /*align-items: center;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*-webkit-align-items: center;*/
+    padding:20px
+}
+
+.ata-sidebar-line {
+    padding: .5rem 0;
+    border-bottom: .05rem solid #CECECE;
+}
+
+.ata-sidebar-title {
+    color: var(--jaune);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.ata-sidebar-total {
+    box-shadow: 0 .1rem .5rem #ccc;
+    border: .1rem solid #fff/*rgba(255, 255, 255, .8)*/;
+    margin: 0 -.1rem;
+}
+
+.ata-sign-in .btn-primary, .ata-sign-in .btn-primary:focus, .ata-sign-in .btn-primary:active, .ata-sign-in .btn-primary:hover {
+    border-color: #fff;
+}
+
+.ata-sign-in .form-control, .ata-sign-in .form-control:focus, .ata-sign-in .form-control:active {
+    border-color: #fff;
+    color: #fff;
+}
+
+.ata-sign-in a, .ata-sign-in a:hover, .ata-sign-in a:active, .ata-sign-in a:focus {
+    color: #fff;
+}
+
+.ata-sign-in {
+    background-color: var(--jaune);
+    border-radius: 1rem;
+    color: #fff;
+}
+.ata-sign-up {
+    border: .05rem solid #CFD0D0;
+    border-radius: 1rem;
 }
 
 
-.trouge{ color: var(--rouge);}
+#ata-header {
+    box-shadow: -.1rem 0 .5rem .1rem #ccc;
+    width:100vw;
+    position:relative;
+    left:0px;
+    padding-right:20px;
+}
+#ata-nav {
+    flex-grow: 0;
+}
 
-.tnoir{ color: var(--noir);}
-.tblanc{ color: var(--blanc);}
-.tjaune{ color: var(--jaune);}
-.tvert{ color: var(--vert);}
-.tgris{ color: var(--gris);}
-.tbeige{ color: var(--beige);}
+#ata-main-nav {
+    padding: 0 1rem;
+}
+#ata-nav {
+    /*flex-grow: 0;*/
+}
+.ata-step-spaces {
+    padding-right: 1.15rem;
+    padding-left: 1.15rem;
+}
 
-.thover{ color: var(--hover);}
+#ata-header .ata-steps.disabled {
+    color: #CECECE;
+}
 
-.hidden{display: none;}
+#ata-header .ata-steps.disabled .btn {
+    background-color: #EFDBC8;
+}
 
-.center{text-align: center;}
-.juste{text-align: justify;}
+.ata-step-title-container {
+    /*background: no-repeat url("../img/symboles.png") #EFDBC8 80% 50% / 20%;*/
+    border: 1px solid var(--jaune);
+    width: calc(100vw - 50px);
 
-.uppercase{text-transform: uppercase;}
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+
+    /*height: 60px;*/
+    overflow-x: hidden;
+    line-height: 1rem;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--vert);
+    font-style: italic;
+    vertical-align: center;
+}
+
+.ata-text-info, a {
+    color: var(--jaune);
+}
+
+.ata-title {
+    font-size: 1.3rem;
+}
+
 .bold{font-weight: bold;}
 
-.padding{padding:10px;}
-.margin{margin:10px;}
-
-.voir{
-    margin-left: 10px;
-    cursor: pointer;
-    font-size: 1.3em;
-    position: relative;
-    top:2px;
+.btn {
+    border-radius: 50px;
+    padding: .375rem 1rem;
 }
 
-.sticky-top {
-    z-index: 490;
-    top:10px;
+.btn-outline-primary {
+    color: var(--hover);
+    background-color: transparent;
+    background-image: none;
+    border-color: var(--hover)
 }
 
-.loader {
-    border: 15px solid rgba(255,255,255,0);
-    /*border-top: 15px solid rgba(150,0,0,1);*/
-    /*border-bottom: 15px solid rgba(36,42,58,1);*/
-    border-top: 15px solid var(--vert);
-    border-bottom: 15px solid var(--hover);
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    animation: spin 2s linear infinite;
-    z-index:900;
-    position: fixed;
-    top:calc(30vw - 50px);
-    left:calc(50vw - 50px);
-    opacity: 1;
+.btn-outline-primary.disabled,
+.btn-outline-primary.focus {
+    box-shadow: 0 0 0 .2rem var(--beige)
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.btn-outline-primary:disabled {
+    color: var(--hover);
+    background-color: transparent
 }
 
-.page_loader{
-    background-color: rgba(255,255,255,0.5);
-    position:fixed;
-    top:0;
-    left:0;
-    overflow:hidden;
-    width:100vw;
-    height:100vh;
-    z-index:500;
-    opacity: 1;
+.btn-outline-primary:focus,
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color:var(--jaune);
+    border-color:var(--jaune)
 }
 
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.btn-outline-primary:not(:disabled):not(.disabled).active:focus,
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary {
+    color: #000;
+    background-color: var(--hover);
+    border-color: var(--hover);
+}
+
+.btn-primary.disabled,
+.btn-primary.focus {
+    box-shadow: 0 0 0 .2rem var(--beige)
+}
+
+.btn-primary:disabled {
+    color: #fff;
+    background-color: var(--hover);
+    border-color: var(--hover)
+}
+
+.btn-primary:focus,
+.btn-primary:hover {
+    color: #000;
+    background-color: var(--jaune);
+    border-color: var(--hover);
+}
+
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-yellow:hover{
+    color: var(--vert);
+    background-color: var(--jaune);
+    border-color: var(--hover);
+}
+
+.btn-yellow{
+    color: var(--vert);
+    background-color: var(--hover);
+    border-color: var(--hover);
+}
 .btnloader {
     width: 24px;
     height: 24px;
@@ -94,6 +355,242 @@
     z-index: 5;
 }
 
+.center{text-align: center;}
+.cgv-control-input:checked~.custom-control-label::before {
+    background: var(--jaune)!important;
+    border: .5rem solid var(--jaune)!important;
+    border-radius: 5%!important;
+}
+
+.cgv-control-label {
+    font-size: 1em;
+}
+
+.cgv-control-label::after {
+    width: 1rem!important;
+    height: 1rem!important;
+    top: .25rem!important;
+    left: -1.5rem!important;
+}
+
+.cgv-control-label::before {
+    width: 1rem!important;
+    height: 1rem!important;
+}
+
+.custom-checkbox .cgv-control-input:checked~.cgv-control-label::after {
+    background-color: transparent!important;
+    border-radius: 5%!important;
+    border-color: var(--jaune)!important;
+}
+
+.custom-checkbox .cgv-control-input:checked~.gv-control-label::after {
+    border-radius: 5%!important;
+    border: .2rem solid #fff!important;
+    background: var(--jaune)!important;
+}
+
+
+.custom-checkbox .cgv-control-label::before {
+    background-color: transparent!important;
+    border-radius: 5%!important;
+    border-color: var(--jaune) !important;
+}
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::after {
+    background-color: transparent;
+    border-radius: 50%;
+    border-color: #fff;
+}
+
+.custom-checkbox .custom-control-label::before {
+    background-color: transparent;
+    border-radius: 50%;
+    border-color: #fff;
+}
+
+.d-lg-none * .ata-info-trip-value {
+    font-weight: 700;
+    width:50%;
+    text-align:left;
+}
+
+.form-control, .form-control:focus, .form-control:active, .form-control:focus, .form-control:hover {
+    border-radius: 0;
+    border: .05rem solid #707070;
+    background-color: transparent;
+}
+.form-control::-webkit-input-placeholder {
+    color : rgba(0,0,0,0.5);
+    font-weight: normal;
+}
+
+.form-control:focus {
+    box-shadow:0 0 0 .2rem var(--beige);
+}
+
+.form-group > input, .form-group > select, .form-group > textarea{
+    font-size: 0.8rem !important;
+}
+.form-group > textarea {
+    border-radius:15px;
+    border: none;
+    width: 100%;
+    height:50px;
+    padding:5px 10px;
+}
+
+.form-group{
+    margin: 0;
+    padding: 0;
+}
+
+.form-label{
+
+}
+
+.hidden{display: none;}
+
+.juste{text-align: justify;}
+
+.loader {
+    border: 15px solid rgba(255,255,255,0);
+    border-top: 15px solid var(--vert);
+    border-bottom: 15px solid var(--hover);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+    z-index:900;
+    position: fixed;
+    top:calc(30vw - 50px);
+    left:calc(50vw - 50px);
+    opacity: 1;
+}
+
+.margin{margin:10px;}
+
+.navbar-brand > img{
+    margin-left:20px;
+}
+#ata-img-header{
+    background-image: url("../img/atalante/header.jpg");
+    background-position: center center;
+    background-size: cover;
+    height: 300px;
+    color: var(--blanc);
+    font-weight: 900;
+    font-size: 2.8rem;
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    padding-top: 50px;
+}
+.navbar-ligh .navbar-nav .nav-link{
+    padding-left: .75rem;
+    padding-right: .75rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.padding{padding:10px;}
+.page_loader{
+    background-color: rgba(255,255,255,0.5);
+    position:fixed;
+    top:0;
+    left:0;
+    overflow:hidden;
+    width:100vw;
+    height:100vh;
+    z-index:500;
+    opacity: 1;
+}
+
+.row {
+    margin: 0 0 0 0;
+}
+.show>.btn-outline-primary.dropdown-toggle {
+    color: #fff;
+    background-color: var(--jaune);
+    border-color: var(--jaune)
+}
+
+.show>.btn-outline-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem var(--beige)
+}
+
+.show>.btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: var(--jaune);
+    border-color: var(--jaune)
+}
+
+.show>.btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem var(--beige)
+}
+
+.sticky-top {
+    z-index: 490;
+    top:10px;
+}
+
+.table-assurances .custom-control-input:checked~.custom-control-label::before {
+    background: var(--jaune);
+    border: .5rem solid #fff;
+    border-radius: 50%;
+}
+
+.table-assurances .custom-control-label::after {
+    width: 1.25rem;
+    height: 1.25rem;
+    top: .375rem;
+    left: -1.375rem;
+}
+
+.table-assurances .custom-control-label::before {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.table-assurances .custom-radio .custom-control-input:checked~.custom-control-label::after {
+    border-radius: 50%;
+    border: .2rem solid var(--jaune);
+    background: #fff;
+}
+
+.table-hover tbody tr.active a {
+    color: #ddd;
+}
+
+.table-hover tbody tr.active {
+    background-color: var(--jaune);
+    color: #000;
+}
+
+.table-hover tbody tr:hover {
+    color: #000;
+    background-color: var(--hover);
+}
+
+.tbeige{ color: var(--beige);}
+.tblanc{ color: var(--blanc);}
+.tgris{ color: var(--gris);}
+.thover{ color: var(--hover);}
+.tjaune{ color: var(--jaune);}
+.tnoir{ color: var(--noir);}
+.trouge{ color: var(--rouge);}
+.tvert{ color: var(--vert);}
+.uppercase{text-transform: uppercase;}
+.voir{
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 1.3em;
+    position: relative;
+    top:2px;
+}
+
 @keyframes rotation {
     0% {
         transform: rotate(0deg);
@@ -102,3 +599,38 @@
         transform: rotate(360deg);
     }
 }
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (min-width: 992px) {
+    .content-container {
+        padding-left: 1rem;
+        margin-top: 1rem;
+    }
+
+    .ata-step-title-container {
+        position: relative;
+        width: calc(100vw - 50px);
+    }
+    .ata-step-container {
+        min-height: 900px;
+        position: static;
+    }
+    .ata-sidebar {
+        top: 1.5rem;
+        right: 1rem;
+    }
+}
+
+a.ata-text-link {
+    color: #707070;
+}
+
+div#page-container section{
+    height: calc(100vh - 1027px);
+    padding-bottom:50px;
+}
+

@@ -6,7 +6,6 @@ use App\Form\BookingType;
 
 use App\Service\Zoho;
 use App\Service\Ogone;
-use App\Service\ShaComposer;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -26,7 +25,6 @@ class PaymentController extends AbstractController{
     {
         $this->params = $params;
         $this->ogone = new Ogone($this->params);
-        $this->shaComposer = new ShaComposer($this->params);
         $this->zoho = new Zoho($this->params);
     }
 
@@ -72,7 +70,7 @@ class PaymentController extends AbstractController{
 
         // Appel Ogone et webservice de Zoho pour créer un id de paiement et l'enregistrer dans zoho
         $param = $this->ogone->get($request, $token->price, $token->id_individu, $token->numDos, $token->marque, $token->id_date_prix, $token->devise, $token->quantity, $token->id_vente, $token->full_price);
-        $shaIn = $this->shaComposer->get($token->price, $token->leaderpax, $param, $token->devise);
+        $shaIn = $this->ogone->shaGet($token->price, $token->leaderpax, $param, $token->devise);
 
         // Envoie des paramètres au TPE et page paiement
         return $this->render('main/payment.twig',
@@ -99,7 +97,8 @@ class PaymentController extends AbstractController{
         );
     }
 
-    // TODO suite ! Vérifier usage fonctions !
+    // TODO suite !
+    // TODO Vérifier usage et factorisation des fonctions !
 
     /**
      * Page de retour OGONE
@@ -174,14 +173,14 @@ class PaymentController extends AbstractController{
         $param['ref'] = $session->get('id_paiement');
         $param['id_date_prix'] = $session->get('id_date_prix');
         $param['paye'] = $session->get('montant_paye');
-
-        $booking = $this->formFactory->create(BookingType::class,null);
-        $booking->handleRequest($request);
+        $param['nbJours'] = $dataCodeDate['tour']['duration'];
+        $param['typePack'] = implode(' - ',$dataCodeDate['tour']['themes']);
+        $param['niveau'] = $dataCodeDate['tour']['level'];
+        $param['prixTotal'] = $dataCodeDate['date']['price'];
 
         return $this->render(
             'main/payment-back.twig',
             array(
-                'booking' => $booking->createView(),
                 'params' => $param,
                 'marque' => ucfirst(strtolower($this->params->get('marque'))),
                 'url_site' => $this->params->get('url_site'),

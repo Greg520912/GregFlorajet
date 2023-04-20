@@ -2,10 +2,7 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class Saga
 {
@@ -36,12 +33,16 @@ class Saga
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
             $result = curl_exec($ch);
+
             if ($result === false) {
                 throw new \Exception(curl_error($ch), curl_errno($ch));
             }
+
             curl_close($ch);
             return $result;
+
         } catch(\Exception $e) {
             trigger_error(sprintf(
                 'Curl failed with error #%d: %s',
@@ -59,9 +60,9 @@ class Saga
     {
         $uri = '/api/tours/'.$id.'/dates/'.$date;
         $params = '?user='.$this->params->get('saga_user');
-        $signature = 'GET '.$uri.$params.'#'.$this->params->get('saga_key');
+        $key = $this->params->get('saga_key');
+        $signature = 'GET '.$uri.$params.'#'.$key;
         $url = $this->params->get('url_saga').$uri.$params.'&signature='.hash('sha256', $signature);
-
         return $url;
     }
 

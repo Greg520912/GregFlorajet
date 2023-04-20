@@ -17,7 +17,7 @@ parameters:
     url_nebula          : 'https://nebula.tourism-it.com'
 
     saga_user           : 'biAtalante'
-    saga_Key            : '9c802a0382c8ed02ca65234efc8b4e95'
+    saga_key            : 'ac2e0dfc3c043140e25a4408d8f00796'
     saga_sha            : 'sha256'
 
     url_cgv             : 'https://www.atalante.fr/info/conditions-de-vente-2.html'
@@ -49,12 +49,7 @@ parameters:
     ogone_sha           : 'sha256'
     ogone_template      : 'https://logos.tourism-it.com/media/ogone/huwans/2022/tpl_paiement.html'
 
-# Huwans
-#    database_host: ZEUS8
-#    database_port: 1433
-#    database_name: CLUBAV
-#    database_user: intranet
-#    database_password: intranet
+#Dev Url de test : https://dev.iterphp74.tourism-it.com/daniel/BiSymfony/public/?agence=atalante&id_date_prix=204033&devise=EUR
 
 # Atalante
 #    database_host: ANTARES8
@@ -62,13 +57,6 @@ parameters:
 #    database_name: ATALANTE
 #    database_user: intranet
 #    database_password: intranet
-
-# Mailer
-#    mailer_transport: smtp
-#    mailer_host: hermes.tourisport.fr
-#    mailer_user: null
-#    mailer_password: null
-#    secret: ThisTokenIsNotSoSecretChangeIt
 
 services:
     # default configuration for services in *this* file
@@ -109,28 +97,3 @@ services:
     #        arguments:
     #            - { driver: 'pdo_mysql', dbname: '%database_name%', user: '%database_user%', password: '%database_password%', host: '%database_host%', port: '%database_port%' }
 
-    App\Service\Curl:
-        class: App\Service\Curl
-    App\Service\Nebula:
-        class: App\Service\Nebula
-    App\Service\Zoho:
-        class: App\Service\Zoho
-    App\Service\Ogone:
-        class: App\Service\Ogone
-    App\Service\Sql:
-        class: App\Service\Sql
-    App\Service\ShaCompsoer:
-        class: App\Service\ShaComposer
-
-#    zoho.crm:
-#        class: App\Service\Zoho
-#        arguments:
-#            $container: '@service_container'
-#    curl.query:
-#        class: App\Service\Curl
-#    ogone.tpe:
-#        class: App\Service\Ogone
-#    sha.composer:
-#        class : App\Service\ShaComposer
-#    huwansbi.api.requester:
-#        class: App\Service\ApiRequester
