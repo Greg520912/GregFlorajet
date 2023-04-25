@@ -2,43 +2,45 @@ index:
     path: /
     controller: App\Controller\MainController::index
 
-app_home:
-    path: /
-    controller: App\Controller\MainController::index
+# Inutile avec utilisation des annotations @Route dans les commentaires
+# use Symfony\Component\Routing\Annotation\Route
+# ---------------------------------------------------------------------
 
-app_infos:
-    path: /app_infos
-    controller: App\Controller\MainController::infoAction
-
-app_pax:
-    path: /app_pax
-    controller: App\Controller\MainController::paxAction
-
-app_updatesession:
-    path: /app_updatesession
-    controller: App\Controller\MainController::updateSessionAction
-
-app_topayment:
-    path: /app_topayment
-    controller: App\Controller\MainController::toPaymentAction
-
-
-app_gopayment:
-    path: /app_gopayment
-    controller: App\Controller\PaymentController::goPaymentAction
-
-app_payment:
-    path: /payment
-    controller: App\Controller\PaymentController::paymentAction
-
-app_payment_back:
-    path: /payment_back
-    controller: App\Controller\PaymentController::paymentBackAction
-
-app_return_payment:
-    path: /return_payment
-    controller: App\Controller\PaymentController::returnPaymentAction
-
-app_confirm_payment:
-    path: /confirm_payment
-    controller: App\Controller\PaymentController::confirmPaymentAction
+#app_home:
+#    path: /
+#    controller: App\Controller\MainController::index
+#app_infos:
+#    path: /app_infos
+#    controller: App\Controller\MainController::infoAction
+#app_pax:
+#    path: /app_pax
+#    controller: App\Controller\MainController::paxAction
+#
+#app_updatesession:
+#    path: /app_updatesession
+#    controller: App\Controller\MainController::updateSessionAction
+#
+#app_topayment:
+#    path: /app_topayment
+#    controller: App\Controller\MainController::toPaymentAction
+#
+#
+#app_gopayment:
+#    path: /app_gopayment
+#    controller: App\Controller\PaymentController::goPaymentAction
+#
+#app_payment:
+#    path: /payment
+#    controller: App\Controller\PaymentController::paymentAction
+#
+#app_payment_back:
+#    path: /payment_back
+#    controller: App\Controller\PaymentController::paymentBackAction
+#
+#app_return_payment:
+#    path: /return_payment
+#    controller: App\Controller\PaymentController::returnPaymentAction
+#
+#app_confirm_payment:
+#    path: /confirm_payment
+#    controller: App\Controller\PaymentController::confirmPaymentAction

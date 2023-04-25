@@ -47,7 +47,7 @@ parameters:
     ogone_sha_in        : 'f563e91c-3409-49b7-8193-2091af017d21'
     ogone_sha_out       : 'AzErTyUiOP1§MlKj'
     ogone_sha           : 'sha256'
-    ogone_template      : 'https://logos.tourism-it.com/media/ogone/huwans/2022/tpl_paiement.html'
+    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
 
 #Dev Url de test : https://dev.iterphp74.tourism-it.com/daniel/BiSymfony/public/?agence=atalante&id_date_prix=204033&devise=EUR
 
@@ -57,6 +57,14 @@ parameters:
 #    database_name: ATALANTE
 #    database_user: intranet
 #    database_password: intranet
+
+# Mailer défini dans .env
+    mailer_transport: smtp
+    mailer_host     : 'smtp://in-v3.mailjet.com'
+    mailer_port     : '465'
+    mailer_user     : '090b768b5466cd09ec6c03a2cd25ed9d'
+    mailer_password : '3e93d70137a56cfa939fd1de2162b8bf'
+#    MAILER_DSN      : 'smtp://in-v3.mailjet.com:465?encryption=tls&auth_mode=login&username=090b768b5466cd09ec6c03a2cd25ed9d&password=3e93d70137a56cfa939fd1de2162b8bf'
 
 services:
     # default configuration for services in *this* file

@@ -7,10 +7,13 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 use App\Form\BookingType;
 
@@ -22,18 +25,19 @@ use DateTime;
 
 class MainController extends AbstractController
 {
-    protected $formFactory, $nebula, $zoho, $saga, $params;
+    protected $formFactory, $mailer, $nebula, $zoho, $saga, $params;
 
     /**
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(FormFactoryInterface $formFactory, ParameterBagInterface $params)
+    public function __construct(MailerInterface $mailer,FormFactoryInterface $formFactory, ParameterBagInterface $params)
     {
         $this->formFactory = $formFactory;
         $this->params = $params;
         $this->nebula = new Nebula($this->params);
         $this->zoho = new Zoho($this->params);
         $this->saga = new Saga($this->params);
+        $this->mailer = $mailer;
     }
 
     /**
@@ -88,6 +92,12 @@ class MainController extends AbstractController
                 $session->set('validation', $validation);
             }
         }
+
+//        $from='administrateur@tourism-it.com';
+//        $to='daniel.rouaix@tourism-it.com';
+//        $subject='Test email from Symfony';
+//        $message='<p>This is a test email</p>';
+        //$this->sendMail($from,$to,$subject,$message);
 
         return $this->render(
             'main/index.html.twig', [
@@ -649,6 +659,25 @@ class MainController extends AbstractController
         return $deviseSymbole?:'€';
     }
 
+    /**
+     * TODO trouver anomalie !
+     * @param $from
+     * @param $to
+     * @param $subject
+     * @param $message
+     * @return Response
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     */
+    public function sendMail($from,$to, $subject, $message) : Response
+    {
+        $email =(new Email())
+            ->from($from)
+            ->to($to)
+            ->subject($subject)
+            ->text($message)
+        ;
+        $this->mailer->send($email);
+    }
     // Actions Ajax -----------------------------------------------------------------------------------
 
     /**
