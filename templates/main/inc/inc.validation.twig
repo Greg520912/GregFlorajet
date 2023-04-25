@@ -42,6 +42,15 @@
 
     <div class="cdv mt-3 mb-3">
         <div class="custom-control custom-checkbox">
+            <input onclick="checkValidation()" {{ validation }} type="checkbox" name="booking[validCHARTE]" id="validCHARTE" class="custom-control-input cgv-control-input" required="required" >
+            <label class="custom-control-label cgv-control-label juste required" for="validCHARTE">
+                J'ai pris connaissance de la <a href="{{ url_charte }}" title="Charte du voyageur responsable" onclick="window.open(this.href); return false;">Charte du voyageur responsable</a> d'Atalante qui m'informe sur les pratiques à adopter lors de mon voyage pour minimiser ses éventuels impacts négatifs sur les territoires et leurs populations. Je m'engage à la respecter au cours de ce voyage
+            </label>
+        </div>
+    </div>
+
+    <div class="cdv mt-3 mb-3">
+        <div class="custom-control custom-checkbox">
             <input onclick="checkValidation()" {{ validation }} type="checkbox" name="booking[validREGLEMENT]" id="validREGLEMENT" class="custom-control-input cgv-control-input" required="required" >
             <label class="custom-control-label cgv-control-label juste required" for="validREGLEMENT">
                 Mon règlement entraine la validation du contrat de voyage que j'accepte et ce paiement vaut pour acceptation des termes et conditions de ce contrat.

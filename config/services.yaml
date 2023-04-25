@@ -20,6 +20,7 @@ parameters:
     saga_key            : 'ac2e0dfc3c043140e25a4408d8f00796'
     saga_sha            : 'sha256'
 
+    url_charte          : 'https://www.atalante.fr/qui-sommes-nous/tourisme-responsable'
     url_cgv             : 'https://www.atalante.fr/info/conditions-de-vente-2.html'
     url_conseil         : 'http://www.diplomatie.gouv.fr/'
 

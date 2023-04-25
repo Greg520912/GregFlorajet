@@ -464,7 +464,7 @@
             async function checkValidation() {
                 try {
                     $('.page_loader').show();
-                    const areAllValidated = ['#validDEVIS', '#validCDV', '#validPAYS', '#validREGLEMENT'].every(selector => $(selector).prop('checked'));
+                    const areAllValidated = ['#validDEVIS', '#validCDV', '#validPAYS', '#validCHARTE', '#validREGLEMENT'].every(selector => $(selector).prop('checked'));
                     if (areAllValidated) {
                         const isValid = document.forms['booking'].reportValidity();
                         console.log(`validation ${isValid}`);

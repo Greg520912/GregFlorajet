@@ -70,6 +70,7 @@ class MainController extends AbstractController
                 if(!isset($bookingDatas['validDEVIS']) || $bookingDatas['validDEVIS']!='on') $validation = '';
                 if(!isset($bookingDatas['validCDV']) || $bookingDatas['validCDV']!='on') $validation = '';
                 if(!isset($bookingDatas['validPAYS']) || $bookingDatas['validPAYS']!='on') $validation = '';
+                if(!isset($bookingDatas['validCHARTE']) || $bookingDatas['validCHARTE']!='on') $validation = '';
                 if(!isset($bookingDatas['validREGLEMENT']) || $bookingDatas['validREGLEMENT']!='on') $validation = '';
 
                 if(empty($bookingDatas['leaderPas']['numPas'])) $bookingDatas['leaderPas']['numPas'] = '1';
@@ -989,6 +990,7 @@ class MainController extends AbstractController
                 array(
                     'detail' => $detail_devis,
                     'booking' => $booking,
+                    'url_charte' => $this->params->get('url_charte'),
                     'url_cgv' => $this->params->get('url_cgv'),
                     'url_conseil' => $this->params->get('url_conseil'),
                     'validation' => $validation,

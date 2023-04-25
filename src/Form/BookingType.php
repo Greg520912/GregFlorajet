@@ -84,6 +84,10 @@ class BookingType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ))
+            ->add('validCHARTE', TextType::class, array(
+                'mapped' => false,
+                'required' => false
+            ))
             ->add('validREGLEMENT', TextType::class, array(
                 'mapped' => false,
                 'required' => false
