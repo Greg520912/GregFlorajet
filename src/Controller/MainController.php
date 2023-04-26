@@ -2,33 +2,28 @@
 
 namespace App\Controller;
 
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Form\FormFactoryInterface;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\SMTPSecure;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use App\Form\BookingType;
 
 use App\Service\Nebula;
 use App\Service\Zoho;
 use App\Service\Saga;
+use App\Service\MailJet;
 
-use DateTime;use function Symfony\Component\String\u;
+use DateTime;
 
 class MainController extends AbstractController
 {
-    protected $formFactory, $mailer, $nebula, $zoho, $saga, $params;
+    protected $formFactory, $nebula, $zoho, $saga, $params, $mailer;
 
     /**
      * @param FormFactoryInterface $formFactory
@@ -37,10 +32,11 @@ class MainController extends AbstractController
     {
         $this->formFactory = $formFactory;
         $this->params = $params;
+
         $this->nebula = new Nebula($this->params);
         $this->zoho = new Zoho($this->params);
         $this->saga = new Saga($this->params);
-        $this->mailer = new PHPMailer(true);
+        $this->mailer = new MailJet($this->params);
     }
 
     /**
@@ -52,12 +48,6 @@ class MainController extends AbstractController
         $session = $request->getSession();
 
         $session->set('marque', ucfirst(strtolower($this->params->get('marque'))));
-
-        $to='daniel.rouaix@tourism-it.com';
-        $subject='Test email PHPMailer';
-        $message='<p>This is a test email</p>';
-        $this->sendMail($to,$subject,$message);
-
 
         if($this->initialize($request)){
             $validation = $session->get('validation');
@@ -663,58 +653,6 @@ class MainController extends AbstractController
         return $deviseSymbole?:'€';
     }
 
-    /**
-     * @param $to
-     * @param $subject
-     * @param $message
-     * @param $file
-     * @return void
-     */
-    public function sendMail($to, $subject, $message){
-        $mail = $this->mailer;
-        try {
-            // Server settings
-            $mail->Encoding = 'base64';
-            $mail->CharSet = "UTF-8";
-
-            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                          // Enable verbose debug output
-            // $mail->isSMTP();  *** HS ne pas activer ***                     // Send using SMTP
-            $mail->isMAIL();                                                // Send using SMTP
-
-            $mail->Host       = $this->params->get('mailer_host');          // Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                       // Enable SMTP authentication
-            $mail->Username   = $this->params->get('mailer_user');          // SMTP username
-            $mail->Password   = $this->params->get('mailer_password');      // SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                // Enable SSL encryption
-            $mail->Port       = $this->params->get('mailer_port');          // TCP port to connect to
-
-            $mail->From       = $this->params->get('mailer_from');
-            $mail->FromName   = $this->params->get('marque');
-
-            // $mail->addReplyTo("replyaddress@domain.com", "Reply Name");
-
-            // Destinataire
-            $mail->addAddress($to, 'Destinataire');
-            $mail->addCC('daniel@rouaix.com','Copie');// Add a recipient
-            $mail->addBCC('daniel@rouaix.com','Copie cachée');
-
-            // Content
-            $mail->isHTML(true);                                             // Set email format to HTML
-            $mail->Subject = $subject;
-            $mail->Body    = $message;
-
-            // $mail->addAttachment("/messagestore/some.pdf","some.pdf","base64","application/pdf");
-            // $mail->preSend();
-
-            $mail->send();
-
-        } catch (Exception $e) {
-            echo "Mail Erreur: {$mail->ErrorInfo}";
-            return false;
-        }
-
-        return true;
-    }
     // Actions Ajax -----------------------------------------------------------------------------------
 
     /**
@@ -1057,4 +995,20 @@ class MainController extends AbstractController
     }
 
     // Fin Actions Ajax -------------------------------------------------------------------------------
+
+    /**
+     * @Route("/testMail", name="testMail")
+     * @return void
+     */
+    public function testMailer() :Response
+    {
+        $datas = [
+            'to' => $this->params->get('mailer_admin'),
+            'to_name' => $this->params->get('mailer_admin'),
+            'subject' => 'Test Mailjet => BiAtalante',
+            'body' => 'Email de test via Mailjet',
+        ];
+        $this->mailer->sendMail($datas);
+        return new Response('Email envoyé');
+    }
 }

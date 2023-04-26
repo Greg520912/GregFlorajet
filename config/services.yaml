@@ -12,6 +12,7 @@ parameters:
 
     coef_acompte        : 0.3
 
+    url_app             : 'https://inscription.atalante.fr'
     url_site            : 'https://www.atalante.fr'
     url_saga            : 'https://www.atalante.fr'
     url_nebula          : 'https://nebula.tourism-it.com'
@@ -53,19 +54,21 @@ parameters:
 #Dev Url de test : https://dev.iterphp74.tourism-it.com/daniel/BiSymfony/public/?agence=atalante&id_date_prix=204033&devise=EUR
 
 # Atalante
-#    database_host: ANTARES8
-#    database_port: 1433
-#    database_name: ATALANTE
-#    database_user: intranet
-#    database_password: intranet
+    #    database_host: ANTARES8
+    #    database_port: 1433
+    #    database_name: ATALANTE
+    #    database_user: intranet
+    #    database_password: intranet
 
-# Mailer défini dans .env
-    mailer_host     : 'in-v3.mailjet.com' #Ip 104.199.96.85
-    mailer_port     : '465'
-    mailer_user     : '090b768b5466cd09ec6c03a2cd25ed9d'
-    mailer_password : '3e93d70137a56cfa939fd1de2162b8bf'
-    mailer_from     : 'noreply@atalante.fr'
-#    MAILER_DSN      : 'smtp://090b768b5466cd09ec6c03a2cd25ed9d:3e93d70137a56cfa939fd1de2162b8bf@in-v3.mailjet.com:465'
+# Mailer = Mailjet
+    #    mailer_host     : 'in-v3.mailjet.com' #Ip 104.199.96.85
+    #    mailer_port     : '465'
+    mailer_url       : 'https://api.mailjet.com/v3.1/send'
+    mailer_user      : '090b768b5466cd09ec6c03a2cd25ed9d'
+    mailer_password  : '3e93d70137a56cfa939fd1de2162b8bf'
+    mailer_from      : 'no-reply@atalante.fr'
+    mailer_from_name : 'Atalante'
+    mailer_admin     : 'alertes@tourism-it.com'
 
 services:
     # default configuration for services in *this* file
@@ -95,6 +98,11 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    App\Service\MyErrorListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
