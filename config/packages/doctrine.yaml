@@ -1,54 +1,54 @@
-doctrine:
-    dbal:
-        default_connection:     default
-        connections:
-            default:
-#                url: '%env(resolve:DATABASE_URL)%'
-                url: 'sqlsrv://intranet:intranet@antares.tourisport.fr:/ATALANTE?serverVersion=15&charset=utf8mb4'
-#                driver:         'pdo_sqlsrv'
-#                driver_class:   'PDO'
-#                host:           "antares.tourisport.fr"
-#                dbname:         "ATALANTE"
-#                user:           "intranet"
-#                password:       "intranet"
-#                charset:  'UTF8mb4'
-#                server_version: '15'
-
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        # server_version: '15'
-    orm:
-        auto_generate_proxy_classes: true
-        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-        auto_mapping: true
-        mappings:
-            App:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App            -
-when@test:
-    doctrine:
-        dbal:
-            # "TEST_TOKEN" is typically set by ParaTest
-            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
-
-when@prod:
-    doctrine:
-        orm:
-            auto_generate_proxy_classes: false
-            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
-            query_cache_driver:
-                type: pool
-                pool: doctrine.system_cache_pool
-            result_cache_driver:
-                type: pool
-                pool: doctrine.result_cache_pool
-
-    framework:
-        cache:
-            pools:
-                doctrine.result_cache_pool:
-                    adapter: cache.app
-                doctrine.system_cache_pool:
-                    adapter: cache.system
+#doctrine:
+#    dbal:
+#        default_connection:     default
+#        connections:
+#            default:
+#                driver: 'pdo_mysql'
+##                    host: 'ANTARES8'
+##                    dbname: 'ATALANTE'
+##                    user: 'intranet'
+##                    password: 'intranet'
+##                    charset: 'UTF8'
+##                    server_version: '15'
+##                url: '%env(resolve:DATABASE_URL)%'
+##                url: 'mysql://intranet:intranet@antares.tourisport.fr:/ATALANTE?serverVersion=15&charset=utf8mb4'
+#
+#        # IMPORTANT: You MUST configure your server version,
+#        # either here or in the DATABASE_URL env var (see .env file)
+#        # server_version: '15'
+#    orm:
+#        auto_generate_proxy_classes: true
+#        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+#        auto_mapping: true
+#        mappings:
+#            App:
+#                is_bundle: false
+#                dir: '%kernel.project_dir%/src/Entity'
+#                prefix: 'App\Entity'
+#                alias: App            -
+#
+#when@test:
+#    doctrine:
+#        dbal:
+#            # "TEST_TOKEN" is typically set by ParaTest
+#            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+#
+#when@prod:
+#    doctrine:
+#        orm:
+#            auto_generate_proxy_classes: false
+#            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+#            query_cache_driver:
+#                type: pool
+#                pool: doctrine.system_cache_pool
+#            result_cache_driver:
+#                type: pool
+#                pool: doctrine.result_cache_pool
+#
+#    framework:
+#        cache:
+#            pools:
+#                doctrine.result_cache_pool:
+#                    adapter: cache.app
+#                doctrine.system_cache_pool:
+#                    adapter: cache.system

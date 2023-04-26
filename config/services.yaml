@@ -54,18 +54,18 @@ parameters:
 
 # Atalante
 #    database_host: ANTARES8
-#    database_port: null
+#    database_port: 1433
 #    database_name: ATALANTE
 #    database_user: intranet
 #    database_password: intranet
 
 # Mailer défini dans .env
-    mailer_transport: smtp
-    mailer_host     : 'smtp://in-v3.mailjet.com'
+    mailer_host     : 'in-v3.mailjet.com' #Ip 104.199.96.85
     mailer_port     : '465'
     mailer_user     : '090b768b5466cd09ec6c03a2cd25ed9d'
     mailer_password : '3e93d70137a56cfa939fd1de2162b8bf'
-#    MAILER_DSN      : 'smtp://in-v3.mailjet.com:465?encryption=tls&auth_mode=login&username=090b768b5466cd09ec6c03a2cd25ed9d&password=3e93d70137a56cfa939fd1de2162b8bf'
+    mailer_from     : 'noreply@atalante.fr'
+#    MAILER_DSN      : 'smtp://090b768b5466cd09ec6c03a2cd25ed9d:3e93d70137a56cfa939fd1de2162b8bf@in-v3.mailjet.com:465'
 
 services:
     # default configuration for services in *this* file

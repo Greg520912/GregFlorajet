@@ -1,3 +1,4 @@
 framework:
     mailer:
-        dsn: 'smtp://in-v3.mailjet.com:465?encryption=tls&auth_mode=login&username=090b768b5466cd09ec6c03a2cd25ed9d&password=3e93d70137a56cfa939fd1de2162b8bf'
+        dsn: 'smtp://090b768b5466cd09ec6c03a2cd25ed9d:3e93d70137a56cfa939fd1de2162b8bf@in-v3.mailjet.com:465'
+#        dsn: 'smtp://in-v3.mailjet.com:465?encryption=tls&auth_mode=login&username=090b768b5466cd09ec6c03a2cd25ed9d&password=3e93d70137a56cfa939fd1de2162b8bf'

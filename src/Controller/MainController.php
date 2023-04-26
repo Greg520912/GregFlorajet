@@ -12,8 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\SMTPSecure;
+
 
 use App\Form\BookingType;
 
@@ -21,7 +24,7 @@ use App\Service\Nebula;
 use App\Service\Zoho;
 use App\Service\Saga;
 
-use DateTime;
+use DateTime;use function Symfony\Component\String\u;
 
 class MainController extends AbstractController
 {
@@ -30,14 +33,14 @@ class MainController extends AbstractController
     /**
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(MailerInterface $mailer,FormFactoryInterface $formFactory, ParameterBagInterface $params)
+    public function __construct(FormFactoryInterface $formFactory, ParameterBagInterface $params)
     {
         $this->formFactory = $formFactory;
         $this->params = $params;
         $this->nebula = new Nebula($this->params);
         $this->zoho = new Zoho($this->params);
         $this->saga = new Saga($this->params);
-        $this->mailer = $mailer;
+        $this->mailer = new PHPMailer(true);
     }
 
     /**
@@ -49,6 +52,12 @@ class MainController extends AbstractController
         $session = $request->getSession();
 
         $session->set('marque', ucfirst(strtolower($this->params->get('marque'))));
+
+        $to='daniel.rouaix@tourism-it.com';
+        $subject='Test email PHPMailer';
+        $message='<p>This is a test email</p>';
+        $this->sendMail($to,$subject,$message);
+
 
         if($this->initialize($request)){
             $validation = $session->get('validation');
@@ -93,12 +102,6 @@ class MainController extends AbstractController
                 $session->set('validation', $validation);
             }
         }
-
-//        $from='administrateur@tourism-it.com';
-//        $to='daniel.rouaix@tourism-it.com';
-//        $subject='Test email from Symfony';
-//        $message='<p>This is a test email</p>';
-        //$this->sendMail($from,$to,$subject,$message);
 
         return $this->render(
             'main/index.html.twig', [
@@ -661,23 +664,56 @@ class MainController extends AbstractController
     }
 
     /**
-     * TODO trouver anomalie !
-     * @param $from
      * @param $to
      * @param $subject
      * @param $message
-     * @return Response
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @param $file
+     * @return void
      */
-    public function sendMail($from,$to, $subject, $message) : Response
-    {
-        $email =(new Email())
-            ->from($from)
-            ->to($to)
-            ->subject($subject)
-            ->text($message)
-        ;
-        $this->mailer->send($email);
+    public function sendMail($to, $subject, $message){
+        $mail = $this->mailer;
+        try {
+            // Server settings
+            $mail->Encoding = 'base64';
+            $mail->CharSet = "UTF-8";
+
+            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                          // Enable verbose debug output
+            // $mail->isSMTP();  *** HS ne pas activer ***                     // Send using SMTP
+            $mail->isMAIL();                                                // Send using SMTP
+
+            $mail->Host       = $this->params->get('mailer_host');          // Set the SMTP server to send through
+            $mail->SMTPAuth   = true;                                       // Enable SMTP authentication
+            $mail->Username   = $this->params->get('mailer_user');          // SMTP username
+            $mail->Password   = $this->params->get('mailer_password');      // SMTP password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;                // Enable SSL encryption
+            $mail->Port       = $this->params->get('mailer_port');          // TCP port to connect to
+
+            $mail->From       = $this->params->get('mailer_from');
+            $mail->FromName   = $this->params->get('marque');
+
+            // $mail->addReplyTo("replyaddress@domain.com", "Reply Name");
+
+            // Destinataire
+            $mail->addAddress($to, 'Destinataire');
+            $mail->addCC('daniel@rouaix.com','Copie');// Add a recipient
+            $mail->addBCC('daniel@rouaix.com','Copie cachée');
+
+            // Content
+            $mail->isHTML(true);                                             // Set email format to HTML
+            $mail->Subject = $subject;
+            $mail->Body    = $message;
+
+            // $mail->addAttachment("/messagestore/some.pdf","some.pdf","base64","application/pdf");
+            // $mail->preSend();
+
+            $mail->send();
+
+        } catch (Exception $e) {
+            echo "Mail Erreur: {$mail->ErrorInfo}";
+            return false;
+        }
+
+        return true;
     }
     // Actions Ajax -----------------------------------------------------------------------------------
 
