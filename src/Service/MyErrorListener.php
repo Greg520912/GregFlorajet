@@ -47,8 +47,6 @@ class MyErrorListener implements EventSubscriberInterface
         if (
             $exception instanceof HttpExceptionInterface
             && (
-                $exception->getStatusCode() == 404
-                ||
                 $exception->getStatusCode() == 500
             )
         )
