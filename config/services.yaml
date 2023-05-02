@@ -66,8 +66,8 @@ parameters:
     mailer_url       : 'https://api.mailjet.com/v3.1/send'
     mailer_user      : '090b768b5466cd09ec6c03a2cd25ed9d'
     mailer_password  : '3e93d70137a56cfa939fd1de2162b8bf'
-    mailer_from      : 'no-reply@atalante.fr'
-    mailer_from_name : 'Atalante'
+    mailer_from      : 'no-reply-atalante@tourism-it.com'
+    mailer_from_name : 'Admin-Atalante'
     mailer_admin     : 'alertes@tourism-it.com'
 
 services:
