@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    project_directory: '/home/deviterphp74/www/daniel/BiAtalanteZoho/'
+    project_directory: '/home/deviterphp74/www/marc/biata/Biatainstall1/'
 
     production          : 19
     marque              : 'ATALANTE'
@@ -39,11 +39,12 @@ parameters:
     #    url_zoho            : 'https://www.zohoapis.eu'
     #    url_ogone           : 'https://secure.ogone.com/ncol/prod/orderstandard.asp'
     #    zoho_zapikey        : '1003.540059245b5e7ae0eb44abbb0673121e.2635772b1ab9e2399085c2301f6ed472'
-    #    ogone_pspid         : 'HUWANS'
-    #    ogone_sha_in        : '<3gYH3<Gtq!d;AzPm5)52Mu6_Z3^6u'
+    #    ogone_pspid         : 'ATALANTE'
+    #    ogone_sha_in        : 'lLoW$Ri.Ts&6aq#7+/65m8(!oV4soI'
+    #    ogone_sha_out       : 'L6K#Q22EQ.1C1_?_wpC3iGRorq-XH6'
     #    ogone_sha           : 'sha1'
     #    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
-
+    
 #Dev -----------------------------------------------------------
     url_zoho            : 'https://sandbox.zohoapis.eu'
     zoho_zapikey        : '1003.81ad61d66d71fea6aaeb6284986ded89.3a012044d6c553e74b90b2afaff7e7de'
@@ -56,7 +57,8 @@ parameters:
     ogone_sha           : 'sha256'
     ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
 
-#Dev Url de test : https://dev.iterphp74.tourism-it.com/daniel/BiAtalanteZoho/public/?agence=atalante&id_date_prix=204033&devise=EUR
+#Dev Url de test Daniel : https://dev.iterphp74.tourism-it.com/daniel/BiAtalanteZoho/public/?agence=atalante&id_date_prix=204033&devise=EUR
+#Dev Url de test Marc   : https://dev.iterphp74.tourism-it.com/marc/biata/Biatainstall1/public/?agence=atalante&id_date_prix=204033&devise=EUR
 
 # Atalante
     #    database_host: ANTARES8
