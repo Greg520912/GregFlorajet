@@ -9,11 +9,16 @@ parameters:
     production          : 19
     marque              : 'ATALANTE'
     agence              : 'ATA'
+    tel                 : '04 81 68 55 60'
 
     coef_acompte        : 0.3
 
     url_app             : 'https://inscription.atalante.fr'
     url_site            : 'https://www.atalante.fr'
+
+    url_aide            : 'https://www.atalante.fr/info/aide-13.html'
+    url_client          : 'https://espace-client.atalante.fr/'
+
     url_saga            : 'https://www.atalante.fr'
     url_nebula          : 'https://nebula.tourism-it.com'
 
@@ -51,7 +56,7 @@ parameters:
     ogone_sha           : 'sha256'
     ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
 
-#Dev Url de test : https://dev.iterphp74.tourism-it.com/daniel/BiSymfony/public/?agence=atalante&id_date_prix=204033&devise=EUR
+#Dev Url de test : https://dev.iterphp74.tourism-it.com/daniel/BiAtalanteZoho/public/?agence=atalante&id_date_prix=204033&devise=EUR
 
 # Atalante
     #    database_host: ANTARES8

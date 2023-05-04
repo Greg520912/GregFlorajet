@@ -56,7 +56,18 @@ class PaymentController extends AbstractController{
         $infos['quantity'] = $data['booking']["nbAdults"] + $data['booking']["nbChildren"];
         $infos['full_price'] = $detail_devis["montant_total_devis"];
         $token = base64_encode(json_encode($infos));
-        return $this->redirectToRoute('app_payment', array('token' => $token));
+
+        $tel = $this->params->get('tel');
+        $telLien = 'tel:+33'. substr(str_replace(' ','',$tel),1);
+
+        return $this->redirectToRoute('app_payment', array(
+            'token' => $token,
+            'urlAide' => $this->params->get('url_aide'),
+            'urlClient' => $this->params->get('url_client'),
+            'tel' => $tel,
+            'telLien' => $telLien
+            )
+        );
     }
 
     /**
@@ -71,6 +82,9 @@ class PaymentController extends AbstractController{
         // Appel Ogone et webservice de Zoho pour créer un id de paiement et l'enregistrer dans zoho
         $param = $this->ogone->get($request, $token->price, $token->id_individu, $token->numDos, $token->marque, $token->id_date_prix, $token->devise, $token->quantity, $token->id_vente, $token->full_price);
         $shaIn = $this->ogone->shaGet($token->price, $token->leaderpax, $param, $token->devise);
+
+        $tel = $this->params->get('tel');
+        $telLien = 'tel:+33'. substr(str_replace(' ','',$tel),1);
 
         // Envoie des paramètres au TPE et page paiement
         return $this->render('main/payment.twig',
@@ -93,6 +107,10 @@ class PaymentController extends AbstractController{
                 'template' => $this->params->get('ogone_template'),
                 'url_site' => $this->params->get('url_site'),
                 'marque' => $this->params->get('marque'),
+                'urlAide' => $this->params->get('url_aide'),
+                'urlClient' => $this->params->get('url_client'),
+                'tel' => $tel,
+                'telLien' => $telLien
             )
         );
     }
@@ -178,6 +196,9 @@ class PaymentController extends AbstractController{
         $param['niveau'] = $dataCodeDate['tour']['level'];
         $param['prixTotal'] = $dataCodeDate['date']['price'];
 
+        $tel = $this->params->get('tel');
+        $telLien = 'tel:+33'. substr(str_replace(' ','',$tel),1);
+
         return $this->render(
             'main/payment-back.twig',
             array(
@@ -185,6 +206,10 @@ class PaymentController extends AbstractController{
                 'marque' => ucfirst(strtolower($this->params->get('marque'))),
                 'url_site' => $this->params->get('url_site'),
                 'nom_site' => str_replace('https://','',$this->params->get('url_site')),
+                'urlAide' => $this->params->get('url_aide'),
+                'urlClient' => $this->params->get('url_client'),
+                'tel' => $tel,
+                'telLien' => $telLien
             )
         );
     }

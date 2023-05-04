@@ -1,22 +1,22 @@
 <nav class="navbar navbar-expand-md navbar-light justify-content-between" id="ata-main-nav">
     <a class="navbar-brand" href="/" style="">
-        <img src="{{ asset('assets/img/atalante/logo.png') }}" alt="Atalante" class="">
+        <img src="{{ asset('assets/img/atalante/logo.png') }}" alt="{{ marque }}" class="">
     </a>
     <div id="ata-nav" style="font-size:1em;">
         <ul class="navbar-nav">
             <li style="border-right: 1px solid var(--gris);">
-                <a class="ata-aide" href="https://www.atalante.fr/info/aide-13.html" target="_blank">
+                <a class="ata-aide" href="{{ urlAide }}" target="_blank">
                     <i class="fa fa-info" aria-hidden="true" style="margin-left: 10px;margin-right:10px;"></i>Aide
                 </a>
             </li>
             <li style="border-right: 1px solid var(--gris);">
-                <a class="ata-aide" href="https://espace-client.atalante.fr/" target="_blank">
+                <a class="ata-aide" href="{{ urlClient }}" target="_blank">
                     <i class="fa fa-user" aria-hidden="true" style="margin-left: 10px;margin-right:10px;"></i>Mon compte
                 </a>
             </li>
             <li>
-                <a class="ata-phone" href="tel:+33481685560">
-                    <i class="fa fa-phone" aria-hidden="true" style="margin-left: 10px;margin-right:10px;"></i> 04 81 68 55 60
+                <a class="ata-phone" href="{{ telLien }}">
+                    <i class="fa fa-phone" aria-hidden="true" style="margin-left: 10px;margin-right:10px;"></i> {{ tel }}
                 </a>
             </li>
         </ul>

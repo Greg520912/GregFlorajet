@@ -93,6 +93,9 @@ class MainController extends AbstractController
             }
         }
 
+        $tel = $this->params->get('tel');
+        $telLien = 'tel:+33'. substr(str_replace(' ','',$tel),1);
+
         return $this->render(
             'main/index.html.twig', [
                 'booking' => $formBooking->createView(),
@@ -100,6 +103,10 @@ class MainController extends AbstractController
                 'tripData' => $session->get('dataCodeDate'),
                 'infos' => $this->_info($request),
                 'validation' => $session->get('validation'),
+                'urlAide' => $this->params->get('url_aide'),
+                'urlClient' => $this->params->get('url_client'),
+                'tel' => $tel,
+                'telLien' => $telLien
             ]);
     }
 
@@ -960,17 +967,25 @@ class MainController extends AbstractController
                 }
             }
             if ($complet === false) return new Response(false, 200);
-            else return $this->render('main/inc/inc.validation.twig',
-                array(
-                    'detail' => $detail_devis,
-                    'booking' => $booking,
-                    'url_charte' => $this->params->get('url_charte'),
-                    'url_cgv' => $this->params->get('url_cgv'),
-                    'url_conseil' => $this->params->get('url_conseil'),
-                    'validation' => $validation,
-                    'marque' => ucfirst(strtolower($marque))
-                )
-            );
+            else {
+                $tel = $this->params->get('tel');
+                $telLien = 'tel:+33'. substr(str_replace(' ','',$tel),1);
+                return $this->render('main/inc/inc.validation.twig',
+                    array(
+                        'detail' => $detail_devis,
+                        'booking' => $booking,
+                        'url_charte' => $this->params->get('url_charte'),
+                        'url_cgv' => $this->params->get('url_cgv'),
+                        'url_conseil' => $this->params->get('url_conseil'),
+                        'validation' => $validation,
+                        'marque' => ucfirst(strtolower($marque)),
+                        'urlAide' => $this->params->get('url_aide'),
+                        'urlClient' => $this->params->get('url_client'),
+                        'tel' => $tel,
+                        'telLien' => $telLien
+                    )
+                );
+            }
         }
         return new Response('');
     }
@@ -985,12 +1000,19 @@ class MainController extends AbstractController
         $booking = $session->get('booking');
         $detail = $session->get('detail_devis')?:[];
         $validation = $session->get('validation');
+        $tel = $this->params->get('tel');
+        $telLien = 'tel:+33'. substr(str_replace(' ','',$tel),1);
+
         return $this->render('main/inc/inc.topayment.twig', array(
             'booking' => $booking,
             'marque' => strtolower($this->params->get('marque')),
             'agence' => $this->params->get('agence'),
             'validation' => $validation,
-            'detail' => $detail
+            'detail' => $detail,
+            'urlAide' => $this->params->get('url_aide'),
+            'urlClient' => $this->params->get('url_client'),
+            'tel' => $tel,
+            'telLien' => $telLien
         ));
     }
 
