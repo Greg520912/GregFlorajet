@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    project_directory: '/home/deviterphp74/www/marc/biata/Biatainstall1/'
+    project_directory: '/home/deviterphp74/www/daniel/BiAtalanteZoho/'
 
     production          : 19
     marque              : 'ATALANTE'
@@ -35,39 +35,14 @@ parameters:
     url_ass_multi_epi   : 'https://www.atalante.fr/media/assurances/atalante-multirisque-extension-epidemie-7056.pdf'
     url_ass_prem_epi    : 'https://www.atalante.fr/media/assurances/atalante-multirisque-prem-extension-epidemie-7057.pdf'
 
-#Prod -----------------------------------------------------------
-    #    url_zoho            : 'https://www.zohoapis.eu'
-    #    url_ogone           : 'https://secure.ogone.com/ncol/prod/orderstandard.asp'
-    #    zoho_zapikey        : '1003.540059245b5e7ae0eb44abbb0673121e.2635772b1ab9e2399085c2301f6ed472'
-    #    ogone_pspid         : 'ATALANTE'
-    #    ogone_sha_in        : 'lLoW$Ri.Ts&6aq#7+/65m8(!oV4soI'
-    #    ogone_sha_out       : 'L6K#Q22EQ.1C1_?_wpC3iGRorq-XH6'
-    #    ogone_sha           : 'sha1'
-    #    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
-    
-#Dev -----------------------------------------------------------
-    url_zoho            : 'https://sandbox.zohoapis.eu'
-    zoho_zapikey        : '1003.81ad61d66d71fea6aaeb6284986ded89.3a012044d6c553e74b90b2afaff7e7de'
-    url_ogone           : 'https://secure.ogone.com/ncol/Test/orderstandard.asp'
-    ogone_pspid         : 'ALTAITRAVEL'
-    ogone_psw           : 'Altai2023!!'
-    ogone_passphrase    : 'f563e91c-3409-49b7-8193-2091af017d21'
-    ogone_sha_in        : 'f563e91c-3409-49b7-8193-2091af017d21'
-    ogone_sha_out       : 'AzErTyUiOP1§MlKj'
-    ogone_sha           : 'sha256'
-    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
-
-#Dev Url de test Daniel : https://dev.iterphp74.tourism-it.com/daniel/BiAtalanteZoho/public/?agence=atalante&id_date_prix=204033&devise=EUR
-#Dev Url de test Marc   : https://dev.iterphp74.tourism-it.com/marc/biata/Biatainstall1/public/?agence=atalante&id_date_prix=204033&devise=EUR
-
-# Atalante
+    # Atalante
     #    database_host: ANTARES8
     #    database_port: 1433
     #    database_name: ATALANTE
     #    database_user: intranet
     #    database_password: intranet
 
-# Mailer = Mailjet
+    # Mailer = Mailjet
     #    mailer_host     : 'in-v3.mailjet.com' #Ip 104.199.96.85
     #    mailer_port     : '465'
     mailer_url       : 'https://api.mailjet.com/v3.1/send'
@@ -76,6 +51,31 @@ parameters:
     mailer_from      : 'no-reply-atalante@tourism-it.com'
     mailer_from_name : 'Admin-Atalante'
     mailer_admin     : 'alertes@tourism-it.com'
+
+    url_zoho            : 'https://www.zohoapis.eu'
+    zoho_zapikey        : '1003.540059245b5e7ae0eb44abbb0673121e.2635772b1ab9e2399085c2301f6ed472'
+
+    #    url_zoho            : 'https://sandbox.zohoapis.eu'
+    #    zoho_zapikey        : '1003.81ad61d66d71fea6aaeb6284986ded89.3a012044d6c553e74b90b2afaff7e7de'
+
+    #    Prod
+    #    url_ogone           : 'https://secure.ogone.com/ncol/prod/orderstandard.asp'
+    #    ogone_pspid         : 'ATALANTE'
+    #    ogone_psw           : ''
+    #    ogone_sha_in        : 'lLoW$Ri.Ts&6aq#7+/65m8(!oV4soI'
+    #    ogone_sha_out       : 'L6K#Q22EQ.1C1_?_wpC3iGRorq-XH6'
+    #    ogone_sha           : 'sha1'
+    #    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
+
+    #    Dev
+    #    Url de test : https://dev.iterphp74.tourism-it.com/daniel/BiAtalanteZoho/public/?agence=atalante&id_date_prix=204033&devise=EUR
+    url_ogone           : 'https://secure.ogone.com/ncol/Test/orderstandard.asp'
+    ogone_pspid         : 'ALTAITRAVEL'
+    ogone_psw           : 'Altai2023!!'
+    ogone_sha_in        : 'f563e91c-3409-49b7-8193-2091af017d21'
+    ogone_sha_out       : 'AzErTyUiOP1§MlKj'
+    ogone_sha           : 'sha256'
+    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
 
 services:
     # default configuration for services in *this* file
