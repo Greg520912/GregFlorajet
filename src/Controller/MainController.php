@@ -619,6 +619,16 @@ class MainController extends AbstractController
         // 5ème étape : création des passagers et les lier à la vente - curl*2*passengers
         $pax = $this->zoho->createPassengersDossier_parallel($dossier, $individu, $formData, $vente);
 
+//        echo "<pre>";
+//        var_dump('individu',$individu);
+//        var_dump('dossier',$dossier);
+//        var_dump('vente',$vente);
+//        var_dump('note',$note);
+//        var_dump('products',$products);
+//        var_dump('paxleadsale',$paxleadsale);
+//        var_dump('pax',$pax);
+//        die;
+
         return $data;
     }
 
