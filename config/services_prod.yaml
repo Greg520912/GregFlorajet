@@ -1,0 +1,11 @@
+parameters:
+    url_zoho            : 'https://www.zohoapis.eu'
+    zoho_zapikey        : '1003.540059245b5e7ae0eb44abbb0673121e.2635772b1ab9e2399085c2301f6ed472'
+
+    url_ogone           : 'https://secure.ogone.com/ncol/prod/orderstandard.asp'
+    ogone_pspid         : 'ATALANTE'
+    ogone_psw           : ''
+    ogone_sha_in        : 'lLoW$Ri.Ts&6aq#7+/65m8(!oV4soI'
+    ogone_sha_out       : 'L6K#Q22EQ.1C1_?_wpC3iGRorq-XH6'
+    ogone_sha           : 'sha1'
+    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'

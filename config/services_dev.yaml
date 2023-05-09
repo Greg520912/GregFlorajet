@@ -1,0 +1,14 @@
+parameters:
+    url_zoho            : 'https://www.zohoapis.eu'
+    zoho_zapikey        : '1003.540059245b5e7ae0eb44abbb0673121e.2635772b1ab9e2399085c2301f6ed472'
+#    url_zoho            : 'https://sandbox.zohoapis.eu'
+#    zoho_zapikey        : '1003.81ad61d66d71fea6aaeb6284986ded89.3a012044d6c553e74b90b2afaff7e7de'
+    url_ogone           : 'https://secure.ogone.com/ncol/Test/orderstandard.asp'
+    ogone_pspid         : 'ALTAITRAVEL'
+    ogone_psw           : 'Altai2023!!'
+    ogone_sha_in        : 'f563e91c-3409-49b7-8193-2091af017d21'
+    ogone_sha_out       : 'AzErTyUiOP1§MlKj'
+    ogone_sha           : 'sha256'
+    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
+
+#    Url de test : https://dev.iterphp74.tourism-it.com/daniel/BiAtalanteZoho/public/?agence=atalante&id_date_prix=204033&devise=EUR

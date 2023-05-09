@@ -3,79 +3,50 @@
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+
+# config/services.yaml
 parameters:
-    project_directory: '/home/deviterphp74/www/daniel/BiAtalanteZoho/'
-
-    production          : 19
-    marque              : 'ATALANTE'
-    agence              : 'ATA'
-    tel                 : '04 81 68 55 60'
-
-    coef_acompte        : 0.3
-
-    url_app             : 'https://inscription.atalante.fr'
-    url_site            : 'https://www.atalante.fr'
-
-    url_aide            : 'https://www.atalante.fr/info/aide-13.html'
-    url_client          : 'https://espace-client.atalante.fr/'
-
-    url_saga            : 'https://www.atalante.fr'
-    url_nebula          : 'https://nebula.tourism-it.com'
-
-    saga_user           : 'biAtalante'
-    saga_key            : 'ac2e0dfc3c043140e25a4408d8f00796'
-    saga_sha            : 'sha256'
-
-    url_charte          : 'https://www.atalante.fr/qui-sommes-nous/tourisme-responsable'
-    url_cgv             : 'https://www.atalante.fr/info/conditions-de-vente-2.html'
-    url_conseil         : 'http://www.diplomatie.gouv.fr/'
-
-    url_ass_multi       : 'https://www.atalante.fr/media/assurances/atalante-multirisque-7053.pdf'
-    url_ass_prem        : 'https://www.atalante.fr/media/assurances/atalante-multirisque-prem-7054.pdf'
-    url_ass_multi_epi   : 'https://www.atalante.fr/media/assurances/atalante-multirisque-extension-epidemie-7056.pdf'
-    url_ass_prem_epi    : 'https://www.atalante.fr/media/assurances/atalante-multirisque-prem-extension-epidemie-7057.pdf'
-
+    project_directory: '%kernel.project_dir%'
+    production: 19
+    marque: 'ATALANTE'
+    agence: 'ATA'
+    tel: '04 81 68 55 60'
+    coef_acompte: 0.3
+    url_app: 'https://inscription.atalante.fr'
+    url_site: 'https://www.atalante.fr'
+    url_aide: 'https://www.atalante.fr/info/aide-13.html'
+    url_client: 'https://espace-client.atalante.fr/'
+    url_saga: 'https://www.atalante.fr'
+    url_nebula: 'https://nebula.tourism-it.com'
+    saga_user: 'biAtalante'
+    saga_key: 'ac2e0dfc3c043140e25a4408d8f00796'
+    saga_sha: 'sha256'
+    url_charte: 'https://www.atalante.fr/qui-sommes-nous/tourisme-responsable'
+    url_cgv: 'https://www.atalante.fr/info/conditions-de-vente-2.html'
+    url_conseil: 'http://www.diplomatie.gouv.fr/'
+    url_ass_multi: 'https://www.atalante.fr/media/assurances/atalante-multirisque-7053.pdf'
+    url_ass_prem: 'https://www.atalante.fr/media/assurances/atalante-multirisque-prem-7054.pdf'
+    url_ass_multi_epi: 'https://www.atalante.fr/media/assurances/atalante-multirisque-extension-epidemie-7056.pdf'
+    url_ass_prem_epi: 'https://www.atalante.fr/media/assurances/atalante-multirisque-prem-extension-epidemie-7057.pdf'
     # Atalante
     #    database_host: ANTARES8
     #    database_port: 1433
     #    database_name: ATALANTE
     #    database_user: intranet
     #    database_password: intranet
-
     # Mailer = Mailjet
     #    mailer_host     : 'in-v3.mailjet.com' #Ip 104.199.96.85
     #    mailer_port     : '465'
-    mailer_url       : 'https://api.mailjet.com/v3.1/send'
-    mailer_user      : '090b768b5466cd09ec6c03a2cd25ed9d'
-    mailer_password  : '3e93d70137a56cfa939fd1de2162b8bf'
-    mailer_from      : 'no-reply-atalante@tourism-it.com'
-    mailer_from_name : 'Admin-Atalante'
-    mailer_admin     : 'alertes@tourism-it.com'
+    mailer_url: 'https://api.mailjet.com/v3.1/send'
+    mailer_user: '090b768b5466cd09ec6c03a2cd25ed9d'
+    mailer_password: '3e93d70137a56cfa939fd1de2162b8bf'
+    mailer_from: 'no-reply-atalante@tourism-it.com'
+    mailer_from_name: 'Admin-Atalante'
+    mailer_admin: 'alertes@tourism-it.com'
 
-    url_zoho            : 'https://www.zohoapis.eu'
-    zoho_zapikey        : '1003.540059245b5e7ae0eb44abbb0673121e.2635772b1ab9e2399085c2301f6ed472'
-
-    #    url_zoho            : 'https://sandbox.zohoapis.eu'
-    #    zoho_zapikey        : '1003.81ad61d66d71fea6aaeb6284986ded89.3a012044d6c553e74b90b2afaff7e7de'
-
-    #    Prod
-    #    url_ogone           : 'https://secure.ogone.com/ncol/prod/orderstandard.asp'
-    #    ogone_pspid         : 'ATALANTE'
-    #    ogone_psw           : ''
-    #    ogone_sha_in        : 'lLoW$Ri.Ts&6aq#7+/65m8(!oV4soI'
-    #    ogone_sha_out       : 'L6K#Q22EQ.1C1_?_wpC3iGRorq-XH6'
-    #    ogone_sha           : 'sha1'
-    #    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
-
-    #    Dev
-    #    Url de test : https://dev.iterphp74.tourism-it.com/daniel/BiAtalanteZoho/public/?agence=atalante&id_date_prix=204033&devise=EUR
-    url_ogone           : 'https://secure.ogone.com/ncol/Test/orderstandard.asp'
-    ogone_pspid         : 'ALTAITRAVEL'
-    ogone_psw           : 'Altai2023!!'
-    ogone_sha_in        : 'f563e91c-3409-49b7-8193-2091af017d21'
-    ogone_sha_out       : 'AzErTyUiOP1§MlKj'
-    ogone_sha           : 'sha256'
-    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
+    imports:
+        - { resource: services_dev.yaml }
+        - { resource: services_prod.yaml }
 
 services:
     # default configuration for services in *this* file
@@ -111,13 +82,13 @@ services:
             - { name: kernel.event_listener, event: kernel.exception }
 
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+        # add more service definitions when explicit configuration is needed
+        # please note that last definitions always *replace* previous ones
 
-    #    doctrine.dbal.connection_factory:
-    #        class: Doctrine\DBAL\Connection
-    #        arguments:
-    #            - { driver: 'pdo_mysql', url: '%env(resolve:DATABASE_URL)%' }
-    #        arguments:
-    #            - { driver: 'pdo_mysql', dbname: '%database_name%', user: '%database_user%', password: '%database_password%', host: '%database_host%', port: '%database_port%' }
+        #    doctrine.dbal.connection_factory:
+        #        class: Doctrine\DBAL\Connection
+        #        arguments:
+        #            - { driver: 'pdo_mysql', url: '%env(resolve:DATABASE_URL)%' }
+        #        arguments:
+        #            - { driver: 'pdo_mysql', dbname: '%database_name%', user: '%database_user%', password: '%database_password%', host: '%database_host%', port: '%database_port%' }
 
