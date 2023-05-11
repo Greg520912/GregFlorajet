@@ -256,7 +256,8 @@ class MainController extends AbstractController
         $type_pack = implode(' - ',$dataCodeDate['tour']['themes']);
 
         $type= $dataCodeDate['tour']['themes'][0];
-        $activite = $dataCodeDate['tour']['themes'][1];
+        if(!empty($dataCodeDate['tour']['themes'][1])) $activite = $dataCodeDate['tour']['themes'][1];
+        else $activite = '-';
 
         $full_price = ($dataCodeDate['date']['price']);
         $prixTTC = $session->get('prix_TTC');
@@ -618,16 +619,6 @@ class MainController extends AbstractController
 
         // 5ème étape : création des passagers et les lier à la vente - curl*2*passengers
         $pax = $this->zoho->createPassengersDossier_parallel($dossier, $individu, $formData, $vente);
-
-//        echo "<pre>";
-//        var_dump('individu',$individu);
-//        var_dump('dossier',$dossier);
-//        var_dump('vente',$vente);
-//        var_dump('note',$note);
-//        var_dump('products',$products);
-//        var_dump('paxleadsale',$paxleadsale);
-//        var_dump('pax',$pax);
-//        die;
 
         return $data;
     }

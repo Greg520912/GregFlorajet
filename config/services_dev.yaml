@@ -1,8 +1,8 @@
 parameters:
     url_zoho            : 'https://www.zohoapis.eu'
-    zoho_zapikey        : '1003.15c402982bde0bcf1e21a62f844c4ad1.1285630cbffb28def689b99229f57bbb'
-#url_zoho            : 'https://sandbox.zohoapis.eu'
-#zoho_zapikey        : '1003.81ad61d66d71fea6aaeb6284986ded89.3a012044d6c553e74b90b2afaff7e7de'
+    zoho_zapikey        : '1003.540059245b5e7ae0eb44abbb0673121e.2635772b1ab9e2399085c2301f6ed472'
+#    url_zoho            : 'https://sandbox.zohoapis.eu'
+#    zoho_zapikey        : '1003.81ad61d66d71fea6aaeb6284986ded89.3a012044d6c553e74b90b2afaff7e7de'
     url_ogone           : 'https://secure.ogone.com/ncol/Test/orderstandard.asp'
     ogone_pspid         : 'ALTAITRAVEL'
     ogone_psw           : 'Altai2023!!'
