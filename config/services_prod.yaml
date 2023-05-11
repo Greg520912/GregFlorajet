@@ -1,10 +1,10 @@
 parameters:
     url_zoho            : 'https://www.zohoapis.eu'
-    zoho_zapikey        : '1003.15c402982bde0bcf1e21a62f844c4ad1.1285630cbffb28def689b99229f57bbb'
+    zoho_zapikey        : '1003.540059245b5e7ae0eb44abbb0673121e.2635772b1ab9e2399085c2301f6ed472'
 
     url_ogone           : 'https://secure.ogone.com/ncol/prod/orderstandard.asp'
     ogone_pspid         : 'ATALANTE'
-    ogone_psw           : ''
+    ogone_psw           : 'Motdepasse220895!'
     ogone_sha_in        : 'lLoW$Ri.Ts&6aq#7+/65m8(!oV4soI'
     ogone_sha_out       : 'L6K#Q22EQ.1C1_?_wpC3iGRorq-XH6'
     ogone_sha           : 'sha1'

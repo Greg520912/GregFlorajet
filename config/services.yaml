@@ -45,8 +45,8 @@ parameters:
     mailer_admin: 'alertes@tourism-it.com'
 
     imports:
-        - { resource: services_dev.yaml }
-        - { resource: services_prod.yaml }
+        - { resource: services_dev.yaml, conditional: 'kernel.environment == "dev"' }
+        - { resource: services_prod.yaml, conditional: 'kernel.environment == "prod"' }
 
 services:
     # default configuration for services in *this* file
