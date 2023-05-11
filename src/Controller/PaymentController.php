@@ -127,6 +127,9 @@ class PaymentController extends AbstractController{
     public function paymentBackAction(Request $request){
         $session = $request->getSession();
 
+        $error = '';
+        if(!empty($request->query->get('NCERROR'))) $error = $request->query->get('NCERROR'); // Erreur paiement Ogone
+
         $stat = $request->query->get('stat'); // Status du paiement (Accepted / Denied)
         $status = $request->query->get('STATUS'); // Status du paiement (5 == Accepted / Denied / 1 == cancelled)
         $paiement = $request->query->get('orderID'); // ID Paiement Zoho
@@ -138,7 +141,7 @@ class PaymentController extends AbstractController{
         if (empty($pay_id) OR $pay_id === ' ') $pay_id = 'PAY-ID Empty';
 
         // Appel le webservice Zoho pour la validation du paiement en attente
-        $this->zoho->validationPayment($paiement, $status, $pay_id, $stat);
+        $this->zoho->validationPayment($paiement, $status, $pay_id, $stat,$error);
         $this->zoho->updatedossier($numDos);
 
         $session->set('stat', $stat);

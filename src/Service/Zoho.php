@@ -65,12 +65,6 @@ class Zoho
         $tableau = json_decode($reponse, true);
         $individu = json_decode($tableau['details']['output'], true);
 
-//        echo "<pre>";
-//        var_dump($url);
-//        var_dump($tableau);
-//        var_dump($individu);
-//        die;
-
         return $individu;
     }
 
@@ -117,12 +111,6 @@ class Zoho
         $response = $this->curl->get($url);
         $tableau = json_decode($response, true);
         $id_dossier = json_decode($tableau['details']['output'], true);
-
-//        echo "<pre>";
-//        var_dump($url);
-//        var_dump($tableau);
-//        die;
-
         return $id_dossier;
     }
 
@@ -372,14 +360,14 @@ class Zoho
      * @param $stat
      * @return mixed
      */
-    public function validationPayment($paiement, $status, $pay_id, $stat){
+    public function validationPayment($paiement, $status, $pay_id, $stat,$error=null){
         $stat = urlencode($stat);
         $retour = 'OK';
         if ($stat != 'Accepted') $retour = 'KO';
         $url = $this->params->get('url_zoho');
         $url .= "/crm/v2/functions/UpdatePayment/actions/execute?auth_type=apikey";
         $url .= "&zapikey=".$this->params->get('zoho_zapikey');
-        $url .= "&idPayment=". $paiement ."&status=". $stat ."&idTrans=". $pay_id ."&retour=".$retour;
+        $url .= "&idPayment=". $paiement ."&status=". $stat ."&idTrans=". $pay_id ."&retour=".$retour."&NCERROR=".$error;
         $response = $this->curl->get($url);
         return $response;
     }
