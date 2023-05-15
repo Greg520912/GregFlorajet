@@ -111,6 +111,12 @@ class Zoho
         $response = $this->curl->get($url);
         $tableau = json_decode($response, true);
         $id_dossier = json_decode($tableau['details']['output'], true);
+
+//        echo "<pre>";
+//        var_dump($url);
+//        var_dump($tableau);
+//        var_dump($id_dossier);
+
         return $id_dossier;
     }
 
