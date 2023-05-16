@@ -10,7 +10,7 @@ parameters:
     ogone_sha_in        : 'f563e91c-3409-49b7-8193-2091af017d21'
     ogone_sha_out       : 'AzErTyUiOP1§MlKj'
     ogone_sha           : 'sha256'
-    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
-#    ogone_template      : 'https://logos.tourisport.fr/media/ogone/atalante/2023/'
+#    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
+    ogone_template      : 'https://logos.tourisport.fr/media/ogone/atalante/2023/modele.html'
 
 #    Url de test : https://dev.iterphp74.tourism-it.com/daniel/BiAtalanteZoho/public/?agence=atalante&id_date_prix=204033&devise=EUR
