@@ -85,7 +85,7 @@
                                     pax="{{ passager.numPas }}"
                                     id="booking_passengers_{{ loop.index }}_assurance_3"
                                     value="premium"
-                                    class="custom-control-input"
+                                    class="custom-control-input assmin"
                                     onclick="setAssurances();"
                                     {% if passager.assurance == 'premium' %} checked="checked" {% endif %}
                             />
@@ -94,7 +94,7 @@
                     </td>
                     <td>
                         <strong>Assurance Multirisques Premium (pour tout voyage dépassant 8000€)   </strong><br>
-                        <a href="{{ url_ass_prem }}" data-toggle="modal" data-target="#modal-premium" class="ata-text-link">En savoir plus</a>
+                        <a href="{{ url_ass_prem }}" target="_blank" class="ata-text-link">En savoir plus</a>
                     </td>
                     <td>5% du montant total</td>
                 </tr>
@@ -107,7 +107,7 @@
                                     pax="{{ passager.numPas }}"
                                     id="booking_passengers_{{ loop.index }}_assurance_5"
                                     value="premium_epidemie"
-                                    class="custom-control-input"
+                                    class="custom-control-input assmin"
                                     onclick="setAssurances();"
                                     {% if passager.assurance == 'premium_epidemie' %} checked="checked" {% endif %}
                             />

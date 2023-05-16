@@ -382,6 +382,15 @@
 
                                 displayAssurances();
                                 stepValidation();
+
+                                var total = $('#prixtotal').html();
+                                total = total.replace(/ /g,'');
+                                if(Number(total) < 8000){
+                                    $('.assmin').prop('disabled', true);
+                                }else{
+                                    $('.assmin').prop('disabled', false);
+                                }
+
                             })
                             .fail(function(error) {
                                 console.log("Une erreur s'est produite lors du calcul des assurances : " + error);

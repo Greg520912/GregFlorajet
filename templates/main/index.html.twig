@@ -48,10 +48,8 @@
                             <div>{% block step_assurance %}Choisissez votre formule d'assurance{% endblock %}</div>
                         </div>
                         <div class="content-container">
-                            <div class="row" id="step_assurance">
-                                {% block content_assurance %}
-                                    {{ render(controller("App\\Controller\\MainController::stepAssurancesAction")) }}
-                                {% endblock %}
+                            <div id="step_assurance">
+                                {% block content_assurance %}{{ render(controller("App\\Controller\\MainController::stepAssurancesAction")) }}{% endblock %}
                             </div>
                         </div>
 
@@ -60,9 +58,7 @@
                         </div>
                         <div class="content-container">
                             <div class="row" style="font-size: 1em;" id="step_validation">
-                                {% block content_validation %}
-                                    {{ render(controller("App\\Controller\\MainController::stepValidationAction")) }}
-                                {% endblock %}
+                                {% block content_validation %}{{ render(controller("App\\Controller\\MainController::stepValidationAction")) }}{% endblock %}
                             </div>
                         </div>
 
