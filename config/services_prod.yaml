@@ -9,4 +9,4 @@ parameters:
     ogone_sha_out       : 'L6K#Q22EQ.1C1_?_wpC3iGRorq-XH6'
     ogone_sha           : 'sha1'
 #    ogone_template      : 'https://logos.tourism-it.com/atalante/modele.html'
-    ogone_template      : 'https://logos.tourisport.fr/media/ogone/atalante/2023/modele.html'
+    ogone_template      : 'https://logos.tourism-it.com/media/ogone/atalante/2023/modele.html'
