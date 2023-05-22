@@ -38,7 +38,7 @@
     background-color: var(--vert);
     color: #fff;
     width: 100vw;
-    height:300px;
+    min-height:300px;
     overflow :hidden;
     position:relative;
     top: 300px;
@@ -128,19 +128,6 @@
 }
 .ata-passengers-container * select:hover, .ata-passengers-container * input:hover {
     border-radius:15px;
-}
-
-.ata-phone .fa-phone{
-    transform: rotate(90deg);
-    margin-right: 10px;
-    margin-left: 10px;
-}
-
-.ata-phone {
-    color: var(--jaune);
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-decoration: none;
 }
 
 .ata-sidebar-container {
@@ -470,9 +457,6 @@
 
 .margin{margin:10px;}
 
-.navbar-brand > img{
-    margin-left:20px;
-}
 #ata-img-header{
     background-image: url("../img/atalante/header.jpg");
     background-position: center center;
@@ -487,6 +471,8 @@
     justify-content: center;
     -webkit-align-items: center;
     padding-top: 50px;
+    width:100vw;
+    text-align: center;
 }
 .navbar-ligh .navbar-nav .nav-link{
     padding-left: .75rem;
@@ -605,12 +591,54 @@
     100% { transform: rotate(360deg); }
 }
 
+li.nav-tel{
+    display: list-item;
+    border-right:none !important;
+}
+
+.ata-phone .fa-phone{
+    transform: rotate(90deg);
+    margin-right: 5px;
+    margin-left: 0px;
+}
+
+.ata-phone {
+    /*color: var(--jaune);*/
+    font-weight: 600;
+    text-decoration: none;
+}
+
+a.ata-text-link {
+    color: #707070;
+}
+
+ul.navbar-nav li{
+    /*display: list-item;*/
+}
+
+li.nav-compte{
+    display: none;
+}
+li.nav-aide{
+    display: none;
+}
+li.nav-tel{
+    display: list-item;
+}
+.navbar-brand > img {
+    margin-left:5px;
+}
+
+div#page-container section{
+    min-height: calc(100vh - 1027px);
+    padding-bottom:50px;
+}
+
 @media (min-width: 992px) {
     .content-container {
         padding-left: 1rem;
         margin-top: 1rem;
     }
-
     .ata-step-title-container {
         position: relative;
         width: calc(100vw - 50px);
@@ -623,14 +651,35 @@
         top: 1.5rem;
         right: 1rem;
     }
-}
+    ul.navbar-nav li{
+        display: list-item;
+    }
 
-a.ata-text-link {
-    color: #707070;
+    li.nav-compte{
+        display: list-item;
+        border-right: 1px solid var(--gris);
+    }
+    li.nav-aide{
+        display: list-item;
+        border-right: 1px solid var(--gris);
+    }
+    li.nav-tel{
+        display: list-item;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+    }
+    .navbar-brand > img {
+        margin-left:20px;
+    }
+    .ata-phone {
+        /*color: var(--jaune);*/
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .ata-phone .fa-phone{
+        transform: rotate(90deg);
+        margin-right: 10px;
+        margin-left: 10px;
+    }
 }
-
-div#page-container section{
-    height: calc(100vh - 1027px);
-    padding-bottom:50px;
-}
-
