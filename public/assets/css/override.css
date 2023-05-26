@@ -1,22 +1,3 @@
-.ata-aide .fa-info{
-    transform: rotate(0deg);
-    margin-right: 10px;
-    margin-left: 10px;
-}
-
-.ata-aide {
-    color: var(--gris);
-    font-size: 1.1rem;
-    font-weight: 400;
-    text-decoration: none;
-    padding-right:10px;
-}
-
-.ata-aide:hover, .ata-phone:hover{
-    color: var(--hover);
-    text-decoration: none;
-}
-
 .ata-btn {
     font-weight: 600;
 }
@@ -77,10 +58,6 @@
 
 .ata-main-container{
     padding-left: 20px;
-}
-
-.ata-nav .navbar-nav .ata-phone{
-    float: right;
 }
 
 .ata-paiement-subtitle {
@@ -204,9 +181,6 @@
     position:relative;
     left:0px;
     padding-right:20px;
-}
-#ata-nav {
-    flex-grow: 0;
 }
 
 #ata-main-nav {
@@ -591,42 +565,66 @@
     100% { transform: rotate(360deg); }
 }
 
-li.nav-tel{
-    display: list-item;
-    border-right:none !important;
+.navbar-brand > img {
+    margin-left:0;
 }
 
-.ata-phone .fa-phone{
+ul.navbar-nav li{
+    display: inline-block;
+    float: right;
+    margin:0;
+    padding:0;
+}
+
+li.nav-aide, li.nav-compte, li.nav-tel{
+    display: block;
+    border-right:none !important;
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.4rem;
+}
+
+.ata-aide {
+    position: relative;
+    left:2px;
+    margin:0;
+    padding:0;
+    color: var(--gris);
+    text-decoration: none;
+}
+.ata-compte {
+    position: relative;
+    left:0px;
+    margin:0;
+    padding:0;
+    color: var(--gris);
+    text-decoration: none;
+}
+.ata-tel {
+    margin:0;
+    padding:0;
+    font-weight: 600;
+    text-decoration: none;
+}
+.ata-aide .fa-info{
+    margin-right: 15px;
+}
+.ata-compte .fa-user{
+    margin-right: 10px;
+}
+.ata-tel .fa-phone{
     transform: rotate(90deg);
     margin-right: 5px;
     margin-left: 0px;
 }
 
-.ata-phone {
-    /*color: var(--jaune);*/
-    font-weight: 600;
+.ata-aide:hover, .ata-compte:hover,.ata-tel:hover{
+    color: var(--hover);
     text-decoration: none;
 }
 
 a.ata-text-link {
     color: #707070;
-}
-
-ul.navbar-nav li{
-    /*display: list-item;*/
-}
-
-li.nav-compte{
-    display: none;
-}
-li.nav-aide{
-    display: none;
-}
-li.nav-tel{
-    display: list-item;
-}
-.navbar-brand > img {
-    margin-left:5px;
 }
 
 div#page-container section{
@@ -635,6 +633,9 @@ div#page-container section{
 }
 
 @media (min-width: 992px) {
+    .navbar-brand > img {
+        margin-left:5px;
+    }
     .content-container {
         padding-left: 1rem;
         margin-top: 1rem;
@@ -651,35 +652,34 @@ div#page-container section{
         top: 1.5rem;
         right: 1rem;
     }
+
     ul.navbar-nav li{
         display: list-item;
     }
-
-    li.nav-compte{
-        display: list-item;
-        border-right: 1px solid var(--gris);
-    }
-    li.nav-aide{
-        display: list-item;
-        border-right: 1px solid var(--gris);
-    }
-    li.nav-tel{
+    
+    li.nav-compte, li.nav-aide, li.nav-tel{
         display: list-item;
         font-size: 1.1rem !important;
-        font-weight: 600 !important;
         text-decoration: none !important;
+        border-right: 2px solid var(--gris) !important;
     }
+    li.nav-compte, li.nav-aide{
+        font-weight: 400 !important;
+        padding-right:15px !important;
+    }
+     li.nav-tel{
+        font-weight: 600 !important;
+        border-right:none !important;
+    }
+
+    .ata-aide .fa-info,.ata-compte .fa-user,.ata-tel .fa-phone{
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+
     .navbar-brand > img {
-        margin-left:20px;
+        margin-left:10px;
     }
-    .ata-phone {
-        /*color: var(--jaune);*/
-        font-weight: 600;
-        text-decoration: none;
-    }
-    .ata-phone .fa-phone{
-        transform: rotate(90deg);
-        margin-right: 10px;
-        margin-left: 10px;
-    }
+
 }
