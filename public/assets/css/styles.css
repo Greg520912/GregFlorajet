@@ -83,3 +83,6 @@ select {
     border-radius: 18px;
     background: var(--blanc);
 }
+.header-logo{
+    height:51px;
+}
