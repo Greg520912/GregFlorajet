@@ -219,7 +219,11 @@ class Zoho
         $url .= "&title_note=Recap_voyage&module=Deals";
         $url .= "&id=".$dossier;
 
-        $response = $this->curl->asyncGet($url);
+//        $response = $this->curl->asyncGet($url);
+        $response = $this->curl->get($url);
+//        echo"<pre>";
+//        var_dump($url,$note,$response);
+//        die;
 
         return $response;
     }
