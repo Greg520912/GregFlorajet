@@ -60,7 +60,8 @@ class Zoho
         $url .= "&Nom=".$nom."&Prenom=".$prenom."&email=".$email;
         $url .= "&street=".$adresse1."&street2=".$adresse2."&city=".$ville."&postal_code=".$code_postal."&phone=".$tel;
         $url .= "&title=".$qualite."&date_of_birth=".$date_naissance."&country=".$pays."&state=".$county."&lead_source=BI";
-
+        $url .= '&version=v2&brand_trigram=ATA';
+        
         $reponse = $this->curl->get($url);
         $tableau = json_decode($reponse, true);
         $individu = json_decode($tableau['details']['output'], true);
