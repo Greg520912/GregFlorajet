@@ -66,6 +66,7 @@ class MainController extends AbstractController
             if(isset($formData['booking'])){
                 $bookingDatas = $formData['booking'];
                 $validation = 'checked';
+                
                 if(!isset($bookingDatas['validDEVIS']) || $bookingDatas['validDEVIS']!='on') $validation = '';
                 if(!isset($bookingDatas['validCDV']) || $bookingDatas['validCDV']!='on') $validation = '';
                 if(!isset($bookingDatas['validPAYS']) || $bookingDatas['validPAYS']!='on') $validation = '';
