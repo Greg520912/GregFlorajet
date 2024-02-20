@@ -1,6 +1,6 @@
 <div class="ata-sidebar-container mt-2 sticky-top">
     <div id="ata-img-sidebar-header" style="background-image: url('{{ infos.thumb }}');">
-        <p class="tjaune bold uppercase">{{ infos.paysPack }}</p>
+        <p id="trip_pays" class="tjaune bold uppercase">{{ infos.paysPack }}</p>
         <p class="tblanc bold "><i>{{ infos.libPack }}</i></p>
 {#        <p class="tgris" style="font-size: 0.7rem">Code voyage : {{ infos.codPack }}</p>#}
     </div>
@@ -15,18 +15,19 @@
         <div class="d-flex justify-content-between ata-sidebar-line">
             <span class="ata-info-trip-label uppercase tgris">Niveau</span>
             <span class="text-right ata-info-trip-value"><img src="{{ asset('assets/img/atalante/pictos/') }}niveau-{{ infos.niveau }}.png" height="16px" title="{{ infos.niveau }}" alt="{{ infos.niveau }}"></span>
+            <span id="trip_level" style="display:none">{{ infos.niveau }}</span>
         </div>
         <div class="d-flex justify-content-between ata-sidebar-line">
             <span class="ata-info-trip-label uppercase tgris">Activité</span><span class="text-right ata-info-trip-value">{{ infos.activite }}</span>
         </div>
         <div class="d-flex justify-content-between ata-sidebar-line">
-            <span class="ata-info-trip-label uppercase tgris">Code</span><span class="text-right ata-info-trip-value">{{ infos.codPack }}</span>
+            <span class="ata-info-trip-label uppercase tgris">Code</span><span id="trip_code" class="text-right ata-info-trip-value">{{ infos.codPack }}</span>
         </div>
         <div class="d-flex justify-content-between ata-sidebar-line">
-            <span class="ata-info-trip-label uppercase tgris">Date de départ</span><span class="text-right ata-info-trip-value">{{ infos.dtDeb|date('d/m/Y') }}</span>
+            <span class="ata-info-trip-label uppercase tgris">Date de départ</span><span id="trip_date1" class="text-right ata-info-trip-value">{{ infos.dtDeb|date('d/m/Y') }}</span>
         </div>
         <div class="d-flex justify-content-between ata-sidebar-line">
-            <span class="ata-info-trip-label uppercase tgris">Date de retour</span><span class="text-right ata-info-trip-value">{{ infos.dtFin|date('d/m/Y') }}</span>
+            <span class="ata-info-trip-label uppercase tgris">Date de retour</span><span id="trip_date2" class="text-right ata-info-trip-value">{{ infos.dtFin|date('d/m/Y') }}</span>
         </div>
         <div class="d-flex justify-content-between ata-sidebar-line">
             <span class="ata-info-trip-label uppercase tgris">Prix / pers x 1 </span><span class="text-right ata-info-trip-value">{{ infos.prixTTC|number_format(0, ',', ' ')  }}€ TTC</span>

@@ -544,5 +544,79 @@
             }
         </script>
 
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+    </script>
+
+    <script>
+        document.getElementById('jepaye').addEventListener('click', function() {
+
+            var span_ata_pax_adult = document.getElementById("ata-pax-adult");
+            if (span_ata_pax_adult !== null) {
+                nb_pax = span_ata_pax_adult.textContent;
+            }else{
+                nb_pax = 0;
+            };
+
+            var p_trip_pays = document.getElementById("trip_pays");
+            if (p_trip_pays !== null) {
+                trip_pays = p_trip_pays.textContent;
+            }else{
+                div_trip_pays = 'ND';
+            };
+
+            var span_trip_code = document.getElementById("trip_code");
+            if (span_trip_code !== null) {
+                trip_code = span_trip_code.textContent;
+            }else{
+                trip_code = 'ND';
+            };
+
+            var span_trip_level = document.getElementById("trip_level");
+            if (span_trip_level !== null) {
+                trip_level = span_trip_level.textContent + '/5';
+            }else{
+                trip_level = 'ND';
+            };
+
+            var span_trip_date1 = document.getElementById("trip_date1");
+            if (span_trip_date1 !== null) {
+                trip_date1 = span_trip_date1.textContent;
+            }else{
+                trip_date1 = 'ND';
+            };
+
+            var span_trip_date2 = document.getElementById("trip_date2");
+            if (span_trip_date2 !== null) {
+                trip_date2 = span_trip_date2.textContent;
+            }else{
+                trip_date2 = 'ND';
+            };
+
+            var span_prixtotal = document.getElementById("prixtotal");
+            if (span_prixtotal !== null) {
+                recap_price_total = span_prixtotal.textContent;
+            }else{
+                recap_price_total = 'ND';
+            };
+
+            var verif = trip_pays + ' ' + trip_code + ' ' + trip_level + ' ' + nb_pax + ' ' + trip_date1 + ' ' + trip_date2 + ' ' + recap_price_total;
+            console.log(verif);
+
+            gtag('event', 'Eresa_Confirmation', {
+                'code_destination': trip_pays,
+                'code_voyage': trip_code,
+                'niveau_voyage': trip_level,
+                'nb_pax': nb_pax,
+                'date_depart': trip_date1,
+                'date_arrivee': trip_date2,
+                'budget_total': recap_price_total
+            });
+        });
+
+
+    </script>
+
     </body>
 </html>

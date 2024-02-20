@@ -440,7 +440,7 @@ class MainController extends AbstractController
                                 if(empty($reductions[$key]['nb'])) $reductions[$key]['nb'] = 1;
                                 else $reductions[$key]['nb']++;
                                 if(empty($reductions[$key]['prix_total'])) $reductions[$key]['prix_total'] = $reduc;
-                                else $reductions[$key]['prix_total'] += $reduc;
+                                else $reductions[$key]['prix_total'] += floatval($reduc);
                                 $reductions[$key]['pax'][$numPas] = array('cn' => $cn);
                             }
                             else {
@@ -462,8 +462,8 @@ class MainController extends AbstractController
                         if($age >= intval($prestation['AgeMini']) && $age <= intval($prestation['AgeMaxi'])){
 
                             $prix = $prestation['PrixPrestaException'] > 0 ? $prestation['PrixPrestaException'] : $prestation['PrixPresta'];
-                            $prix = number_format($prix);
-                            $totalPrestations += $prix;
+                            $prix = floatval(number_format($prix));
+                            $totalPrestations += floatval($prix);
                             $prestations[$key]['prix_unit'] = $prix;
                             $prestations[$key]['libelle'] = $prestation['lib_prest'];
                             if(array_key_exists($key, $prestations)){
@@ -523,17 +523,17 @@ class MainController extends AbstractController
                     foreach ($pax['prestations'] as $prestation) {
                         // sauf frais d'inscription
                         if ($prestation['code'] !== 'FRAIS_INSCRI') {
-                            $assiette += $prestation['prix_unit'];
+                            $assiette += floatval($prestation['prix_unit']);
                         }
-                        $totalPax += $prestation['prix_unit'];
-                        $totalDevis += $prestation['prix_unit'];
+                        $totalPax += floatval($prestation['prix_unit']);
+                        $totalDevis += floatval($prestation['prix_unit']);
                     }
                 }
                 if (isset($pax['reductions'])) {
                     foreach ($pax['reductions'] as $reduction) {
-                        $assiette += $reduction['montant'];
-                        $totalPax += $reduction['montant'];
-                        $totalDevis += $reduction['montant'];
+                        $assiette += floatval($reduction['montant']);
+                        $totalPax += floatval($reduction['montant']);
+                        $totalDevis += floatval($reduction['montant']);
                     }
                 }
                 $detailDevis['pax'][$numPas]['assiette'] = $assiette;
@@ -547,8 +547,8 @@ class MainController extends AbstractController
 
                 $assuranceKey = 'montant_assurance_' . $detailDevis['pax'][$numPas]['choix_assurance'];
                 $montantAssurance = $detailDevis['pax'][$numPas][$assuranceKey];
-                $totalPax += $montantAssurance;
-                $totalDevis += $montantAssurance;
+                $totalPax += floatval($montantAssurance);
+                $totalDevis += floatval($montantAssurance);
                 $detailDevis['pax'][$numPas]['montant_total_pax'] = $totalPax;
             }
 
@@ -922,7 +922,7 @@ class MainController extends AbstractController
             }
             $nbPax = $session->get('nb_adults') + $session->get('nb_children');
             $full_price = $session->get('prix_TTC') * $nbPax;
-            $full_price += $totalAssurances;
+            $full_price += floatval($totalAssurances);
             //$full_price += $session->get('total_frais_dossier');
 
             $session->set('total_assurances', $totalAssurances);
