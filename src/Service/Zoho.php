@@ -81,6 +81,13 @@ class Zoho
     {
         $session = $request->getSession();
 
+        $optionTransport = $session->get('transport')?:'';
+        if($optionTransport == "none" || $optionTransport == "non") $optionTransport ='';
+
+        $totalAssurance = $session->get('total_assurances')?:0;
+        if(floatval($totalAssurance)>0) $optionAssurance = "Yes";
+        else $optionAssurance = "No";
+
         $date = new DateTime($dataCodeDate["date"]["date1"]);
         $dateDepart = $date->format('d/m/Y');
         $date2 = new Datetime($dataCodeDate["date"]["date2"]);
@@ -96,6 +103,10 @@ class Zoho
         $url .= "&Etat=";
         $url .= "&NameDoss=";
         $url .= "&TypeVoyage=";
+
+        $url .= "&optionTransport=". ucfirst($optionTransport);
+        $url .= "&optionAssurance=". $optionAssurance;
+
         $url .= "&CodePack=".$dataCodeDate["tour"]["code"];
         $url .= "&NumDevis=&Langue=FR";
         $url .= "&Marque=".strtoupper($formData['marque']);
@@ -227,6 +238,29 @@ class Zoho
 //        die;
 
         return $response;
+    }
+
+    /**
+     * @param $dossier
+     * @param $request
+     * @return mixed
+     */
+    public function addNote_transport_async($dossier, $request){
+        $session = $request->getSession();
+        $transport = $session->get('transport')?:'';
+        if(!empty($transport) && $transport == "demande"){
+            $transportCommentaire = $session->get('transportCommentaire')?:'ND';
+            $url = $this->params->get('url_zoho');
+            $url .= "/crm/v2/functions/addnote/actions/execute?";
+            $url .= "note=Commentaire transport : ".urlEncode($transportCommentaire)."%0A";
+            $url .= "&auth_type=apikey";
+            $url .= "&zapikey=".$this->params->get('zoho_zapikey');
+            $url .= "&title_note=Transport_voyage&module=Deals";
+            $url .= "&id=".$dossier;
+            $response = $this->curl->get($url);
+            return $response;
+        }
+        return false;
     }
 
     /**

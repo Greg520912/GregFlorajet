@@ -1,4 +1,50 @@
 <div class="" id="voir_option">
+    {% set choixTransport = app.session.get('choixTransport') %}
+    {% if (choixTransport == 'option')  %}
+        <div class="row">
+            <div class="col-lg-12" style="padding-bottom:15px">
+                <div class="form-group">
+                    <div id="booking_transport" onclick="updateradiosession('booking','transport');displayInfos();setAssurances();">
+                        <div class="radio" {% if(vol.stock < 1) %}hidden{% endif %} id="transport0">
+                            <label for="booking_transport_0" class="required"><input type="radio" id="booking_transport_0" name="booking[transport]" required="required" value="stock" style="float:left;width:15px;height:15px;margin-right:5px" /> Je bénéficie de tarifs négociés avec les vols du groupe ! (Reste {{ vol.stock }} place(s))</label>
+                        </div>
+                        <div class="radio" id="transport1">
+                            <label for="booking_transport_1" class="required">
+                            <input type="radio" id="booking_transport_1" name="booking[transport]" required="required" value="demande" style="float:left;width:15px;height:15px;margin-right:5px"/> Je souhaite un transport à destination sur mesure : dites-nous tout !</label>
+                        </div>
+                        <div class="radio" id="transport2">
+                            <label for="booking_transport_2" class="required">
+                            <input type="radio" id="booking_transport_2" name="booking[transport]" required="required" value="none" style="float:left;width:15px;height:15px;margin-right:5px"/> Je m’occupe moi-même de mon transport à destination.</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group hidden" id="places" style="padding:5px 0px 5px 20px">
+                    <label class="control-label" style="display:block;font-weight: 500">
+                        {% if vol.plan.stock is defined and vol.plan.stock is iterable %}
+                            {%  for stock in vol.plan.stock %}
+                                <span style="display: inline-block;width:45%;margin-right: 2%;">
+                                    {{ stock.affichage.DEUX }}</br>
+                                    {{ stock.affichage.TROIS }}</br>
+                                    {{ stock.affichage.UN }}</br>
+                                    {{ stock.affichage.UNB }}</br></br>
+                                </span>
+                            {% endfor %}
+                        {% endif %}
+                        {% if(vol.plan is not iterable) %}
+                            <span style="font-weight: 700">Les horaires ne sont pas encore disponibles, nous consulter</span>
+                        {% endif %}
+                    </label>
+                </div>
+                <div class="form-group hidden" id="transportCommentaire" style="padding:5px 0px 5px 20px">
+                    <label class="control-label" style="font-weight: 700">Votre demande de vol sur mesure</label>
+                    <textarea style="background: white" onblur="updatesession('booking_transportCommentaire');" id="booking_transportCommentaire" name="booking[transportCommentaire]" class="form-control"></textarea>
+                </div>
+                <div class="form-group hidden" id="infoSansTransport" style="padding:5px 0px 5px 20px">
+                    <label class="control-label" style="font-weight: 700">Attention si vous gérez votre transport vous-même, Huwans ne pourra pas vous aider dans la gestion des modifications d’horaires e ou lors d’annulation de vos vols ou trains.</label>
+                </div>
+            </div>
+        </div>
+    {% endif %}
     <div class="row">
         <div class="col-lg-12">
             <div class="form-group">

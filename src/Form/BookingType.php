@@ -94,6 +94,25 @@ class BookingType extends AbstractType
             ))
 
             ->add('advance', TextType::class)
+
+            ->add('transport', ChoiceType::class, array(
+                'label' => 'Transport',
+                'choices' => array(
+                    'stock' => 'Je bénéficie de tarifs négociés avec les vols du groupe !',
+                    'demande' => 'Je souhaite un transport à destination sur mesure : dites-nous tout !',
+                    'none' => 'Je m’occupe moi-même de mon transport à destination.',
+                ),
+                'expanded' => true,
+                'multiple' => false,
+                'mapped' => false,
+                'required' => true
+            ))
+
+            ->add('transportCommentaire', TextareaType::class, array(
+                'label' => 'Votre demande de vol',
+                'mapped' => false,
+                'required' => false
+            ))
         ;
     }
 }

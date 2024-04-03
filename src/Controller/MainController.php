@@ -107,7 +107,9 @@ class MainController extends AbstractController
                 'urlAide' => $this->params->get('url_aide'),
                 'urlClient' => $this->params->get('url_client'),
                 'tel' => $tel,
-                'telLien' => $telLien
+                'telLien' => $telLien,
+                'vol' => $session->get('vol'),
+                'soldOut' => $session->get('soldOut')
             ]);
     }
 
@@ -119,6 +121,7 @@ class MainController extends AbstractController
     {
         locale_set_default('fr_FR');
         $session = $request->getSession();
+        $soldOut = 'non';
         if(($devise = $request->get('devise')) && ($id_date_prix = $request->get('id_date_prix')) && ($marque = $request->get('agence'))){
             $session->clear();
             $session->set('step','index');
@@ -131,6 +134,12 @@ class MainController extends AbstractController
             $session->set('assurances',[]);
             $session->set('production',$this->params->get('production'));
             $session->set('coef_acompte',$this->params->get('coef_acompte'));
+
+            $x = $this->nebula->getSoldOut($id_date_prix);
+            if ($x AND ($x[0]['complet_web'] == 'oui' OR $x[0]['nb'] >= $x[0]['max_pax']) ){
+                $soldOut = 'oui';
+            }
+            $session->set('soldOut',$soldOut);
 
             if(empty($session->get('prestations_obligatoires')))
                 $this->nebula->getPrestationsObligatoires($session->get('id_date_prix'),$session->get('id_production'),$request);
@@ -215,6 +224,18 @@ class MainController extends AbstractController
         else $sup = $tableau_trip_data["prixsuppsansdevise"];
         $realPrice = $tableau_trip_data["prix_vente_adulte"]+$sup;
 
+        $id_date_prix = $produit[0]['id_date_prix'];
+        $choixTransport = $this->nebula->getChoixTransport($id_date_prix,$request);
+        $vol = $this->nebula->getVol($id_date_prix,$request);
+
+        if($vol) $tarifTransport = $vol['tarif'];
+        else $tarifTransport = 0;
+
+        $fraisGestion = 80;
+
+        $session->set('tarifTransport',$tarifTransport);
+        $session->set('fraisGestionTransport',$fraisGestion);
+
         $datas = [
             'tour' => [
                 'code' => $tableau_trip_data['code_pack'],
@@ -238,6 +259,16 @@ class MainController extends AbstractController
                 'guaranteed' => $tableau_trip_data['confirmee'],
                 'full' => $realPrice,
             ],
+            'produit' => [
+                'id_date_prix' => $produit[0]['id_date_prix'],
+                'id_produit' => $produit[0]['id_produit'],
+                'code_pack' => $produit[0]['code_pack'],
+                'date_depart' => $produit[0]['date_depart'],
+                'numero_version' => $produit[0]['numero_version']
+            ],
+            'choixTransport' => $choixTransport,
+            'tarifTransport' => $tarifTransport,
+            'vol' => $vol
         ];
 
         return $datas;
@@ -360,7 +391,11 @@ class MainController extends AbstractController
             'prestations' => $session->get('prestations'),
             'detailDevis' => $session->get('detail_devis'),
             'booking' => $session->get('booking'),
-            'thumb' => $session->get('thumb')
+            'thumb' => $session->get('thumb'),
+            'choixTransport' => ucfirst($session->get('choixTransport')),
+            'tarifTransport' => $session->get('tarifTransport'),
+            'transport' => $session->get('transport'),
+            'vol' => $session->get('vol')
         );
     }
 
@@ -511,12 +546,17 @@ class MainController extends AbstractController
         $booking = $session->get('booking');
         $coef_acompte = $this->params->get('coef_acompte');
 
+        $transport = $session->get('transport')?:'ND';
+        $tarifTransport = $session->get('tarifTransport')?:0;
+        $nbPaxs = 0;
+
         if(isset($detailDevis['pax']) && is_array($detailDevis['pax'])){
             // Calcul de l'assiette (base de prix pour calcul assurance) / passager
             // Total du montant des prestations
             $totalDevis = 0;
             foreach($detailDevis['pax'] as $numPas => $pax)
             {
+                $nbPaxs ++;
                 $assiette = 0;
                 $totalPax = 0;
                 if (isset($pax['prestations'])) {
@@ -552,16 +592,23 @@ class MainController extends AbstractController
                 $detailDevis['pax'][$numPas]['montant_total_pax'] = $totalPax;
             }
 
+            // Ajouter tarif vols * nb passengers
+            $totalVols = 0;
+            if($transport == "stock"){
+                $fraisGestion = $session->get('fraisGestionTransport');
+                $totalVols = ($tarifTransport * $nbPaxs) + $fraisGestion ;
+            }
+
             // $totalDevis += $session->get('total_frais_dossier');
-            $detailDevis['montant_total_devis'] = $totalDevis;
-            $advance = round($totalDevis * $coef_acompte);
+            $detailDevis['montant_total_devis'] = $totalDevis + $totalVols;
+            $advance = round(($totalDevis + $totalVols) * $coef_acompte);
             $detailDevis['montant_acompte_devis'] = $advance;
             $detailDevis['advance'] = $advance;
             $detailDevis['montant_frais_dossier'] = $session->get('total_frais_dossier');
 
             $session->set('detail_devis',$detailDevis);
             // Total
-            $session->set('prix_total', $totalDevis);
+            $session->set('prix_total', $totalDevis + $totalVols);
             // Acompte
             $session->set('advance', $advance);
         }
@@ -607,6 +654,8 @@ class MainController extends AbstractController
         // 6ème étape : Créer et ajoute dans zoho les infos et remarques - curl*1
         // $note = $this->addNote($dossier, $formData, $dataCodeDate);
         $note = $this->zoho->addNote_async($dossier, $formData, $dataCodeDate,$request);
+
+        $note_transport = $this->zoho->addNote_transport_async($dossier, $request);
 
         //7 ème étape : création des différents passDossier
         $data = $this->zoho->createOthersSuiviDossier($dossier, $individu, $formData, $vente);
@@ -727,9 +776,11 @@ class MainController extends AbstractController
      */
     public function updateSessionAction(Request $request){
         $session = $request->getSession();
+        $booking = $session->get('booking');
         if ($request->isXMLHttpRequest()) {
             if ($request->isMethod('POST')) {
                 $s = $request->request->get('categories');
+                if(isset($booking['transportCommentaire'])) $session->set('transportCommentaire', $booking['transportCommentaire']);
                 if($s['id'] != 'del'){
                     if(empty($s['valeur'])) $s['valeur'] = '';
                     $explode = explode('_',$s['id']);

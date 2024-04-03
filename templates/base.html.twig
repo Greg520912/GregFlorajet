@@ -73,7 +73,26 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 {#        <script src="https://www.dwin1.com/29489.js" type="text/javascript" defer="defer"></script>#}
         <script src="{{ asset("assets/js/script.js") }}"></script>
-
+        <script>
+            document.getElementById('booking_transport_0').addEventListener('click', function(){
+                document.getElementById('transportCommentaire').classList.add('hidden');
+                document.getElementById('places').classList.remove('hidden');
+                document.getElementById('infoSansTransport').classList.add('hidden');
+                // document.getElementById('optionVolInfos').classList.remove('hidden');
+            });
+            document.getElementById('booking_transport_1').addEventListener('click', function(){
+                document.getElementById('transportCommentaire').classList.remove('hidden');
+                document.getElementById('places').classList.add('hidden');
+                document.getElementById('infoSansTransport').classList.add('hidden');
+                // document.getElementById('optionVolInfos').classList.add('hidden');
+            });
+            document.getElementById('booking_transport_2').addEventListener('click', function(){
+                document.getElementById('transportCommentaire').classList.add('hidden');
+                document.getElementById('places').classList.add('hidden');
+                document.getElementById('infoSansTransport').classList.remove('hidden');
+                // document.getElementById('optionVolInfos').classList.add('hidden');
+            });
+        </script>
         <script type="text/javascript">
             $(function() {
                 $('.page_loader').show();
@@ -271,7 +290,28 @@
 
                 $('.page_loader').hide();
             });
+            function updateradiosession(form,name) {
+                var valeur = document.querySelector('input[name="'+form+'['+name+']"]:checked').value;
+                // console.log((name + '=' + valeur));
+                // localStorage[id] = valeur;
 
+                if (valeur == '' || valeur == null) {
+                    valeur = '0';
+                }
+                $.ajax({
+                    type: 'POST',
+                    async: false, // Mode synchrone
+                    url: '{{ path('app_updatesession') }}',
+                    data: {
+                        category: '',
+                        categories: {'id': name, 'valeur': valeur}
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        // console.log('update => '+name+' = ', response);
+                    }
+                });
+            }
             function updatesession(id) {
                 var valeur = $('#' + id).val() || '0';
                 $.post('{{ path('app_updatesession') }}', {
