@@ -143,8 +143,7 @@ class MainController extends AbstractController
 
             if(empty($session->get('prestations_obligatoires')))
                 $this->nebula->getPrestationsObligatoires($session->get('id_date_prix'),$session->get('id_production'),$request);
-            if(empty($session->get('liste_assurances')))
-                $this->nebula->getAssurances($request);
+            if(empty($session->get('liste_assurances'))) $this->nebula->getAssurances($request);
             if(empty($session->get('dataCodeDate'))) {
                 $produit = $this->nebula->getProduit($session->get('id_date_prix'), $session->get('devise'), $request);
                 $dataCodeDate = $this->setDataCodeDate($produit,$session->get('devise'),$request);
