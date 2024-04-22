@@ -118,7 +118,7 @@ class Nebula
         $url = $this->params->get('url_nebula')."/apis/sp/infosvol/".$id_date_prix."/19/6c3gn7k5V53CqM9b2D76SHrjWmhHPP5p"; // Test
         $response = $this->curl->get($url);
         $vol = json_decode($response, true);
-        if($vol){
+        if(!empty($vol['data'][0])){
             $vol = $vol['data'][0];
             $vol['stock'] = floatval($vol['quantite_stock_aerien']);
             if($vol['stock'] > 0) $vol['plan'] = $this->mise_en_forme_PlanVolStock($vol['pdv'],$vol['pdvj'],$vol);

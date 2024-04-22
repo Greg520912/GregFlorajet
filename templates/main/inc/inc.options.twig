@@ -4,12 +4,12 @@
         <div class="row">
             <div class="col-lg-12" style="padding-bottom:15px">
                 <div class="form-group">
-                    <label class="control-label" style="font-weight: 600;text-transform: uppercase;margin-bottom:10px;">Pour mon transport* :</label>
+                    <label class="control-label" style="font-weight: 600;text-transform: uppercase;margin-bottom:10px;">Pour mon transport :</label>
 
                     <div id="booking_transport" onclick="updateradiosession('booking','transport');displayInfos();setAssurances();">
                         <div class="radio" {% if(vol.stock < 1) %}hidden{% endif %} id="transport0">
                             <label for="booking_transport_0" class="required"><input type="radio" id="booking_transport_0" name="booking[transport]" required="required" value="stock" style="float:left;width:15px;height:15px;margin-right:5px" />
-                                Je souhaite bénéficier des tarifs négociés des vols du groupe ! (Au départ de Paris uniquement : Reste {{ vol.stock }} place(s))</label>
+                                Je souhaite bénéficier des tarifs négociés sur le vol du groupe ! (Au départ de Paris uniquement : Reste {{ vol.stock }} place(s))</label>
                         </div>
                         <div class="radio" id="transport1">
                             <label for="booking_transport_1" class="required">
@@ -21,15 +21,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group hidden" id="places" style="padding:5px 0px 5px 20px">
+                <div class="form-group hidden" id="places" style="padding:5px 0px 0px 20px">
                     <label class="control-label" style="display:block;font-weight: 500">
                         {% if vol.plan.stock is defined and vol.plan.stock is iterable %}
                             {%  for stock in vol.plan.stock %}
-                                <span style="display: inline-block;width:45%;margin-right: 2%;">
+                                <span style="display: inline-block;width:45%;margin-right: 2%;font-weight: 500">
                                     {{ stock.affichage.DEUX }}</br>
                                     {{ stock.affichage.TROIS }}</br>
                                     {{ stock.affichage.UN }}</br>
-                                    {{ stock.affichage.UNB }}</br></br>
+                                    {{ stock.affichage.UNB }}</br>
                                 </span>
                             {% endfor %}
                         {% endif %}
@@ -38,11 +38,11 @@
                         {% endif %}
                     </label>
                 </div>
-                <div class="form-group hidden" id="transportCommentaire" style="padding:5px 0px 5px 20px">
+                <div class="form-group hidden" id="transportCommentaire" style="padding:0px 0px 0px 20px">
                     <label class="control-label" style="font-weight: 700">Votre demande de vol sur mesure*</label>
                     <textarea style="background: white" onblur="updatesession('booking_transportCommentaire');" id="booking_transportCommentaire" name="booking[transportCommentaire]" class="form-control"></textarea>
                 </div>
-                <div class="form-group hidden" id="infoSansTransport" style="padding:5px 0px 5px 20px">
+                <div class="form-group hidden" id="infoSansTransport" style="padding:0px 0px 0px 20px">
                     <label class="control-label" style="font-weight: 700">
                         Attention si vous gérez votre transport vous-même, Atalante ne pourra pas vous aider dans la gestion des modifications d’horaires ou lors d’annulation de vos vols ou trains. Par ailleurs, les accueils / transferts aéroports sont alors en option.
                     </label>
@@ -50,8 +50,8 @@
             </div>
         </div>
     {% endif %}
-    <div class="row {% if (choixTransport == 'option')  %}hidden{% endif %}" id="autreville">
-        <div class="col-lg-12">
+    <div class="row">
+        <div class="col-lg-12  {% if (choixTransport == 'option')  %}hidden{% endif %}" id="autreville">
             <div class="form-group">
                 <label id="labelautreville" class="control-label" for="booking_villeDepart">Ville de départ autre que Paris :</label>
                 {{ form_widget(booking.villeDepart) }}
@@ -59,7 +59,7 @@
         </div>
         <div class="col-lg-12">
             <div class="form-group mt-3">
-                {{ form_label(booking.commentaire, 'Prestations supplémentaires :') }}
+                <label class="control-label" style="font-weight: 600;text-transform: uppercase;margin-bottom:10px;">Prestations supplémentaires :</label>
                 <small id="departHelpBlock" class="form-text text-muted">Vous souhaitez une chambre individuelle ou tout autre prestation spécifique, veuillez renseigner le champ suivant.<br/>Nous étudierons votre demande.</small>
                 {{ form_widget(booking.commentaire) }}
             </div>
