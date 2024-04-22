@@ -59,6 +59,14 @@ class Nebula
         return true;
     }
 
+
+    public function getTarif($id_date_prix, $request)
+    {
+        $session = $request->getSession();
+        $url = $this->params->get('url_nebula')."/apis/sp/wssurfprice/getallpackagedateid/6c3gn7k5V53CqM9b2D76SHrjWmhHPP5p/19/EUR/".$id_date_prix;
+        $response = $this->curl->get($url);
+        return json_decode($response, true);
+    }
     /**
      * @param $id_date_prix
      * @param $id_production

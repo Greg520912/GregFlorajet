@@ -78,18 +78,24 @@
                 document.getElementById('transportCommentaire').classList.add('hidden');
                 document.getElementById('places').classList.remove('hidden');
                 document.getElementById('infoSansTransport').classList.add('hidden');
+                document.getElementById('autreville').classList.remove('hidden');
+                document.getElementById('labelautreville').innerHTML = 'Rejoindre Paris depuis votre ville de départ :';
                 // document.getElementById('optionVolInfos').classList.remove('hidden');
             });
             document.getElementById('booking_transport_1').addEventListener('click', function(){
                 document.getElementById('transportCommentaire').classList.remove('hidden');
                 document.getElementById('places').classList.add('hidden');
                 document.getElementById('infoSansTransport').classList.add('hidden');
+                document.getElementById('labelautreville').innerHTML = 'Ville de départ autre que Paris :';
+                document.getElementById('autreville').classList.add('hidden');
                 // document.getElementById('optionVolInfos').classList.add('hidden');
             });
             document.getElementById('booking_transport_2').addEventListener('click', function(){
                 document.getElementById('transportCommentaire').classList.add('hidden');
                 document.getElementById('places').classList.add('hidden');
                 document.getElementById('infoSansTransport').classList.remove('hidden');
+                document.getElementById('labelautreville').innerHTML = 'Ville de départ autre que Paris :';
+                document.getElementById('autreville').classList.add('hidden');
                 // document.getElementById('optionVolInfos').classList.add('hidden');
             });
         </script>

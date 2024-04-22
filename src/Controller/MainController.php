@@ -121,6 +121,7 @@ class MainController extends AbstractController
     {
         locale_set_default('fr_FR');
         $session = $request->getSession();
+
         $soldOut = 'non';
         if(($devise = $request->get('devise')) && ($id_date_prix = $request->get('id_date_prix')) && ($marque = $request->get('agence'))){
             $session->clear();
@@ -221,10 +222,19 @@ class MainController extends AbstractController
 
         if (empty($tableau_trip_data["prixsuppsansdevise"])) $sup = 0;
         else $sup = $tableau_trip_data["prixsuppsansdevise"];
-        $realPrice = $tableau_trip_data["prix_vente_adulte"]+$sup;
+        $realPrice = $tableau_trip_data["prix_vente_adulte"] + $sup;
 
         $id_date_prix = $produit[0]['id_date_prix'];
         $choixTransport = $this->nebula->getChoixTransport($id_date_prix,$request);
+
+        $newTarif = $this->nebula->getTarif($id_date_prix,$request);
+
+        if($choixTransport == 'option' || $choixTransport == "sans"){
+            $realPrice = $newTarif['data'][0]['prix_remplissage_sans_vol'];
+        }else{
+            $realPrice = $newTarif['data'][0]['prix_remplissage'];
+        }
+
         $vol = $this->nebula->getVol($id_date_prix,$request);
 
         if($vol) $tarifTransport = $vol['tarif'];
@@ -595,7 +605,7 @@ class MainController extends AbstractController
             $totalVols = 0;
             if($transport == "stock"){
                 $fraisGestion = $session->get('fraisGestionTransport');
-                $totalVols = ($tarifTransport * $nbPaxs) + $fraisGestion ;
+                $totalVols = ($tarifTransport * $nbPaxs) + ($fraisGestion* $nbPaxs) ;
             }
 
             // $totalDevis += $session->get('total_frais_dossier');
