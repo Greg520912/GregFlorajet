@@ -60,10 +60,10 @@ class Nebula
     }
 
 
-    public function getTarif($id_date_prix, $request)
+    public function getTarif($id_date_prix,$id_production, $request)
     {
         $session = $request->getSession();
-        $url = $this->params->get('url_nebula')."/apis/sp/wssurfprice/getallpackagedateid/6c3gn7k5V53CqM9b2D76SHrjWmhHPP5p/19/EUR/".$id_date_prix;
+        $url = $this->params->get('url_nebula')."/apis/sp/wssurfprice/getallpackagedateid/6c3gn7k5V53CqM9b2D76SHrjWmhHPP5p/".$id_production."/EUR/".$id_date_prix;
         $response = $this->curl->get($url);
         return json_decode($response, true);
     }

@@ -227,17 +227,16 @@ class MainController extends AbstractController
         $id_date_prix = $produit[0]['id_date_prix'];
         $choixTransport = $this->nebula->getChoixTransport($id_date_prix,$request);
 
-        $newTarif = $this->nebula->getTarif($id_date_prix,$request);
+        $newTarif = $this->nebula->getTarif($id_date_prix,$produit[0]['id_prod_referent'],$request);
 
-
-if(!empty($newTarif['data'][0])){
-    $realPrice = 0;
-    if($choixTransport == 'option' || $choixTransport == "sans"){
-        $realPrice = $newTarif['data'][0]['prix_remplissage_sans_vol'];
-    }else{
-        $realPrice = $newTarif['data'][0]['prix_remplissage'];
-    }
-}
+        if(!empty($newTarif['data'][0])){
+            $realPrice = 0;
+            if($choixTransport == 'option' || $choixTransport == "sans"){
+                $realPrice = $newTarif['data'][0]['prix_remplissage_sans_vol'];
+            }else{
+                $realPrice = $newTarif['data'][0]['prix_remplissage'];
+            }
+        }
 
 
         $vol = $this->nebula->getVol($id_date_prix,$request);
