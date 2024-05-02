@@ -83,6 +83,7 @@ class Zoho
 
         $optionTransport = $session->get('transport')?:'';
         if($optionTransport == "none" || $optionTransport == "non") $optionTransport ='';
+        if($optionTransport == "") $optionTransport = "Sans transport";
 
         $totalAssurance = $session->get('total_assurances')?:0;
         if(floatval($totalAssurance)>0) $optionAssurance = "Oui";
