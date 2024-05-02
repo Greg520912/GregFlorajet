@@ -85,8 +85,8 @@ class Zoho
         if($optionTransport == "none" || $optionTransport == "non") $optionTransport ='';
 
         $totalAssurance = $session->get('total_assurances')?:0;
-        if(floatval($totalAssurance)>0) $optionAssurance = "Yes";
-        else $optionAssurance = "No";
+        if(floatval($totalAssurance)>0) $optionAssurance = "Oui";
+        else $optionAssurance = "Non";
 
         $date = new DateTime($dataCodeDate["date"]["date1"]);
         $dateDepart = $date->format('d/m/Y');
