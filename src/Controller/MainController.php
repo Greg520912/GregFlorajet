@@ -974,6 +974,22 @@ class MainController extends AbstractController
             $booking = $session->get('booking');
             $detailDevis = $session->get('detail_devis');
             $ass = $request->request->get('assurances');
+
+            if(is_array($detailDevis['pax'])){
+                foreach($detailDevis['pax'] as $id => $pax){
+                    if(!empty($pax['choix_assurance'])){
+                        $nomAss = $pax['choix_assurance'];
+                        $detailDevis['pax'][$id]['assurance'] = $pax['choix_assurance'];
+                        $totalAssurances += $pax['montant_assurance_'.$nomAss];
+
+                        $booking['passengers'][$id]['assurance'] = $pax['choix_assurance'];
+                        $assurances[$pax['choix_assurance']]['nb']++;
+                        $assurances[$pax['choix_assurance']]['total']+=$pax['montant_assurance_'.$nomAss];
+                    }
+                }
+            }
+            $detailDevis['total_assurances'] = $totalAssurances;
+
             if(is_array($ass)){
                 foreach($request->request->get('assurances') as $assurance)
                 {

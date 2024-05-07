@@ -212,9 +212,13 @@ class Zoho
         $note11 = urlEncode($note11).$n;
         $note12 = 'Commentaire : ' . $formData["commentaire"] ;
         $note12 = urlEncode($note12).$n;
+
+        $note12b = 'transportCommentaire : ' . $formData["transportCommentaire"] ;
+        $note12b = urlEncode($note12b).$n;
+
         $note13 = 'Passengers : ';
         $note13 = urlencode($note13).$n;
-        $note = $note1 . $note2 . $note2b .$note3 . $note5 . $note6 . $note7 . $note8 . $note9 . $note10 . $note11 . $note12 . $note13;
+        $note = $note1 . $note2 . $note2b .$note3 . $note5 . $note6 . $note7 . $note8 . $note9 . $note10 . $note11 . $note12 . $note12b .$note13;
         if(is_array($passagers)){
             foreach ($passagers as $k => $r){
                 if(empty($r['emailDom'])) $r['emailDom'] = '';
