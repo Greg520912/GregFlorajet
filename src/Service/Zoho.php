@@ -106,8 +106,8 @@ class Zoho
         $url .= "&NameDoss=";
         $url .= "&TypeVoyage=";
 
-        $url .= "&optionTransport=". ucfirst($optionTransport);
-        $url .= "&optionAssurance=". $optionAssurance;
+        $url .= "&optionTransport=". urlencode(ucfirst($optionTransport));
+        $url .= "&optionAssurance=". urlencode($optionAssurance);
 
         $url .= "&CodePack=".$dataCodeDate["tour"]["code"];
         $url .= "&NumDevis=&Langue=FR";
