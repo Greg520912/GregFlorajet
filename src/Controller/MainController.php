@@ -234,7 +234,7 @@ class MainController extends AbstractController
             if($choixTransport == 'option' || $choixTransport == "sans"){
                 $realPrice = $newTarif['data'][0]['prix_remplissage_sans_vol'];
             }else{
-                $realPrice = $newTarif['data'][0]['prix_remplissage'];
+//                $realPrice = $newTarif['data'][0]['prix_remplissage'];
             }
         }
 

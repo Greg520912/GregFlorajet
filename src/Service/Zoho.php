@@ -81,7 +81,8 @@ class Zoho
     {
         $session = $request->getSession();
 
-        $optionTransport = $session->get('transport')?:'';
+        // $optionTransport = $session->get('transport')?:'';
+        $optionTransport = $formData['transport']?:'';
         if($optionTransport == "none" || $optionTransport == "non") $optionTransport ='';
         if($optionTransport == "") $optionTransport = "Sans transport";
 
