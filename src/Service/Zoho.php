@@ -82,11 +82,19 @@ class Zoho
         $session = $request->getSession();
 
         // $optionTransport = $session->get('transport')?:'';
-        $optionTransport = $formData['transport']?:'';
-        if($optionTransport == "none" || $optionTransport == "non") $optionTransport ='';
-        if($optionTransport == "") $optionTransport = "Sans transport";
 
-        $totalAssurance = $session->get('total_assurances')?:0;
+        if(isset($formData['transport'])) $optionTransport = $formData['transport'];
+        else $formData['transport'] ='';
+
+        if(!isset($optionTransport))$optionTransport='';
+
+        $choixTransport = strtolower($session->get('choixTransport'))?:"";
+
+        if($choixTransport == "option"){
+            if($optionTransport == "none" || $optionTransport == "None" ||$optionTransport == "non"|| $optionTransport == "no") $optionTransport ='';
+            if($optionTransport == "") $optionTransport = "Sans transport";
+        }
+        $totalAssurance = $session->get('total_assurance')?:0;
         if(floatval($totalAssurance)>0) $optionAssurance = "Oui";
         else $optionAssurance = "Non";
 
@@ -164,6 +172,8 @@ class Zoho
         // Recup les info du voyage et passagers pour les affichers dans la note
         $nbpassagers = ($formData["nbAdults"] + $formData["nbChildren"]);
         $passagers = $formData['passengers'];
+
+        if(!isset($formData["transportCommentaire"])) $formData["transportCommentaire"] ='ND';
 
         //$acompte = $formData["advance"];
         //$prix_total = $formData["prix_total"];

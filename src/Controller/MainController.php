@@ -230,7 +230,6 @@ class MainController extends AbstractController
         $newTarif = $this->nebula->getTarif($id_date_prix,$produit[0]['id_prod_referent'],$request);
 
         if(!empty($newTarif['data'][0])){
-            $realPrice = 0;
             if($choixTransport == 'option' || $choixTransport == "sans"){
                 $realPrice = $newTarif['data'][0]['prix_remplissage_sans_vol'];
             }else{
@@ -314,7 +313,7 @@ class MainController extends AbstractController
         $session->set('dt_fin', $dataCodeDate['date']['date2']);
         $session->set('prix_TTC', $dataCodeDate['date']['price']);
         $session->set('advance', $dataCodeDate['date']['acompte']);
-        $session->set('prix_total', 0);
+//        $session->set('prix_total', $full_price);
         $session->set('niveau', $dataCodeDate['tour']['level']);
         $session->set('nb_jours', $dataCodeDate['tour']['duration']);
         $session->set('type_pack', $type_pack);
@@ -572,6 +571,8 @@ class MainController extends AbstractController
                 $nbPaxs ++;
                 $assiette = 0;
                 $totalPax = 0;
+                $totalAssurance = 0;
+
                 if (isset($pax['prestations'])) {
                     foreach ($pax['prestations'] as $prestation) {
                         // sauf frais d'inscription
@@ -602,6 +603,7 @@ class MainController extends AbstractController
                 $montantAssurance = $detailDevis['pax'][$numPas][$assuranceKey];
                 $totalPax += floatval($montantAssurance);
                 $totalDevis += floatval($montantAssurance);
+                $totalAssurance += floatval($montantAssurance);
                 $detailDevis['pax'][$numPas]['montant_total_pax'] = $totalPax;
             }
 
@@ -618,6 +620,8 @@ class MainController extends AbstractController
             $detailDevis['montant_acompte_devis'] = $advance;
             $detailDevis['advance'] = $advance;
             $detailDevis['montant_frais_dossier'] = $session->get('total_frais_dossier');
+
+            $session->set('total_assurance', $totalAssurance);
 
             $session->set('detail_devis',$detailDevis);
             // Total
@@ -655,6 +659,7 @@ class MainController extends AbstractController
     private function bookTrip($formData, $dataCodeDate, $id_date_prix,$request)
     {
         $session = $request->getSession();
+
         // 1ère étape : création de l'individu qui effectue la réservation s'il n'existe pas
         $individu = $this->zoho->getOrCreateIndividu($formData);
 
@@ -980,15 +985,15 @@ class MainController extends AbstractController
                     if(!empty($pax['choix_assurance'])){
                         $nomAss = $pax['choix_assurance'];
                         $detailDevis['pax'][$id]['assurance'] = $pax['choix_assurance'];
-                        $totalAssurances += $pax['montant_assurance_'.$nomAss];
+//                        $totalAssurances += $pax['montant_assurance_'.$nomAss];
 
                         $booking['passengers'][$id]['assurance'] = $pax['choix_assurance'];
                         $assurances[$pax['choix_assurance']]['nb']++;
-                        $assurances[$pax['choix_assurance']]['total']+=$pax['montant_assurance_'.$nomAss];
+//                        $assurances[$pax['choix_assurance']]['total']+=$pax['montant_assurance_'.$nomAss];
                     }
                 }
             }
-            $detailDevis['total_assurances'] = $totalAssurances;
+//            $detailDevis['total_assurances'] = $totalAssurances;
 
             if(is_array($ass)){
                 foreach($request->request->get('assurances') as $assurance)
