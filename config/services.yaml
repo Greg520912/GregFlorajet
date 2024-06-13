@@ -15,7 +15,7 @@ parameters:
     url_app: 'https://inscription.atalante.fr'
     url_site: 'https://www.atalante.fr'
     url_aide: 'https://www.atalante.fr/info/aide-13.html'
-    url_client: 'https://espace-client.atalante.fr/'
+    url_client: 'https://espace-clientv2.atalante.fr/'
     url_saga: 'https://www.atalante.fr'
     url_nebula: 'https://nebula.tourism-it.com'
     saga_user: 'biAtalante'
