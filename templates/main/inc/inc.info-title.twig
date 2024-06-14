@@ -1,15 +1,15 @@
 <h5 class="pt-4">{{ infos.libPack }}</h5>
-<h6 class="pb-3">
-    {{ infos.paysPack }} - Votre date de départ : {{ infos.dtDeb|date('d/m/Y') }}
-    <span class="trouge" style="float: right;font-size: 1rem;">
-        {% set choixTransport = app.session.get('choixTransport') %}
-        {% if (choixTransport == '')  %}<p>Transport non renseigné</p>{% endif %}
-        {% if (choixTransport == 'ND')  %}<p>Transport ND</p>{% endif %}
-        {% if (choixTransport == 'vol')  %}<p>Voyage avec vol</p>{% endif %}
-        {% if (choixTransport == 'option')  %}<p>Voyage avec vol optionnel</p>{% endif %}
-        {% if (choixTransport == 'sans')  %}<p>Voyage sans vol</p>{% endif %}
-    </span>
-</h6>
+{#<h6 class="pb-3 cacher">#}
+{#    {{ infos.paysPack }} - Votre date de départ : {{ infos.dtDeb|date('d/m/Y') }}#}
+{#    <span class="trouge" style="float: right;font-size: 1rem;">#}
+{#        {% set choixTransport = app.session.get('choixTransport') %}#}
+{#        {% if (choixTransport == '')  %}<p>Transport non renseigné</p>{% endif %}#}
+{#        {% if (choixTransport == 'ND')  %}<p>Transport ND</p>{% endif %}#}
+{#        {% if (choixTransport == 'vol')  %}<p>Voyage avec vol</p>{% endif %}#}
+{#        {% if (choixTransport == 'option')  %}<p>Voyage avec vol optionnel</p>{% endif %}#}
+{#        {% if (choixTransport == 'sans')  %}<p>Voyage sans vol</p>{% endif %}#}
+{#    </span>#}
+{#</h6>#}
 
 <div class="mb-3 ata-sidebar d-block d-lg-none">
     <div style="background:var(--blanc);border-radius:25px;overflow-x:hidden;">
