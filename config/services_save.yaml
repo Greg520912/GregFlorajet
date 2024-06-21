@@ -11,7 +11,7 @@ parameters:
     agence              : 'ATA'
     tel                 : '04 81 68 55 60'
 
-    coef_acompte        : 0.3
+    coef_acompte        : 0.35
 
     url_app             : 'https://inscription.atalante.fr'
     url_site            : 'https://www.atalante.fr'

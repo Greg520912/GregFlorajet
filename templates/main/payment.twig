@@ -22,6 +22,9 @@
                             <INPUT type="hidden" NAME="SHASIGN" value="{{ sha }}">
 
                             <!-- post-payment redirection -->
+{#                            <INPUT type="hidden" NAME="hostedCheckoutId" VALUE="{{hostedCheckoutId}}">#}
+{#                            <INPUT type="hidden" NAME="RETURNMAC" VALUE="{{RETURNMAC}}">#}
+
                             <INPUT type="hidden" NAME="ACCEPTURL" VALUE="{{acceptURL}}">
                             <INPUT type="hidden" NAME="DECLINEURL" VALUE="{{declineURL}}">
                             <INPUT type="hidden" NAME="CANCELURL" VALUE="{{cancelURL}}">
@@ -45,7 +48,7 @@
     </div>
        <script>
           window.onload = function () {
-              document.form1.submit2.click();
+              // document.form1.submit2.click();
           }
       </script>
 {% endblock %}

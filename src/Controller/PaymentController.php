@@ -6,6 +6,7 @@ use App\Form\BookingType;
 
 use App\Service\Zoho;
 use App\Service\Ogone;
+use App\Service\OgoneApi;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PaymentController extends AbstractController{
 
-    protected $zoho, $ogone, $shaComposer;
+    protected $zoho, $ogone, $ogoneApi, $shaComposer;
 
     /**
      * @param ParameterBagInterface $params
@@ -26,6 +27,7 @@ class PaymentController extends AbstractController{
         $this->params = $params;
         $this->ogone = new Ogone($this->params);
         $this->zoho = new Zoho($this->params);
+        $this->ogoneApi = new OgoneApi($this->params);
     }
 
     /**
@@ -79,9 +81,13 @@ class PaymentController extends AbstractController{
     {
         $token = json_decode(base64_decode($request->query->get('token')));
 
+//        $retourApi = $this->ogoneApi->initialise($request, $token);
+//        $param = $this->ogoneApi->getParams($request, $retourApi, $token);
+//        $shaIn = $this->ogoneApi->shaGet($token, $param);
+
         // Appel Ogone et webservice de Zoho pour créer un id de paiement et l'enregistrer dans zoho
-        $param = $this->ogone->get($request, $token->price, $token->id_individu, $token->numDos, $token->marque, $token->id_date_prix, $token->devise, $token->quantity, $token->id_vente, $token->full_price);
-        $shaIn = $this->ogone->shaGet($token->price, $token->leaderpax, $param, $token->devise);
+         $param = $this->ogone->get($request, $token->price, $token->id_individu, $token->numDos, $token->marque, $token->id_date_prix, $token->devise, $token->quantity, $token->id_vente, $token->full_price);
+         $shaIn = $this->ogone->shaGet($token->price, $token->leaderpax, $param, $token->devise);
 
         $tel = $this->params->get('tel');
         $telLien = 'tel:+33'. substr(str_replace(' ','',$tel),1);
@@ -113,6 +119,10 @@ class PaymentController extends AbstractController{
                 'telLien' => $telLien
             )
         );
+
+        // 'urlogone' => $retourApi['url_ogone'],
+        // 'hostedCheckoutId' => $retourApi['hostedCheckoutId'],
+        // 'RETURNMAC' => $retourApi['RETURNMAC'],
     }
 
     // TODO suite !
@@ -179,7 +189,7 @@ class PaymentController extends AbstractController{
         $param['numPas'] = $this->generateNumPas($booking['leaderPas']['nomPas'],$booking['leaderPas']['numPas']);
         $param['id'] = $booking['leaderPas']['emailDom'];
         $param['full_price'] = $session->get('prix_total');
-        $param['advance'] = round($param['full_price'] * 0.3);
+        $param['advance'] = round($param['full_price'] * 0.35);
         $param['villeClient'] = $booking['leaderPas']['villeFr'];
         $param['paysClient'] = $booking['leaderPas']['codPays'];
         $param['codePostalClient'] = $booking['leaderPas']['codePostal'];
