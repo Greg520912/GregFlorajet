@@ -41,7 +41,6 @@ class Ogone
 
         // Création des URL à envoyer en tant que param
         $url = "https://$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_URL]";
-
         $acceptURL = $url.'_back?stat=Accepted&dt='.$id_date_prix.'&file='.$numDos.'&qte='.$quantity.'&idV='.$id_vente.'&full='.$full_price.'&pr='.$price;
         $declineURL = $url.'_back?stat=Denied&dt='.$id_date_prix.'&file='.$numDos.'&qte='.$quantity.'&idV='.$id_vente.'&full='.$full_price;
         $cancelURL = $url.'_back?stat=Denied&dt='.$id_date_prix.'&file='.$numDos.'&qte='.$quantity.'&idV='.$id_vente.'&full='.$full_price;

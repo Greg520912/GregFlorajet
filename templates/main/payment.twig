@@ -15,16 +15,13 @@
                         <h2 class="page-head-desc-title d-flex justify-content-center" style="margin-top:50px;margin-bottom:25px;">Veuillez patienter</h2>
                         <FORM class="d-flex justify-content-center" METHOD="post" ACTION="{{ urlogone }}" id=form1 name=form1>
                             <INPUT type="hidden" NAME="PSPID" value="{{ pspid }}">
-                            <INPUT type="hidden" NAME="ORDERID" value="{{id_paiement}}">
+                            <INPUT type="hidden" NAME="ORDERID" value="{{id_paiement_zoho}}">
                             <INPUT type="hidden" NAME="AMOUNT" value="{{montant}}">
                             <INPUT type="hidden" NAME="CURRENCY" value={{ devise }}>
                             <INPUT type="hidden" NAME="LANGUAGE" value="fr_FR">
                             <INPUT type="hidden" NAME="SHASIGN" value="{{ sha }}">
 
                             <!-- post-payment redirection -->
-{#                            <INPUT type="hidden" NAME="hostedCheckoutId" VALUE="{{hostedCheckoutId}}">#}
-{#                            <INPUT type="hidden" NAME="RETURNMAC" VALUE="{{RETURNMAC}}">#}
-
                             <INPUT type="hidden" NAME="ACCEPTURL" VALUE="{{acceptURL}}">
                             <INPUT type="hidden" NAME="DECLINEURL" VALUE="{{declineURL}}">
                             <INPUT type="hidden" NAME="CANCELURL" VALUE="{{cancelURL}}">

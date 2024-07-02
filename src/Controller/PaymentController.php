@@ -81,22 +81,25 @@ class PaymentController extends AbstractController{
     {
         $token = json_decode(base64_decode($request->query->get('token')));
 
-//        $retourApi = $this->ogoneApi->initialise($request, $token);
-//        $param = $this->ogoneApi->getParams($request, $retourApi, $token);
-//        $shaIn = $this->ogoneApi->shaGet($token, $param);
-
         // Appel Ogone et webservice de Zoho pour créer un id de paiement et l'enregistrer dans zoho
          $param = $this->ogone->get($request, $token->price, $token->id_individu, $token->numDos, $token->marque, $token->id_date_prix, $token->devise, $token->quantity, $token->id_vente, $token->full_price);
          $shaIn = $this->ogone->shaGet($token->price, $token->leaderpax, $param, $token->devise);
 
+//        $param = $this->ogoneApi->getParams($request, $token);
+//        $retourApi = $this->ogoneApi->initialise($request, $token, $param);
+//        $shaIn = $this->ogoneApi->shaGet($token, $param);
+
         $tel = $this->params->get('tel');
         $telLien = 'tel:+33'. substr(str_replace(' ','',$tel),1);
+
+         $urlOgone = $this->params->get('url_ogone');
+//        $urlOgone = $retourApi['url_ogone'];
 
         // Envoie des paramètres au TPE et page paiement
         return $this->render('main/payment.twig',
             array(
                 'montant' => $token->price * 100,
-                'id_paiement' => $param['paiement'],
+                'id_paiement_zoho' => $param['paiement'],
                 'sha' => $shaIn,
                 'prenomPas' => $token->leaderpax->prenomPas,
                 'nomPas' => $token->leaderpax->nomPas,
@@ -108,7 +111,7 @@ class PaymentController extends AbstractController{
                 'paramplus' => $param['paramplus'],
                 'id_date_prix' => $token->id_date_prix,
                 'devise' => $token->devise,
-                'urlogone' => $this->params->get('url_ogone'),
+                'urlogone' => $urlOgone,
                 'pspid' => $this->params->get('ogone_pspid'),
                 'template' => $this->params->get('ogone_template'),
                 'url_site' => $this->params->get('url_site'),
@@ -119,7 +122,7 @@ class PaymentController extends AbstractController{
                 'telLien' => $telLien
             )
         );
-
+        // 'urlogone' => $this->params->get('url_ogone'),
         // 'urlogone' => $retourApi['url_ogone'],
         // 'hostedCheckoutId' => $retourApi['hostedCheckoutId'],
         // 'RETURNMAC' => $retourApi['RETURNMAC'],
@@ -137,6 +140,15 @@ class PaymentController extends AbstractController{
     public function paymentBackAction(Request $request){
         $session = $request->getSession();
 
+//        $listeStatusId = array(
+//            'Cancelled' => 1,
+//            'Accepted' => 5,
+//            'Denied' => 0
+//        );
+//        $retourApi = $session->get('retourApi');
+//        $resultPayment = $this->ogoneApi->getPaymentResult($request);
+
+
         $error = '';
         if(!empty($request->query->get('NCERROR'))) $error = $request->query->get('NCERROR'); // Erreur paiement Ogone
 
@@ -144,6 +156,12 @@ class PaymentController extends AbstractController{
         $status = $request->query->get('STATUS'); // Status du paiement (5 == Accepted / Denied / 1 == cancelled)
         $paiement = $request->query->get('orderID'); // ID Paiement Zoho
         $pay_id = $request->query->get('PAYID'); // ID paiement Ogone
+
+//        $stat = $resultPayment['status'];
+//        $status = $listeStatusId[$resultPayment['status']];
+//        $paiement = $retourApi['idPaymentZoho'];
+//        $pay_id = $request->query->get('hostedCheckoutId'); // ID paiement Ogone
+
         $id_date_prix = $request->query->get('dt');
         $price = $request->query->get('pr');
         $numDos = $request->query->get('file'); // ID Dossier Zoho

@@ -5,6 +5,7 @@ namespace App\Service;
 use DateTime;
 
 use OnlinePayments\Sdk\Domain\Customer;
+use OnlinePayments\Sdk\Domain\PaymentStatusOutput;
 use OnlinePayments\Sdk\Domain\PersonalInformation;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use App\Service\Zoho;
@@ -31,8 +32,14 @@ use OnlinePayments\Sdk\Domain\CreateHostedCheckoutResponse;
 use OnlinePayments\Sdk\Domain\GetHostedCheckoutResponse;
 use OnlinePayments\Sdk\Domain\PaymentProductFilter;
 use OnlinePayments\Sdk\Domain\PaymentProductFiltersHostedCheckout;
+use OnlinePayments\Sdk\Domain\PaymentDetailsResponse;
+use OnlinePayments\Sdk\Domain\PaymentOutput;
+use OnlinePayments\Sdk\Domain\CreatePaymentResponse;
+use OnlinePayments\Sdk\Domain\CreatedPaymentOutput;
 
 use OnlinePayments\Sdk\Domain\PageCustomization;
+use OnlinePayments\Sdk\Domain\ContactDetails;
+use Symfony\Component\HttpFoundation\Request;
 
 class OgoneApi
 {
@@ -43,8 +50,8 @@ class OgoneApi
         ogone_url               = 'https://payment.preprod.direct.worldline-solutions.com',
         ogone_pspid             = 'Altai1',
         ogone_psw               = 'daniel.rouaix@tourism-it.comA1234',
-        ogone_cle_api           = '06292F79CE45489154C0',
-        ogone_cle_api_secrete   = '7DCB25D9FA9AE2001ED902D842C3C71D6B7DB01DA0EDE64102E02DFCB1D4CCB6BF6B62E67FDBCA077A43EF8B2ED3A9675557AB5CED003E889F32CAF6A2933496',
+        ogone_cle_api           = '39833AAD7716EBF4F19E',
+        ogone_cle_api_secrete   = '4BFEC8F17495E346B4558654EE499B738AE9DD3B84C426B69C755E21804E6A83FEBC399AB38CC2334681BC6D61827CCC8C2CA25F12873F709FA62CB97570EB81',
         ogone_webhooks          = 'A9C444FF3405566FE2E2',
         ogone_webhooks_secret   = '388E1073903270B5516F58FA6E3E2FF4DD183BCBCF8285C69D96F980F24A56FE2CB34E5A0B7B7BDBF98D0BEFFAA58BE10E38FFA6BA6A45025A981A20A4D44F23',
         ogone_sha_in            = '5768cab7-930e-4903-8c90-d3c35359d002',
@@ -63,46 +70,35 @@ class OgoneApi
     }
 
 
-    public function initialise($request, $token){
+    public function initialise($request, $token, $param){
+        $session = $request->getSession();
         $connection = new DefaultConnection();
-        $merchantId = self::ogone_pspid;
-        $apiKey = self::ogone_cle_api;
-        $apiSecret = self::ogone_cle_api_secrete;
-        $apiEndpoint = self::ogone_url;
-        $integrator = self::ogone_pspid;
-
         $proxyConfiguration = null;
         $communicatorConfiguration = new CommunicatorConfiguration(
-            $apiKey,
-            $apiSecret,
-            $apiEndpoint,
+            self::ogone_cle_api,
+            self::ogone_cle_api_secrete,
+            self::ogone_url,
             'OnlinePayments'
         );
         $communicator = new Communicator($connection, $communicatorConfiguration);
         $client = new Client($communicator);
-        $merchantClient = $client->merchant($merchantId);
-
+        $merchantClient = $client->merchant(self::ogone_pspid);
         $hostedCheckoutClient = $merchantClient->hostedCheckout();
         $createHostedCheckoutRequest = new CreateHostedCheckoutRequest();
-        $order = new Order();
 
+        $order = new Order();
         $amountOfMoney = new AmountOfMoney();
         $amountOfMoney->setCurrencyCode("EUR");
         $amountOfMoney->setAmount($token->price * 100);
-
         $customer = new Customer();
-        // $customer->setMerchantCustomerId($token->id_individu);
-        $customer->setMerchantCustomerId($merchantId);
-
-
+        $customer->setMerchantCustomerId(self::ogone_pspid);
         $billingAddress = new Address();
         $billingAddress->setCountryCode("FR");
-
         $customer->setBillingAddress($billingAddress);
 
         $personalInformation = new PersonalInformation();
-
         $personalName = new PersonalName();
+
         $personalName->setFirstName($token->leaderpax->prenomPas);
         $personalName->setSurname($token->leaderpax->nomPas);
         $personalName->setTitle($token->leaderpax->qualite);
@@ -112,59 +108,80 @@ class OgoneApi
 
         $date = (new DateTime)::createFromFormat('d/m/Y', $token->leaderpax->dtNaissPas);
         if($date != false) $personalInformation->setDateOfBirth($date->format('Ymd'));
-
         $customer->setPersonalInformation($personalInformation);
+
         $order->setCustomer($customer);
-
         $order->setAmountOfMoney($amountOfMoney);
-
-        $createHostedCheckoutRequest->setOrder($order);
 
         $pageCustomization = new PageCustomization();
         $pageCustomization->setTemplate(self::ogone_template);
-        $createHostedCheckoutRequest->setPageCustomization($pageCustomization);
 
         $hostedCheckoutSpecificInput = new HostedCheckoutSpecificInput();
         $hostedCheckoutSpecificInput->setLocale("fr_FR");
-        $hostedCheckoutSpecificInput->setVariant("100");
+        $hostedCheckoutSpecificInput->setReturnUrl($param['returnURL']);
 
-        $hostedCheckoutSpecificInput->setPaymentProductFilters(new PaymentProductFiltersHostedCheckout());
-        $hostedCheckoutSpecificInput->getPaymentProductFilters()->setExclude(new PaymentProductFilter());
-        $hostedCheckoutSpecificInput->getPaymentProductFilters()->getExclude()->setProducts(array(120));
-
-        $hostedCheckoutSpecificInput->setReturnUrl('https://dev.iterphp74.tourism-it.com/daniel/');
-
-//        $hostedCheckoutSpecificInput->setCancelUrl('');
-//        $hostedCheckoutSpecificInput->setDeclineUrl('');
-//        $hostedCheckoutSpecificInput->setDeniedUrl('');
-
+        $createHostedCheckoutRequest->setOrder($order);
+        $createHostedCheckoutRequest->setPageCustomization($pageCustomization);
         $createHostedCheckoutRequest->setHostedCheckoutSpecificInput($hostedCheckoutSpecificInput);
-        $createHostedCheckoutResponse = $client->merchant($merchantId)->hostedCheckout()->createHostedCheckout($createHostedCheckoutRequest);
 
-        $RETURNMAC = $createHostedCheckoutResponse->getReturnMAC();
-        $hostedCheckoutId = $createHostedCheckoutResponse->getHostedCheckoutId();
-        $partialRedirectURL = $createHostedCheckoutResponse->getPartialRedirectURL();
-
-        //$url_ogone = self::ogone_base_url . $partialRedirectURL;
-
-        $redirectUrl = $createHostedCheckoutResponse->getRedirectURL();
-        $url_ogone = $redirectUrl;
+        $createHostedCheckoutResponse = $client->merchant(self::ogone_pspid)->hostedCheckout()->createHostedCheckout($createHostedCheckoutRequest);
+        $hostedCheckoutStatus = $client->merchant(self::ogone_pspid)->hostedCheckout()->getHostedCheckout($createHostedCheckoutResponse->getHostedCheckoutId());
 
         $retour = [
-            'hostedCheckoutId' => $hostedCheckoutId,
-            'RETURNMAC' => $RETURNMAC,
-            'url_ogone' => $url_ogone
+            'idVente' => $token->id_vente,
+            'idIndividu' => $token->id_individu,
+            'idPaymentZoho' => $param['paiement'],
+            'numDos' => $token->numDos,
+            'merchandId' => self::ogone_pspid,
+            'merchantReference' => $createHostedCheckoutResponse->getMerchantReference(),
+            'hostedCheckoutId' => $createHostedCheckoutResponse->getHostedCheckoutId(),
+            'RETURNMAC' => $createHostedCheckoutResponse->getReturnMAC(),
+            'url_ogone' => $createHostedCheckoutResponse->getRedirectURL(),
+            'hostedCheckoutStatus' => $hostedCheckoutStatus->getStatus()
         ];
-
-//        echo "<pre>";
-//        var_dump($url_ogone);
-//        die;
-
+        $session->set('retourApi', $retour);
         return $retour;
     }
 
+    public function getPaymentResult(Request $request){
+        $listeStatus = array(
+            'PAYMENT_CREATED' => 'PAYMENT_CREATED',
+            'IN_PROGRESS' => 'IN_PROGRESS',
+            'CANCELLED_BY_CONSUMER' => 'Cancelled',
+            'SUCCESSFUL' => 'Accepted',
+            'REJECTED' => 'Denied',
+            'STATUS_UNKNOWN' => 'STATUS_UNKNOWN'
+        );
 
-    public function getParams($request, $retourApi, $token){
+        $session = $request->getSession();
+        $retourApi = $session->get('retourApi');
+        $hostedCheckoutId = $retourApi['hostedCheckoutId'];
+        
+        $merchantId = self::ogone_pspid;
+        $apiKey = self::ogone_cle_api;
+        $apiSecret = self::ogone_cle_api_secrete;
+        $apiEndpoint = self::ogone_url;
+        $connection = new DefaultConnection();
+        $communicatorConfiguration = new CommunicatorConfiguration(
+            $apiKey,
+            $apiSecret,
+            $apiEndpoint,
+            'OnlinePayments'
+        );
+        $communicator = new Communicator($connection, $communicatorConfiguration);
+        $client = new Client($communicator);
+
+        $hostedCheckoutStatus = $client->merchant($merchantId)->hostedCheckout()->getHostedCheckout($hostedCheckoutId);
+        $getPayment = $hostedCheckoutStatus->getCreatedPaymentOutput();
+        $payment = $getPayment->getPayment();
+
+        return array(
+            'status' => $listeStatus[$getPayment->getPaymentStatusCategory()]?:'ERROR',
+            'code' => $payment->getStatusOutput()->getStatusCode()?:0
+        );
+    }
+
+    public function getParams($request, $token){
         $tok = $token->price.$token->id_individu.$token->numDos.$token->marque.$token->id_date_prix;
         $tok = hash(self::ogone_sha, $tok);
 
@@ -174,9 +191,10 @@ class OgoneApi
         // Création des URL à envoyer en tant que param
         $url = "https://$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_URL]";
 
-        $acceptURL = $url.'_back?stat=Accepted&dt='.$token->id_date_prix.'&file='.$token->numDos.'&qte='.$token->quantity.'&idV='.$token->id_vente.'&full='.$token->full_price.'&pr='.$token->price.'&hostedCheckoutId='.$retourApi['hostedCheckoutId'].'&RETURNMAC='.$retourApi['RETURNMAC'];
-        $declineURL = $url.'_back?stat=Denied&dt='.$token->id_date_prix.'&file='.$token->numDos.'&qte='.$token->quantity.'&idV='.$token->id_vente.'&full='.$token->full_price.'&hostedCheckoutId='.$retourApi['hostedCheckoutId'].'&RETURNMAC='.$retourApi['RETURNMAC'];
-        $cancelURL = $url.'_back?stat=Denied&dt='.$token->id_date_prix.'&file='.$token->numDos.'&qte='.$token->quantity.'&idV='.$token->id_vente.'&full='.$token->full_price.'&hostedCheckoutId='.$retourApi['hostedCheckoutId'].'&RETURNMAC='.$retourApi['RETURNMAC'];
+        $returnURL = $url.'_back?dt='.$token->id_date_prix.'&file='.$token->numDos.'&qte='.$token->quantity.'&idV='.$token->id_vente.'&full='.$token->full_price.'&pr='.$token->price;
+        $acceptURL = $url.'_back?stat=Accepted&dt='.$token->id_date_prix.'&file='.$token->numDos.'&qte='.$token->quantity.'&idV='.$token->id_vente.'&full='.$token->full_price.'&pr='.$token->price;
+        $declineURL = $url.'_back?stat=Denied&dt='.$token->id_date_prix.'&file='.$token->numDos.'&qte='.$token->quantity.'&idV='.$token->id_vente.'&full='.$token->full_price;
+        $cancelURL = $url.'_back?stat=Denied&dt='.$token->id_date_prix.'&file='.$token->numDos.'&qte='.$token->quantity.'&idV='.$token->id_vente.'&full='.$token->full_price;
 
         $complus = 'confirm-payment?file='.$token->numDos;
         $paramplus = 'confirm-payment?file='.$token->numDos;
@@ -184,6 +202,7 @@ class OgoneApi
         // Création du tableau des param à renvoyer au controller
         $param = array (
             'paiement' => $paiement,
+            'returnURL' => $returnURL,
             'acceptURL' => $acceptURL,
             'declineURL' => $declineURL,
             'cancelURL' => $cancelURL,
