@@ -103,12 +103,17 @@ class Zoho
         $date2 = new Datetime($dataCodeDate["date"]["date2"]);
         $dateArrivee = $date2->format('d/m/Y');
 
+        $destination = $dataCodeDate["tour"]["destination"];
+        $destination = $this->supChrSp($destination);
+        $destination = ucfirst($destination);
+
+
         $url = $this->params->get('url_zoho');
         $url .= "/crm/v2/functions/createnewdossier/actions/execute?auth_type=apikey";
         $url .= "&zapikey=".$this->params->get('zoho_zapikey');
         $url .= "&NumLeadPax=". $individu;
         $url .= "&CanalDeResa=E_resa";
-        $url .= "&PaysDestination=".urlencode($dataCodeDate["tour"]["destination"]);
+        $url .= "&PaysDestination=".urlencode($destination);
         $url .= "&Nbre_Pax_Devis=".($formData["nbAdults"] + $formData["nbChildren"]);
         $url .= "&Etat=";
         $url .= "&NameDoss=";
@@ -713,5 +718,15 @@ class Zoho
 
         if( !$countryList[$code] ) return $code;
         else return $countryList[$code];
+    }
+
+    function supChrSp($str){
+        $charset='utf-8';
+        $str = htmlentities( $str, ENT_NOQUOTES, $charset );
+        $str = preg_replace( '#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str );
+        $str = preg_replace( '#&([A-za-z]{2})(?:lig);#', '\1', $str );
+        $str = preg_replace( '#&[^;]+;#', '', $str );
+        $str = preg_replace('/[^\p{L}\p{N}\s]/u', '', $str);
+        return $str;
     }
 }
