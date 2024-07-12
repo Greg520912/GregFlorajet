@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use Doctrine\DBAL\Driver\AbstractMySQLDriver;
+use Doctrine\DBAL\Driver\DriverException as TheDriverException;
 use Doctrine\DBAL\Driver\ExceptionConverterDriver;
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Driver\Exception;
 
@@ -13,7 +15,7 @@ use PDO;
 use function constant;
 use function defined;
 
-class Sql extends AbstractMySQLDriver implements ExceptionConverterDriver
+class Sql extends AbstractMySQLDriver
 {
 
     /**
@@ -68,15 +70,15 @@ class Sql extends AbstractMySQLDriver implements ExceptionConverterDriver
         return new \Doctrine\DBAL\Platforms\MySQLPlatform();
     }
 
-    /**
+ /*   /**
      * @param \Doctrine\DBAL\Connection $conn
      * @param AbstractPlatform $platform
      * @return \Doctrine\DBAL\Schema\MySQLSchemaManager
      */
-    public function getSchemaManager(\Doctrine\DBAL\Connection $conn, \Doctrine\DBAL\Platforms\AbstractPlatform $platform)
+/*    public function getSchemaManager(\Doctrine\DBAL\Connection $conn, \Doctrine\DBAL\Platforms\AbstractPlatform $platform)
     {
         return new \Doctrine\DBAL\Schema\MySqlSchemaManager($conn, $platform);
-    }
+    }*/
 
     /**
      * @return string
