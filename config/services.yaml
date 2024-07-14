@@ -94,3 +94,17 @@ services:
         #        arguments:
         #            - { driver: 'pdo_mysql', dbname: '%database_name%', user: '%database_user%', password: '%database_password%', host: '%database_host%', port: '%database_port%' }
 
+
+    App\Service\ArticleAgregator: 
+
+    App\Service\DatabaseService:
+        arguments:
+            $dsn: '%env(DATABASE_DSN)%'
+            $user: '%env(DATABASE_USER)%'
+            $password: '%env(DATABASE_PASSWORD)%'
+
+    App\Service\SourceService:
+        arguments:
+            $dsn: '%env(DATABASE_DSN)%'
+            $user: '%env(DATABASE_USER)%'
+            $password: '%env(DATABASE_PASSWORD)%'

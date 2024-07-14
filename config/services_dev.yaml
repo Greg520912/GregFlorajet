@@ -9,3 +9,18 @@ parameters:
     ogone_sha           : 'sha256'
     ogone_template      : 'https://logos.tourism-it.com/media/ogone/atalante/2023/modele.html'
 
+services:
+
+    App\Service\ArticleAgregator:
+        
+    App\Service\DatabaseService:
+        arguments:
+            $dsn: '%env(DATABASE_DSN)%'
+            $user: '%env(DATABASE_USER)%'
+            $password: '%env(DATABASE_PASSWORD)%'
+
+    App\Service\SourceService:
+        arguments:
+            $dsn: '%env(DATABASE_DSN)%'
+            $user: '%env(DATABASE_USER)%'
+            $password: '%env(DATABASE_PASSWORD)%'

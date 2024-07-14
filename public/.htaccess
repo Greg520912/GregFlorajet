@@ -66,3 +66,4 @@
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
+AddType text/css .css
