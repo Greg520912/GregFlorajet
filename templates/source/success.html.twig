@@ -1,0 +1,10 @@
+{# templates/article/success.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout de Source Réussi{% endblock %}
+
+{% block body %}
+    <h1>Ajout de Source Réussi</h1>
+    <p>La source a été ajoutée avec succès.</p>
+    <a href="{{ path('source_new') }}" class="btn btn-primary">Ajouter une autre source</a>
+{% endblock %}

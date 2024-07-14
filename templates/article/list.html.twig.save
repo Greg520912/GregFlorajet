@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles{% endblock %}
+
+{% block body %}
+    <h1>Articles</h1>
+
+    <div class="articles">
+        {% for article in articles %}
+            <div class="article">
+                <h2>{{ article.name }}</h2>
+                <!--h3>{# article.source #}</h3-->
+                <p>{{ article.content | raw }}</p>
+            </div>
+        {% else %}
+            <p>No articles found</p>
+        {% endfor %}
+    </div>
+
+    <div class="pagination">
+        {% if currentPage > 1 %}
+            <a href="{{ path('app_article_list', {'page': currentPage - 1}) }}">Previous</a>
+        {% endif %}
+
+        {% for i in 1..totalPages %}
+            {% if i == currentPage %}
+                <span>{{ i }}</span>
+            {% else %}
+                <a href="{{ path('app_article_list', {'page': i}) }}">{{ i }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if currentPage < totalPages %}
+            <a href="{{ path('app_article_list', {'page': currentPage + 1}) }}">Next</a>
+        {% endif %}
+    </div>
+{% endblock %}
