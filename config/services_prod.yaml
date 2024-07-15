@@ -1,23 +1,14 @@
 parameters:
-    url_zoho            : 'https://www.zohoapis.eu'
-    zoho_zapikey        : '1003.b51c9064e1c8040dfaeb65eb89086774.85d3ceb3145f356ca5d10ae89464ed1b'
-    url_ogone           : 'https://secure.ogone.com/ncol/prod/orderstandard.asp'
-    ogone_pspid         : 'ATALANTE'
-    ogone_psw           : 'Motdepasse220895!'
-    ogone_sha_in        : 'lLoW$Ri.Ts&6aq#7+/65m8(!oV4soI'
-    ogone_sha_out       : 'L6K#Q22EQ.1C1_?_wpC3iGRorq-XH6'
-    ogone_sha           : 'sha1'
-    ogone_template      : 'https://logos.tourism-it.com/media/ogone/atalante/2023/modele.html'
 
 services:
 
     App\Service\ArticleAgregator:
         
-    App\Service\DatabaseService:
-        arguments:
-            $dsn: '%env(DATABASE_DSN)%'
-            $user: '%env(DATABASE_USER)%'
-            $password: '%env(DATABASE_PASSWORD)%'
+#    App\Service\DatabaseService:
+#       arguments:
+#            $dsn: '%env(DATABASE_DSN)%'
+#            $user: '%env(DATABASE_USER)%'
+#            $password: '%env(DATABASE_PASSWORD)%'
 
     App\Service\SourceService:
         arguments:

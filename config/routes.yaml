@@ -9,18 +9,6 @@ index:
 app_home:
     path: /
     controller: App\Controller\ArticleController::list
-app_ajout_article:
-    path: /app_ajout_article
-    controller: App\Controller\MainController::ajoutArticleAction
-app_bdd:
-    path: /app_bdd
-    controller: App\Controller\DatabaseController::index
-
-app_updatesession:
-    path: /app_updatesession
-    controller: App\Controller\MainController::updateSessionAction
-
-
 app_article_list:
     path: /app_article_list
     controller: App\Controller\ArticleController::list
@@ -28,9 +16,5 @@ app_article_new:
     path: /app_article_new
     controller: App\Controller\ArticleController::new
 app_source_new:
-        path: /source/new
+        path: /app_source_new
         controller: App\Controller\SourceController::new
-        methods: [ GET, POST ]
-app_source_success:
-        path: /source/success
-        controller: App\Controller\SourceController::success

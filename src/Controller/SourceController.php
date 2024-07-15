@@ -11,8 +11,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SourceController extends AbstractController
 {
+    private $pdo;
+
+    public function __construct()
+    {
+        $dsn = sprintf('mysql:host=%s;dbname=%s', '127.0.0.1', 'florajet');
+        $user = 'greg';
+        $password = '!Florajet!';
+
+        $this->pdo = new \PDO($dsn, $user, $password);
+    }
+
     /**
-     * @Route("/source/new", name="source_new", methods={"GET", "POST"})
+     * @Route("/source/new", name="app_source_new"})
      */
     public function new(Request $request): Response
     {
@@ -35,16 +46,11 @@ class SourceController extends AbstractController
 
     private function saveSourcePDO(Source $source)
     {
-        // Connexion à la base de données avec PDO
-        $dsn = sprintf('mysql:host=%s;dbname=%s', '127.0.0.1', 'florajet');
-        $user = 'greg';
-        $password = '!Florajet!';
 
-        $pdo = new \PDO($dsn, $user, $password);
-        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         // Préparation et exécution de la requête d'insertion
-        $stmt = $pdo->prepare('INSERT INTO source (name) VALUES (:name)');
+        $stmt = $this->pdo->prepare('INSERT INTO source (name) VALUES (:name)');
         $stmt->bindValue(':name', $source->getName(), \PDO::PARAM_STR);
         $stmt->execute();
     }

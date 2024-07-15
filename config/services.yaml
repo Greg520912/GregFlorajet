@@ -7,42 +7,6 @@
 # config/services.yaml
 parameters:
     project_directory: '%kernel.project_dir%'
-    production: 19
-    marque: 'ATALANTE'
-    agence: 'ATA'
-    tel: '04 81 68 55 60'
-    coef_acompte: 0.35
-    url_app: 'https://inscription.atalante.fr'
-    url_site: 'https://www.atalante.fr'
-    url_aide: 'https://www.atalante.fr/info/aide-13.html'
-    url_client: 'https://espace-clientv2.atalante.fr/'
-    url_saga: 'https://www.atalante.fr'
-    url_nebula: 'https://nebula.tourism-it.com'
-    saga_user: 'biAtalante'
-    saga_key: 'ac2e0dfc3c043140e25a4408d8f00796'
-    saga_sha: 'sha256'
-    url_charte: 'https://www.atalante.fr/qui-sommes-nous/tourisme-responsable'
-    url_cgv: 'https://www.atalante.fr/info/conditions-de-vente-2.html'
-    url_conseil: 'http://www.diplomatie.gouv.fr/'
-    url_ass_multi: 'https://www.atalante.fr/media/assurances/atalante-multirisque-7053.pdf'
-    url_ass_prem: 'https://www.atalante.fr/media/assurances/atalante-multirisque-prem-7054.pdf'
-    url_ass_multi_epi: 'https://www.atalante.fr/media/assurances/atalante-multirisque-extension-epidemie-7056.pdf'
-    url_ass_prem_epi: 'https://www.atalante.fr/media/assurances/atalante-multirisque-prem-extension-epidemie-7057.pdf'
-    # Atalante
-    #    database_host: ANTARES8
-    #    database_port: 1433
-    #    database_name: ATALANTE
-    #    database_user: intranet
-    #    database_password: intranet
-    # Mailer = Mailjet
-    #    mailer_host     : 'in-v3.mailjet.com' #Ip 104.199.96.85
-    #    mailer_port     : '465'
-    mailer_url: 'https://api.mailjet.com/v3.1/send'
-    mailer_user: '090b768b5466cd09ec6c03a2cd25ed9d'
-    mailer_password: '3e93d70137a56cfa939fd1de2162b8bf'
-    mailer_from: 'no-reply-atalante@tourism-it.com'
-    mailer_from_name: 'Admin-Atalante'
-    mailer_admin: 'alertes@tourism-it.com'
 
     imports:
         - - { resource: services_dev.yaml }
@@ -95,13 +59,14 @@ services:
         #            - { driver: 'pdo_mysql', dbname: '%database_name%', user: '%database_user%', password: '%database_password%', host: '%database_host%', port: '%database_port%' }
 
 
-    App\Service\ArticleAgregator: 
+    App\Service\ArticleAgregator:
 
-    App\Service\DatabaseService:
-        arguments:
-            $dsn: '%env(DATABASE_DSN)%'
-            $user: '%env(DATABASE_USER)%'
-            $password: '%env(DATABASE_PASSWORD)%'
+
+    #    App\Service\DatabaseService:
+    #       arguments:
+    #            $dsn: '%env(DATABASE_DSN)%'
+    #            $user: '%env(DATABASE_USER)%'
+    #            $password: '%env(DATABASE_PASSWORD)%'
 
     App\Service\SourceService:
         arguments:

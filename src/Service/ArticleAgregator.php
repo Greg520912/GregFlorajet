@@ -13,31 +13,34 @@ use PDO;
 
 class ArticleAgregator
 {
- /*   protected $curl, $databaseService, $params;
 
-    /*
-     * @param $this->curl
-
-    public function __construct(ParameterBagInterface $params)
-    public function __construct()
-    {
-    //    $this->curl = new Curl();
-    //    $this->params = $params;
-    //    $this->databaseService = new DatabaseService();
-    }*/
     private $pdo;
 
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
-    public function appendDatabase($request)
+    public function appendDatabase($sourceId)
     {
-        $pdo = $this->databaseService->getPdo();
+     /*   $pdo = $this->databaseService->getPdo();
         $stmt = $pdo->query('SELECT * FROM article');
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        return $this->json($results);
+        return $this->json($results);*/
+        $sql = '
+        SELECT article.id, article.source_id, article.name AS article_name, article.content, article.publishedAt, source.name AS source_name
+        FROM article
+        INNER JOIN source ON article.source_id = source.id
+        ';
+
+        // Si $sourceId est spécifié, ajouter une condition WHERE pour filtrer par source_id
+        if ($sourceId !== null) {
+            $sql .= ' WHERE article.source_id = :source_id ';
+        }
+
+        $sql .= ' ORDER BY article.id DESC LIMIT :limit OFFSET :offset';
+
+        return $this->pdo->prepare($sql);
       //  return json_decode($response, true);
     }
 

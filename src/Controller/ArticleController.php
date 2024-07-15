@@ -115,20 +115,7 @@ class ArticleController extends AbstractController
 
         $a->appendRss(1, 'http://www.lemonde.fr/rss/une.xml');
 
-        $sql = '
-        SELECT article.id, article.source_id, article.name AS article_name, article.content, article.publishedAt, source.name AS source_name
-        FROM article
-        INNER JOIN source ON article.source_id = source.id
-        ';
-
-        // Si $sourceId est spécifié, ajouter une condition WHERE pour filtrer par source_id
-        if ($sourceId !== null) {
-            $sql .= ' WHERE article.source_id = :source_id ';
-        }
-
-        $sql .= ' ORDER BY article.id DESC LIMIT :limit OFFSET :offset';
-
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $a->appendDatabase($sourceId);
 
         // Utiliser des variables pour bindValue
         $limitParam = $limit;
